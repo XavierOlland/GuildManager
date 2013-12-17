@@ -90,9 +90,9 @@ $computed_day = date( 'D', $computed_date);
 
 //Day number correction / Correction des numéros de jours
 switch($computed_day) {
-case "Fri": $week_corrector = 3; break; 
-case "Sat": $week_corrector = 3; break; 
-case "Sun": $week_corrector = 3; break;
+case "Fri": $week_corrector = 2; break; 
+case "Sat": $week_corrector = 2; break; 
+case "Sun": $week_corrector = 2; break;
 default : $week_corrector = 0; 
 } ;
 $pirate_day = ($day_num + $week_corrector);
@@ -104,11 +104,9 @@ $computed_week = date( 'W', $pirate_date);
 //Coming weeks / Semaines suivantes
 //Retrieving Events / Récupération des évènements
 if ( $computed_week >= $current_week ){ 
-$sqlr="SELECT r.raid_event_ID, r.map, r.color, p.complement
+$sqlr="SELECT r.raid_event_ID, r.map, r.color
 FROM guild_raid_event AS r 
-INNER JOIN guild_param AS p ON p.text_ID=DATE_FORMAT(r.dateRaid,'%W')
-WHERE p.complement='$computed_day'
-AND DATE_FORMAT(r.dateRaid,'%e')=$day_num";
+WHERE r.dateRaid='$year-$month-$day_num'";
 
 $listr=mysql_query($sqlr); 
 if( mysql_num_rows($listr)>0)
