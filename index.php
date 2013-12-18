@@ -57,7 +57,7 @@ echo "
 <script type=\"text/javascript\">
 	$('#Lobby').load(\"resources/php/FO_Div_Chantal.php\");
   </script>
-<script type=\"text/javascript\"  src=\"resources/Menu_Match.js\"></script>  
+<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>  
 			</body></html>"; }
 //Non authorized user / utilisateur non autorisé
 else { include('resources/php/FO_Div_Register.php'); }
