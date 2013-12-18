@@ -19,6 +19,11 @@
 include('resources/phpBB_Connect.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('resources/config.php');
+$con = mysql_connect($dbhost,$dbuser,$dbpasswd);
+
+if (!$con) { die('Could not connect: ' . mysql_error()); } 
+mysql_select_db($dbname, $con);
+
 $test = htmlentities($user->data['group_id']);
 //Start of html page / Début du code html
 echo	"<html>
@@ -45,9 +50,13 @@ echo "
 		<div class='Page'>
 			<div class='Core'>
 			<h2>Bienvenue dans l'outil de gestion de guilde</h2>
-		<p>Un outil avec des vrais morceaux d'outils dedans</p></div>
+		<p>Un outil avec des vrais morceaux d'outils dedans<br /></p>
+    <div id='Lobby'></div></div>
     <div class='right'></div>
     <div class='Copyright'>Copyright &copy; 2013 Xavier Olland, publi&eacute; sous licence GNU AGPL</div></div>
+<script type=\"text/javascript\">
+	$('#Lobby').load(\"resources/php/FO_Div_Chantal.php\");
+  </script>
 <script type=\"text/javascript\"  src=\"resources/Menu_Match.js\"></script>  
 			</body></html>"; }
 //Non authorized user / utilisateur non autorisé

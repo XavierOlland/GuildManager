@@ -19,7 +19,7 @@
 $con = mysql_connect($dbhost,$dbuser,$dbpasswd);
 if (!$con) { die('Could not connect: ' . mysql_error()); } 
 mysql_select_db($dbname, $con);
-
+mysql_set_charset('utf8');
 //locale variables / Variables locale
 date_default_timezone_set('Europe/Brussels');
 setlocale(LC_ALL, 'fr_FR');

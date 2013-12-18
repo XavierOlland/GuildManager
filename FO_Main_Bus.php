@@ -63,7 +63,7 @@ echo "
 					sliceMargin: 2
 				}
 			},
-			legend: { show:true, location: 's' },
+			legend: { show:false, location: 's' },
 			seriesColors: [ ";
 										$list2=mysql_query($sql);
 										$count=mysql_num_rows($list2);
@@ -169,7 +169,7 @@ echo " ],
 						<th>Gameplay</th>
 						<th>Build</th>
 					</tr>";
-					$sqlp="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_race, r.text_ID AS race, a.param_ID_profession, c.value AS profession, 
+					$sqlp="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_race, r.translation AS race, a.param_ID_profession, c.value AS profession, 
 					a.level, a.level_wvw, a.build, CASE WHEN LENGTH(a.build) > 0 THEN CONCAT('<a href=\'',a.build,'\' target=\'blank\'>Voir</a>') ELSE '' END AS buildlink,
 					a.comment, c.text_ID, c.translation, c.color, a.param_ID_gameplay, o.value AS gameplay, 
 					CASE WHEN s.session_time > (s.session_time-3600) THEN 'Online' ELSE 'Offline' END AS online, u.username

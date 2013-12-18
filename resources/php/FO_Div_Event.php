@@ -50,7 +50,7 @@ $sql="SELECT r.raid_event_ID, r.event, r.map, r.time, u.username,r.comment
 $list=mysql_query($sql); 
 while( $result=mysql_fetch_row($list))
 {
-echo"<h3>".$title.$user_2."</h3><br />
+echo"<h3>".$title."</h3><br />
      <h4>".$result[1]."</h4><br />
      <table>
      <tr class='top'><td>
@@ -114,6 +114,7 @@ WHERE m.$sqlday=1
 m.user_ID NOT IN (SELECT user_ID FROM guild_raid_absence WHERE dateAbsence='$sqldate')
 ORDER BY p2.partyOrder";};
 $list=mysql_query($sql);
+$count=mysql_num_rows($list);
 while($result=mysql_fetch_array($list))
 { echo "<tr style='background-color:".$result['color']."'>
 <td><img src='resources/images/".$result['online'].".png'></td>
@@ -122,6 +123,13 @@ while($result=mysql_fetch_array($list))
 <td><a class='table' href='FO_Main_User.php?user=".$result['user_ID']."'>".$result['username']."</a></td>
 </tr>"; };
 echo"
+<tr>
+<td colspan='2'>Total : $count</td>
+<td></td>
+<td></td>
+</tr>
+</tr>
+<tr>
 <td></td>
 <td><img src='resources/images/Next.png'></td>
 <td colspan='2'><a class='table' href='#' onclick=\"createParties()\">Cr&eacute;er les groupes</a></td>

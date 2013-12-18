@@ -102,7 +102,7 @@ echo "
 				<table>
 					<tr><td>Nom :</td><td><input type='text' name='name' value='".$perso['name']."' ".$disabled." /></td><td></td></tr>
 					<tr><td>Race :</td><td><select name='race' ".$disabled.">";
-					$sqlr="SELECT param_ID, text_ID FROM guild_param WHERE type = 'Race'";
+					$sqlr="SELECT param_ID, text_ID FROM guild_param WHERE type = 'race'";
 					$listr=mysql_query($sqlr);      
 					while($resultr=mysql_fetch_array($listr))
 					{ echo "<option value='".$resultr['param_ID']."' " ;
@@ -147,7 +147,7 @@ else { echo "
 				<table>
 					<tr><td>Nom :</td><td><input type='text' name='name' /></td><td></td></tr>
 					<tr><td>Race :</td><td><select name='race'>";
-					$sqlr="SELECT param_ID, value FROM guild_param WHERE type = 'Race'";
+					$sqlr="SELECT param_ID, value FROM guild_param WHERE type = 'race'";
 					$listr=mysql_query($sqlr);
 					while($resultr=mysql_fetch_array($listr))
 					{ echo "<option value='".$resultr['param_ID']."'>".$resultr['value']."</option>"; };

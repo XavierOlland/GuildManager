@@ -45,14 +45,13 @@ $title = utf8_encode( $title );
 $computed_day = date( 'D', $first_day) ;
 
 switch($computed_day) {
-case "Sat": $blank = 0; break;
-case "Sun": $blank = 1; break;
-case "Mon": $blank = 2; break;
-case "Tue": $blank = 3; break;
-case "Wed": $blank = 4; break;
-case "Thu": $blank = 5; break;
-case "Fri": $blank = 6; break;
-
+case "Fri": $blank = 0; break;
+case "Sat": $blank = 1; break;
+case "Sun": $blank = 2; break;
+case "Mon": $blank = 3; break;
+case "Tue": $blank = 4; break;
+case "Wed": $blank = 5; break;
+case "Thu": $blank = 6; break;
 } ;
 
 $days_in_month = cal_days_in_month(0, $month, $year) ; 
