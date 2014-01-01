@@ -207,7 +207,8 @@ echo " ],
 						<td colspan='10'>Cliquez sur une ic&ocirc;ne pour afficher les personnages de la classe.</td>
 					</tr>
 					<tr>
-						<td></td><td></td><td colspan='10'>ou alors <a class='table' href='#'' onclick=\"createParties()\">affichez les groupes</a></td>
+						<td></td><td></td><td colspan='10'>ou alors <a class='table' href='#'' onclick=\"createParties()\">affichez les groupes</a> <input type='radio' name='type' value='auto' checked='checked'>Auto
+<input type='radio' name='type' value='manuel'>Manuel</td>
 					</tr>
 				</table>
 				<br />
@@ -237,7 +238,7 @@ echo " ],
 			type: \"POST\",
 			url: \"resources/php/FO_Div_Party.php\",
 			data: \"dateEvent=2012-08-31\" +
-						\"&type=auto\",
+				  \"&type=\" + $(\"input[name=type]:checked\").val(),
 			success: function(html){
 				$(\"#result\").html(html);
 			}

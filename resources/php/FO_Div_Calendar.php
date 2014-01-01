@@ -41,6 +41,9 @@ $current_day = date('d', time() );
 $current_week = date('W', time() );
 $current_month = date('m', time() );
 $current_year = date('Y', time() );
+$event_limit_date = date('Y-m-d', time());
+$event_limit_date = date_create( $event_limit_date );
+$event_limit_date = date_format(date_sub( $event_limit_date , date_interval_create_from_date_string( $event_limit )), 'Y-m-d');
 
 //First day of the month / Premier jour du mois
 $first_day = mktime(0,0,0,$month, 1, $year);
@@ -48,17 +51,12 @@ $title = strftime( '%B', $first_day);
 $title = utf8_encode( $title );
 
 //switching day numbers for WvW week / Modification des numéros de jours pour la semain McM
-// Saturday = 1 /Samedi = 1
-$computed_day = date( 'D', $first_day) ;
-switch($computed_day) {
-case "Fri": $blank = 0; break;
-case "Sat": $blank = 1; break;
-case "Sun": $blank = 2; break;
-case "Mon": $blank = 3; break;
-case "Tue": $blank = 4; break;
-case "Wed": $blank = 5; break;
-case "Thu": $blank = 6; break;
-} ;
+///switching day numbers for WvW week / Modification des numéros de jours pour la semain McM
+$computed_day = date( 'N', $first_day) ;
+$sql = "SELECT value FROM guild_param WHERE TYPE = 'day' AND complement = '$computed_day'";
+$list=mysql_query($sql);
+while($result=mysql_fetch_row($list)) { $blank = $result[0]; };
+
 $days_in_month = cal_days_in_month(0, $month, $year) ; 
 //Creating calendar / Création du calendrier
  echo "
@@ -71,7 +69,8 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 //Day ordering / Ordre des jours
 $sql = "SELECT LEFT( translation, 1 ) FROM guild_param WHERE TYPE = 'day' ORDER BY value";
 $list=mysql_query($sql);
-while($result=mysql_fetch_row($list)){ echo "<td class='center' width=42>".$result[0]."</td>" ; };
+while($result=mysql_fetch_row($list))
+{ echo "<td class='center' width=42>".$result[0]."</td>" ; };
 echo "
 </tr>
 </theader>
@@ -86,28 +85,12 @@ while ( $day_num <= $days_in_month )
 { 
 //Retrieving day / Récupération du jour
 $computed_date = strtotime($year."-".$month."-".$day_num);
-$computed_day = date( 'D', $computed_date); 
 
-//Day number correction / Correction des numéros de jours
-switch($computed_day) {
-case "Fri": $week_corrector = 2; break; 
-case "Sat": $week_corrector = 2; break; 
-case "Sun": $week_corrector = 2; break;
-default : $week_corrector = 0; 
-} ;
-$pirate_day = ($day_num + $week_corrector);
-$pirate_date = strtotime($year."-".$month."-".$pirate_day);
-$computed_day = date( 'N', $computed_date);
-$computed_week = date( 'W', $pirate_date);
-
-//Week creation / Création des semaines
-//Coming weeks / Semaines suivantes
 //Retrieving Events / Récupération des évènements
-if ( $computed_week >= $current_week ){ 
+if ( $year.'-'.$month.'-'.$day_num >= $event_limit_date ){ 
 $sqlr="SELECT r.raid_event_ID, r.map, r.color
 FROM guild_raid_event AS r 
 WHERE r.dateRaid='$year-$month-$day_num'";
-
 $listr=mysql_query($sqlr); 
 if( mysql_num_rows($listr)>0)
 { while( $resultr=mysql_fetch_row($listr)) 

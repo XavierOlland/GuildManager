@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -22,25 +22,32 @@ include('../config.php');
 
 //locale variables / Variables locales
 $date = $_POST['dateEvent'];
-$type = $_GET['auto'];
+$type = $_POST['type'];
 
+echo " <head>
+<style>
+ul.link { list-style-type: none; margin: 0px; padding: 0px; }
+li.party { margin: 0 0px 5px 0px; padding: 0px; width:100%}</style>
+<script>
+$(function() {
+$( \"#party_1, #party_2\" ).sortable({
+connectWith: \".link\"
+}).disableSelection();
+});
+</script></head>
+<h3>R&eacute;partition des joueurs</h3>
 
-echo "<h3>R&eacute;partition des joueurs</h3>
-
-				<table>
-					<colgroup>
-						<col span='1' style='width:26px'>
-						<col style='width:auto'>
-					</colgroup>";
-					if ( $date == '2012-08-31'){
+				<table>";
+				    if ($date == '2012-08-31'){
 					$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID, c.translation, c.color, u.username 
 					FROM guild_character AS a 
 					INNER JOIN guild_param AS c ON c.param_ID=a.param_ID_profession 
 					INNER JOIN guild_profession AS p ON p.param_ID=c.param_ID
 					LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=a.user_ID
-					WHERE a.main=1
-					ORDER BY p.partyOrder" ;}
-					else {
+					WHERE a.main=1 
+					ORDER BY p.partyOrder";
+					}
+					else{
 					$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID, c.translation, c.color, u.username 
 					FROM guild_character AS a 
 					INNER JOIN guild_raid_presence AS e ON e.character_ID=a.character_ID
@@ -48,26 +55,42 @@ echo "<h3>R&eacute;partition des joueurs</h3>
 					INNER JOIN guild_profession AS p ON p.param_ID=c.param_ID
 					LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=a.user_ID
 					WHERE e.dateEvent='$date' 
-					ORDER BY p.partyOrder" ; };
+					ORDER BY p.partyOrder" ; }; 
 					$list=mysql_query($sql);
 					$count=mysql_num_rows($list);
 					$number=ceil($count/5);
 					$partyNum=1;$counter=1;
+					
+					if ( $type == 'manuel'){
 					echo "<tr>";
+					while ( $partyNum <= $number ){ echo"<th>Groupe $partyNum</th><td></td>"; $partyNum++; } ;
+					$partyNum=1;echo "</tr><tr class='top'>";
+					while($result=mysql_fetch_array($list)){
+					if ( $counter == 1 ){ echo"<td><ul id='party_$partyNum' class='link'>"; $partyNum++; } ;
+					echo "
+						<li class=\"party\" style='background-color:".$result['color']."' ><img src='resources/images/".$result['text_ID']."_Icon.png'> ".$result['name']."</li>";
+					if ( $counter == 5 ){ echo "</ul></td><td></td>"; $counter=1; } else { $counter++; } ;
+					};
+					echo "</tr><tr><td style='height:auto' colspan='2'></td></tr>";}
+					else {
+					echo "<colgroup>
+						<col span='1' style='width:26px'>
+						<col style='width:auto'>
+					</colgroup><tr>";
 					while ( $partyNum <= $number ){ echo"<th colspan='2'>Groupe $partyNum</th><td></td>"; $partyNum++; } ;
 					echo "</tr>";
 					while($result=mysql_fetch_array($list))
-					{ if ($counter == 0){ echo "<tr>";} ;
+					{ if ($counter == 1){ echo "<tr>";} ;
 					echo "
 						<td style='background-color:".$result['color']."'><a href='FO_Main_Profession.php?id=".$result['param_ID_profession']."'>
 							<img src='resources/images/".$result['text_ID']."_Icon.png'></a></td> 
               <td style='background-color:".$result['color']."'><a class='table' alt='".$result['username']."' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
               <td></td>";
-					if ($counter == $number){ echo "</tr>"; $counter=1;} else{$counter++;} ;
+					if ($counter == $number){ echo "</tr>"; $counter=1;} else{ $counter++; } ;
 					};
-					echo "
-			</table>
-				<br />
-";
+					};
+					
+			echo "</table>
+				<br />";
 ?>
 

@@ -14,8 +14,8 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-
-//MySQL connection / Connexion à MySQL
+	
+ //MySQL connection / Connexion à MySQL
 include('../../../config.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('../config.php');
@@ -43,6 +43,10 @@ echo "
  ; }
 else
 if( $action == 'update'){
+$sql0="SELECT raid_event_id FROM guild_raid_event WHERE dateRaid='$_POST[dateRaid]'";
+$list0=mysql_query($sql0);
+$count=mysql_num_rows($list0);
+if( $count == 0 ){
 if ($id == 0){
 $sql1="INSERT INTO guild_raid_event ( dateRaid, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateRaid]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
 }
@@ -55,23 +59,23 @@ $id = mysql_insert_id();
 echo "
 <script type=\"text/javascript\">$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
 <p class='red'>Ev&eacute;nement mis &agrave; jour.</p><br />";
-}
- ; } ;
+};
+ } else { echo "<p class='red'>Un &eacute;v&eacute;nement existe d&eacute;j&agrave; &agrave; cette date. Par s&eacute;curit&eacute;, vous devez &eacute;diter directement cet &eacute;v&eacute;nement.</p><br />";};
+ };
 if ($id == 0){echo "<script type=\"text/javascript\">$(\"#delete\").hide()</script>";} else {echo "<script type=\"text/javascript\">$(\"#delete\").show()</script>";};
 
 //Retrieving event information
 $sql="SELECT r.raid_event_ID,  r.event, r.map, r.color, r.time, u.username,r.comment
       FROM guild_raid_event AS r 
-      LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=r.user_ID_leader
+      LEFT JOIN forum_users AS u ON u.user_ID=r.user_ID_leader
       WHERE r.raid_event_ID=$id";
 $list=mysql_query($sql); 
 while( $result=mysql_fetch_row($list))
 {
 echo "<form name='raidevent' id='raidevent' method='POST' action='' onsubmit=\"return false\">
      <input type='hidden' name='raid_id' id='raid_id' value='".$id."'>
-     <input type='hidden' id='dateEvent' class='h3' value='".$title."'/>
-     <h3>$title</h3>
-     <input type='text' name='dateRaid' id='hiddenDateEvent' value='".$sqldate."'><br />
+     <input type='text' id='dateEvent' class='h3' value='".$title."'/>
+     <input type='hidden' name='dateRaid' id='hiddenDateEvent' value='".$sqldate."'><br />
      <input type='text' name='event' class='h4' value='".$result[1]."' /><br />
      <table>
      <tr class='top'>
@@ -85,6 +89,7 @@ echo "<form name='raidevent' id='raidevent' method='POST' action='' onsubmit=\"r
       <option value='#006600' style='color:#006600;' ";  if ($result[3]=='#006600') { echo "selected" ;}; echo ">Vert</option>
       <option value='#A80000' style='color:#A80000;' ";  if ($result[3]=='#A80000') { echo "selected" ;}; echo ">Rouge</option>
       <option value='#0033FF' style='color:#0033FF;' ";  if ($result[3]=='#0033FF') { echo "selected" ;}; echo ">Bleu</option>
+      <option value='#CC9933' style='color:#CC9933;' ";  if ($result[3]=='#CC9933') { echo "selected" ;}; echo ">CBE</option>
       </select></td>
       <td rowspan='3'>
       <style type='text/css'>textarea { width:270px; height:77px; background-color: transparent; border-style:none none solid solid; border-color:#333333; border-width:1px; font-family: guildText; color:#000000; font-size:16px; font-weight:bold;}</style>
@@ -95,7 +100,7 @@ echo "<form name='raidevent' id='raidevent' method='POST' action='' onsubmit=\"r
      <tr class='top'>
       <td><p>Lead :</p></td>
       <td><select name='user_ID_leader' class='p'>";
-      $sqlC="SELECT u.username, u.user_ID FROM ".$table_prefix."users AS u INNER JOIN guild_userinfo AS i ON i.user_ID=u.user_ID WHERE i.commander=1";
+      $sqlC="SELECT u.username, u.user_ID FROM forum_users AS u INNER JOIN guild_userinfo AS i ON i.user_ID=u.user_ID WHERE i.commander=1";
       $listC=mysql_query($sqlC);
 while($resultC=mysql_fetch_array($listC))
 { echo "<option value='".$resultC['user_ID']."' " ;
@@ -142,21 +147,12 @@ while($result=mysql_fetch_array($list))
 <td><a class='table' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
 <td><a class='table' href='FO_Main_User.php?user=".$result['user_ID']."'>".$result['username']."</a></td>
 </tr>"; };
-echo"</table></td></tr></table>";
+echo"</table></td></tr></table>
 
-/*
-<script type=\"text/javascript\">
-$(function(){ $( \"#dateEvent\" ).datepicker({ 
-dateFormat: \"DD d MM\",
-onSelect: function(){ var dateEvent = $( \"#dateEvent\" ).datepicker( \"getDate\" );
 
-$(\"#hiddenDateEvent\").val($.datepicker.formatDate('yy-mm-dd', new Date()));
- } 
-    });
-    })
-</script>
-*/
-echo "
+
+
+
 <script type=\"text/javascript\">
 $('#raidevent').submit(function(event){   
 		$.ajax({
@@ -176,8 +172,10 @@ $('#raidevent').submit(function(event){
   $(\"#event\").load(\"resources/php/BO_Div_Event.php?date=$sqldate&action=delete&id=\" + id);
   }
 </script>
+<script type=\"text/javascript\"> $(function() { $( \"#dateEvent\" ).datepicker({ 
+dateFormat: \"DD d MM\",  altField: \"#hiddenDateEvent\",
+altFormat: \"yy-mm-dd\" }); });</script>
 ";
-
 };
 
  ?>

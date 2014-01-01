@@ -84,11 +84,7 @@ echo "</select>
      </td><tr>";} 
 
      };
-     echo "
-     <tr class='top'><td colspan='2'>
-     Membres pr&eacute;sents : </p>
-     
-     <table>";
+
 if ($cfg_calendar_mode == 'Presence'){ 
 $sql = "SELECT CASE WHEN s.session_time > (s.session_time-3600) THEN 'Online' ELSE 'Offline' END AS online, 
 u.user_ID, u.username,c.character_ID, c.name, c.param_ID_profession, p1.text_ID, p1.color
@@ -115,25 +111,26 @@ m.user_ID NOT IN (SELECT user_ID FROM guild_raid_absence WHERE dateAbsence='$sql
 ORDER BY p2.partyOrder";};
 $list=mysql_query($sql);
 $count=mysql_num_rows($list);
+     echo "
+     <tr class='top'><td colspan='2'>
+     <p>Membres pr&eacute;sents ($count) : </p>
+     <div id='members'>
+     <table>";
 while($result=mysql_fetch_array($list))
 { echo "<tr style='background-color:".$result['color']."'>
 <td><img src='resources/images/".$result['online'].".png'></td>
-<td><a href='FO_Main_Profession.php?id=".$result['param_ID_profession']."' ><img src='resources/images/".$result['text_ID']."_Icon.png'></a></td>
+<td><a href='FO_Main_Profession.php?id=".$result['param_ID_profession']."'><img src='resources/images/".$result['text_ID']."_Icon.png'></a></td>
 <td><a class='table' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
 <td><a class='table' href='FO_Main_User.php?user=".$result['user_ID']."'>".$result['username']."</a></td>
 </tr>"; };
 echo"
-<tr>
-<td colspan='2'>Total : $count</td>
-<td></td>
-<td></td>
-</tr>
-</tr>
-<tr>
-<td></td>
-<td><img src='resources/images/Next.png'></td>
-<td colspan='2'><a class='table' href='#' onclick=\"createParties()\">Cr&eacute;er les groupes</a></td>
-</table></td></tr></table>
+</tr></table></div>
+
+<img src='resources/images/Next.png'>
+<a class='table' href='#' onclick=\"createParties()\">Cr&eacute;er les groupes</a> 
+<input type='radio' name='type' value='auto' checked='checked'>Auto
+<input type='radio' name='type' value='manuel'>Manuel
+</td></tr></table>
 <script src='resources/style/jquery.min.js'></script> 
 <script src='resources/style/jquery-ui.js'></script>
 <script type=\"text/javascript\">
@@ -142,7 +139,7 @@ echo"
 			type: \"POST\",
 			url: \"resources/php/FO_Div_Event.php?user_ID=$usertest&type=$type&id=$id&date=$date\",
 			data: \"action=join\" +
-						\"&character_ID=\" + document.getElementById(\"character_ID\").value,
+				  \"&character_ID=\" + document.getElementById(\"character_ID\").value,
 			success: function(html){
 			 $(\"#presence\").load(\"resources/php/FO_Div_Presence.php?user_ID=$usertest\");
 				$(\"#event\").html(html);
@@ -158,9 +155,10 @@ echo"
 			type: \"POST\",
 			url: \"resources/php/FO_Div_Party.php\",
 			data: \"dateEvent=$sqldate\" +
-						\"&type=auto\",
+				  \"&type=\" + $(\"input[name=type]:checked\").val(),
 			success: function(html){
 				$(\"#parties\").html(html);
+				$('#members').hide( 'blind' );
 				$('#parties').show( 'blind' );
 			}
 		});

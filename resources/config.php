@@ -34,5 +34,8 @@ $cfg_groups_backoffice = array('5','9');
 $cfg_title = 'Guild Manager';
 
 //Calendar variables / Variables du calendrier
-$cfg_calendar_mode = 'Presence'
+//Mode : Absence/Presence
+$cfg_calendar_mode = 'Presence';
+//Limit for event display in the past ('x day') / Limite d'affichacge des événements passés en jours ('x day').
+$event_limit = '7 day';
 ?>

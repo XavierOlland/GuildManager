@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+ /*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-
+	
 //PHPBB connection / Connexion à phpBB
 include('resources/phpBB_Connect.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
@@ -36,6 +36,7 @@ echo "
 //Page specific <head> elements / Eléments <head> spécifique à la page
 echo "
 	<style> body {background-image:url('resources/images/Perso_BG.jpg');background-size:100%; background-repeat:no-repeat;}</style>
+
 </head>
 <body>
 	<div class='Main'>
@@ -54,8 +55,9 @@ echo "
 			<div class='Core'>
 				<h2>Les groupes</h2>
 				<p>Date de l'&eacute;v&eacute;nement : <input style='width:100px' type=\"text\" id=\"dateEvent\" /> 
-				<input type='hidden' id='type' value='auto' /> <input type='button' value='Cr&eacute;er les groupes' onclick=\"createParties()\"><br /></p>
-				<div class='extand' id='result'></div>
+				<input type='radio' name='type' value='auto' />Automatique <input type='radio' name='type' value='manuel' /> Manuel <input type='button' value='Cr&eacute;er les groupes' onclick=\"createParties()\"><br /></p>
+				<div class='extand' id='result'>
+        </div>
 			</div>
 			<div class='right'>
 				<h6>Ordre des professions</h6>
@@ -91,7 +93,7 @@ echo "
 			type: \"POST\",
 			url: \"resources/php/FO_Div_Party.php\",
 			data: \"dateEvent=\" + document.getElementById(\"dateEvent\").value +
-						\"&type=\" + document.getElementById(\"type\").value,
+						\"&type=\" + $(\"input[name=type]:checked\").val(),
 			success: function(html){
 				$(\"#result\").html(html);
 			}
