@@ -67,7 +67,7 @@ if ($id == 0){echo "<script type=\"text/javascript\">$(\"#delete\").hide()</scri
 //Retrieving event information
 $sql="SELECT r.raid_event_ID,  r.event, r.map, r.color, r.time, u.username,r.comment
       FROM guild_raid_event AS r 
-      LEFT JOIN forum_users AS u ON u.user_ID=r.user_ID_leader
+      LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=r.user_ID_leader
       WHERE r.raid_event_ID=$id";
 $list=mysql_query($sql); 
 while( $result=mysql_fetch_row($list))
