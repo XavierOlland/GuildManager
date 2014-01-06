@@ -30,7 +30,7 @@ ul.link { list-style-type: none; margin: 0px; padding: 0px; }
 li.party { margin: 0 0px 5px 0px; padding: 0px; width:100%}</style>
 <script>
 $(function() {
-$( \"#party_1, #party_2\" ).sortable({
+$( \"#party_1, #party_2, #party_3, #party_4, #party_5\" ).sortable({
 connectWith: \".link\"
 }).disableSelection();
 });

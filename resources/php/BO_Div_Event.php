@@ -41,28 +41,40 @@ echo "
 <p>Cliquez sur un &eacute;v&eacute;nement pour afficher le d&eacute;tail ici.</p>";
 }
  ; }
-else
-if( $action == 'update'){
-$sql0="SELECT raid_event_id FROM guild_raid_event WHERE dateRaid='$_POST[dateRaid]'";
-$list0=mysql_query($sql0);
-$count=mysql_num_rows($list0);
-if( $count == 0 ){
-if ($id == 0){
-$sql1="INSERT INTO guild_raid_event ( dateRaid, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateRaid]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
-}
 else {
-$sql1="UPDATE guild_raid_event SET dateRaid='$_POST[dateRaid]', time='$_POST[time]', map='$_POST[map]', color='$_POST[color]', event='$_POST[event]', user_ID_leader='$_POST[user_ID_leader]', comment='$_POST[comment]' WHERE raid_event_ID='$_POST[raid_id]'"; 
+	if( $action == 'update'){
+	$sql0="SELECT raid_event_id FROM guild_raid_event WHERE dateRaid='$_POST[dateRaid]' AND raid_event_ID!=$id";
+	$list0=mysql_query($sql0);
+	$count=mysql_num_rows($list0);
+	if( $count != 0 ){
+		echo "<p class='red'>Un &eacute;v&eacute;nement existe d&eacute;j&agrave; &agrave; cette date. 
+							Par s&eacute;curit&eacute;, vous devez &eacute;diter directement cet &eacute;v&eacute;nement.</p><br />"; 
+							}
+				
+	else {	
+		if ($id == 0){
+			$sql1="INSERT INTO guild_raid_event ( dateRaid, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateRaid]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
+			if (!mysql_query($sql1,$con)){$actionresult="Erreur dans la création.";}
+		else { $id = mysql_insert_id();
+			echo "
+			<script type=\"text/javascript\">$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
+			<p class='red'>Ev&eacute;nement mis &agrave; jour.</p><br />";
+			};}	
+		else {
+			$sql1="UPDATE guild_raid_event SET dateRaid='$_POST[dateRaid]', time='$_POST[time]', map='$_POST[map]', color='$_POST[color]', event='$_POST[event]', user_ID_leader='$_POST[user_ID_leader]', comment='$_POST[comment]' WHERE raid_event_ID='$id'"; 
+		if (!mysql_query($sql1,$con)){$actionresult="Erreur dans la création.";}
+		else { 
+			echo "
+			<script type=\"text/javascript\">$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
+			<p class='red'>Ev&eacute;nement mis &agrave; jour.</p><br />";
+			};}	;
+		
+		};
+	};
 };
-if (!mysql_query($sql1,$con)){$actionresult="Erreur dans la création.";}
-else { 
-$id = mysql_insert_id();
-echo "
-<script type=\"text/javascript\">$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
-<p class='red'>Ev&eacute;nement mis &agrave; jour.</p><br />";
-};
- } else { echo "<p class='red'>Un &eacute;v&eacute;nement existe d&eacute;j&agrave; &agrave; cette date. Par s&eacute;curit&eacute;, vous devez &eacute;diter directement cet &eacute;v&eacute;nement.</p><br />";};
- };
-if ($id == 0){echo "<script type=\"text/javascript\">$(\"#delete\").hide()</script>";} else {echo "<script type=\"text/javascript\">$(\"#delete\").show()</script>";};
+
+if ($id == 0){echo "<script type=\"text/javascript\">$(\"#delete\").hide()</script>";} 
+else {echo "<script type=\"text/javascript\">$(\"#delete\").show()</script>";};
 
 //Retrieving event information
 $sql="SELECT r.raid_event_ID,  r.event, r.map, r.color, r.time, u.username,r.comment
