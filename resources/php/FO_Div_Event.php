@@ -1,5 +1,6 @@
  <?php 
- /*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+ /* Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -19,6 +20,8 @@
 include('../../../config.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('../config.php');
+//Language management / Gestion des traductions
+include('../language.php');
 
 //Page variables creation / Création des variables spécifiques pour la page
 $usertest = $_GET['user_ID'];
@@ -32,19 +35,19 @@ $sqldate = date('Y\-m\-d', $date);
 
 //creating ID if missing
 if ( $id == 0 ){
-while( $result=mysql_fetch_row(mysql_query("SELECT raid_event_ID FROM guild_raid_event WHERE dateRaid='$date'")))
+while( $result=mysql_fetch_row(mysql_query("SELECT raid_event_ID FROM ".$gm_prefix."raid_event WHERE dateRaid='$date'")))
 { $id=$result[0];echo $id;};
 };
 
 //Registering player
 
 if ($_POST['action']=='join'){ 
-$sql1="INSERT INTO guild_raid_presence (user_ID, dateEvent, character_ID ) VALUES ('$usertest','$sqldate','$_POST[character_ID]' )"; 
-if (!mysql_query($sql1,$con)){$actionresult="Erreur dans l'enregistrement.";} ; };
+$sql1="INSERT INTO ".$gm_prefix."raid_presence (user_ID, dateEvent, character_ID ) VALUES ('$usertest','$sqldate','$_POST[character_ID]' )"; 
+if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_record];} ; };
 
 //Retrieving event information
 $sql="SELECT r.raid_event_ID, r.event, r.map, r.time, u.username,r.comment 
-      FROM guild_raid_event AS r 
+      FROM ".$gm_prefix."raid_event AS r 
       LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=r.user_ID_leader
       WHERE r.raid_event_ID=$id";
 $list=mysql_query($sql); 
@@ -54,23 +57,21 @@ echo"<h3>".$title."</h3><br />
      <h4>".$result[1]."</h4><br />
      <table>
      <tr class='top'><td>
-     <p>Carte : <b>".$result[2]."</b><br />
-     Horaires : <b>".$result[3]."</b><br />
-     Lead : <b>".$result[4]."</b><br />
+     <p>".$lng[t_raid_event_map]." : <b>".$result[2]."</b><br />
+     ".$lng[t_raid_event_time]." : <b>".$result[3]."</b><br />
+     ".$lng[t_raid_event_leader]." : <b>".$result[4]."</b><br />
      </td>
-     <td>Commentaire :<br /> ".$result[5]."</td></tr>
+     <td>".$lng[t_raid_event_comment]." :<br /> ".$result[5]."</td></tr>
      <tr></tr>";
      if ($cfg_calendar_mode == 'Presence'){ 
-     $sql = "SELECT * FROM guild_raid_presence WHERE dateEvent='$sqldate' AND user_ID=$usertest";
+     $sql = "SELECT * FROM ".$gm_prefix."raid_presence WHERE dateEvent='$sqldate' AND user_ID=$usertest";
      $result=mysql_query($sql); 
      $num_rows = mysql_num_rows($result);
-     //  $result=mysql_num_rows($list);
-     
+  
      if ($num_rows == 0) { echo"<tr class='top'><td colspan='2'>
      <select id=\"character_ID\" >";
-$sql="SELECT a.character_ID, a.name, a.main, c.text_ID, c.color 
-FROM guild_character AS a 
-INNER JOIN guild_param AS c ON c.param_ID=a.param_ID_profession 
+$sql="SELECT a.character_ID, a.name, a.main
+FROM ".$gm_prefix."character AS a 
 WHERE a.user_ID = ".$usertest." 
 ORDER BY a.main DESC, a.param_ID_profession";
 $list=mysql_query($sql);
@@ -80,7 +81,7 @@ if ($result['main']==1){ echo "selected"; };
 echo " > ".$result['name']."</option>";
 };
 echo "</select>
-<input type='button' value='Participer' onclick=\"joinEvent()\" href='#'>
+<input type='button' value='".$lng[p_FO_Div_Event_join]."' onclick=\"joinEvent()\" href='#'>
      </td><tr>";} 
 
      };
@@ -89,10 +90,10 @@ if ($cfg_calendar_mode == 'Presence'){
 $sql = "SELECT CASE WHEN s.session_time > (s.session_time-3600) THEN 'Online' ELSE 'Offline' END AS online, 
 u.user_ID, u.username,c.character_ID, c.name, c.param_ID_profession, p1.text_ID, p1.color
 FROM ".$table_prefix."users AS u
-INNER JOIN guild_raid_presence AS r ON r.user_ID=u.user_ID
-INNER JOIN guild_character AS c ON c.character_ID=r.character_ID 
-INNER JOIN guild_param AS p1 ON p1.param_ID=c.param_ID_profession
-INNER JOIN guild_profession AS p2 ON p2.param_ID=p1.param_ID
+INNER JOIN ".$gm_prefix."raid_presence AS r ON r.user_ID=u.user_ID
+INNER JOIN ".$gm_prefix."character AS c ON c.character_ID=r.character_ID 
+INNER JOIN ".$gm_prefix."param AS p1 ON p1.param_ID=c.param_ID_profession
+INNER JOIN ".$gm_prefix."profession AS p2 ON p2.param_ID=p1.param_ID
 LEFT JOIN ".$table_prefix."sessions AS s ON s.session_user_ID=u.user_ID
 WHERE r.dateEvent='$sqldate' 
 GROUP BY u.user_ID 
@@ -101,19 +102,19 @@ else {
 $sql = "SELECT CASE WHEN s.session_time > (s.session_time-3600) THEN 'Online' ELSE 'Offline' END AS online, 
 u.user_ID, u.username,c.character_ID, c.name, c.param_ID_profession, p1.text_ID, p1.color
 FROM ".$table_prefix."users AS u
-INNER JOIN guild_userinfo AS m ON m.user_ID=u.user_ID
-INNER JOIN guild_character AS c ON c.user_ID=u.user_ID AND c.main=1
-INNER JOIN guild_param AS p1 ON p1.param_ID=c.param_ID_profession
-INNER JOIN guild_profession AS p2 ON p2.param_ID=p1.param_ID
+INNER JOIN ".$gm_prefix."userinfo AS m ON m.user_ID=u.user_ID
+INNER JOIN ".$gm_prefix."character AS c ON c.user_ID=u.user_ID AND c.main=1
+INNER JOIN ".$gm_prefix."param AS p1 ON p1.param_ID=c.param_ID_profession
+INNER JOIN ".$gm_prefix."profession AS p2 ON p2.param_ID=p1.param_ID
 LEFT JOIN ".$table_prefix."sessions AS s ON s.session_user_ID=u.user_ID
 WHERE m.$sqlday=1 
-m.user_ID NOT IN (SELECT user_ID FROM guild_raid_absence WHERE dateAbsence='$sqldate')
+m.user_ID NOT IN (SELECT user_ID FROM ".$gm_prefix."raid_absence WHERE dateAbsence='$sqldate')
 ORDER BY p2.partyOrder";};
 $list=mysql_query($sql);
 $count=mysql_num_rows($list);
      echo "
      <tr class='top'><td colspan='2'>
-     <p>Membres pr&eacute;sents ($count) : </p>
+     <p>".$lng[p_FO_Div_Event_p_1]." ($count) : </p>
      <div id='members'>
      <table>";
 while($result=mysql_fetch_array($list))
@@ -127,9 +128,9 @@ echo"
 </tr></table></div>
 
 <img src='resources/images/Next.png'>
-<a class='table' href='#' onclick=\"createParties()\">Cr&eacute;er les groupes</a> 
-<input type='radio' name='type' value='auto' checked='checked'>Auto
-<input type='radio' name='type' value='manuel'>Manuel
+<a class='table' href='#'' onclick=\"createParties()\">".$lng[g__create_parties]."</a>
+<input type='radio' name='type' value='auto' checked='checked'>".$lng[g__auto]."
+<input type='radio' name='type' value='manuel'>".$lng[g__manual]."
 </td></tr></table>
 <script src='resources/style/jquery.min.js'></script> 
 <script src='resources/style/jquery-ui.js'></script>

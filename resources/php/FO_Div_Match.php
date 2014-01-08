@@ -1,5 +1,6 @@
 <?php
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -17,7 +18,7 @@
 
 echo "
 	<div class='Match'>
-		<h5>Match Up</h5>
+		<h5>".$lng[g__matchup]."</h5>
 		<div id=\"red_score\">
 			<div class=\"label\"></div>
 			<div class=\"bar\"></div>

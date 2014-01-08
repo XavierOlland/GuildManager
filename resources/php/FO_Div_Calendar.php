@@ -1,5 +1,6 @@
 <?php 
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -17,14 +18,14 @@
 
 //MySQL connection / Connexion à MySQL
 include('../../../config.php');
-
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('../config.php');
+//Language management / Gestion des traductions
+include('../language.php');
 
 //locale variables / Variables locale
-
-date_default_timezone_set('Europe/Brussels');
-setlocale(LC_ALL, 'fr_FR');
+/*date_default_timezone_set('Europe/Brussels');
+setlocale(LC_ALL, $local);*/
 
 //Creating needed date variables / Création des variables de dates nécessaires
 $usertest = $_GET['user_ID'];
@@ -53,7 +54,7 @@ $title = utf8_encode( $title );
 //switching day numbers for WvW week / Modification des numéros de jours pour la semain McM
 ///switching day numbers for WvW week / Modification des numéros de jours pour la semain McM
 $computed_day = date( 'N', $first_day) ;
-$sql = "SELECT value FROM guild_param WHERE TYPE = 'day' AND complement = '$computed_day'";
+$sql = "SELECT value FROM ".$gm_prefix."param WHERE TYPE = 'day' AND complement = '$computed_day'";
 $list=mysql_query($sql);
 while($result=mysql_fetch_row($list)) { $blank = $result[0]; };
 
@@ -61,20 +62,20 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 //Creating calendar / Création du calendrier
  echo "
 <div id='calendar'>
-<table border=1 width=294 >
-<theader>
-<tr><th colspan=7> $title $year</th></tr>
-<tr>";
+	<table border=1 width=294 >
+	<theader>
+	<tr><th colspan=7> $title $year</th></tr>
+	<tr>";
 
-//Day ordering / Ordre des jours
-$sql = "SELECT LEFT( translation, 1 ) FROM guild_param WHERE TYPE = 'day' ORDER BY value";
-$list=mysql_query($sql);
-while($result=mysql_fetch_row($list))
-{ echo "<td class='center' width=42>".$result[0]."</td>" ; };
-echo "
-</tr>
-</theader>
-<tbody>";
+	//Day ordering / Ordre des jours
+	$sql = "SELECT LEFT( d.$local, 1 ) FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=p.param_ID AND d.entity_name='param' WHERE TYPE = 'day' ORDER BY value";
+	$list=mysql_query($sql);
+	while($result=mysql_fetch_row($list))
+	{ echo "<td class='center' width=42>".$result[0]."</td>" ; };
+	echo "
+	</tr>
+	</theader>
+	<tbody>";
 //Day in week count / Compteur des jours de la semaine
 $day_count = 1; echo "<tr>";
 //Blank creation / Création des cases vides
@@ -89,7 +90,7 @@ $computed_date = strtotime($year."-".$month."-".$day_num);
 //Retrieving Events / Récupération des évènements
 if ( $year.'-'.$month.'-'.$day_num >= $event_limit_date ){ 
 $sqlr="SELECT r.raid_event_ID, r.map, r.color
-FROM guild_raid_event AS r 
+FROM ".$gm_prefix."raid_event AS r 
 WHERE r.dateRaid='$year-$month-$day_num'";
 $listr=mysql_query($sqlr); 
 if( mysql_num_rows($listr)>0)
@@ -123,9 +124,9 @@ echo "</tr>
 </tbody>
 <tfooter>
 <tr class='footer'>
-<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$prev."');$('#result').show();\" href='#'>Pr&eacute;c.</a></td>
-<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$current_year."-".$current_month."-01');$('#result').show();\" href='#'>Mois en cours</a></td>
-<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$next."');$('#result').show();\" href='#'>Suiv.</a></td>
+<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$prev."');$('#result').show();\" href='#'>".$lng[p_FO_Div_Calendar_a_1]."</a></td>
+<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$current_year."-".$current_month."-01');$('#result').show();\" href='#'>".$lng[p_FO_Div_Calendar_a_2]."</a></td>
+<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$next."');$('#result').show();\" href='#'>".$lng[p_FO_Div_Calendar_a_3]."</a></td>
 </tr>
 </tfooter>
 </table>

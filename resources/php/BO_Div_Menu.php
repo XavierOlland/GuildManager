@@ -1,5 +1,6 @@
 <?php
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -16,13 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 echo "<div class='LogInBO'>
-				<h5>Menu</h5>
+				<h5>".$lng[g__menu]."</h5>
 				<form name='module' id='module' method='POST' action=''>
 				<table>
-				<tr><th>Module</th><th>Act.</th><th>Ordre</th></tr>";
+				<tr><th>".$lng[g__module]."</th><th>".$lng[g__act]."</th><th>".$lng[g__order]."</th></tr>";
 				$sql="SELECT a.module_ID, a.description, a.page, a.user, a.rank,
 				CASE WHEN active=1 THEN 'checked' ELSE '' END AS checked
-				FROM guild_module AS a  
+				FROM ".$gm_prefix."module AS a  
 				ORDER BY a.rank" ;
 				$list=mysql_query($sql);
         $count=mysql_num_rows($list);
@@ -35,19 +36,19 @@ echo "<div class='LogInBO'>
         <input type='checkbox' name='module".$result['module_ID']."' value='1' ".$result['checked']."/></td>
         <td><input style='width:20px;' type='text' name='rank".$result['module_ID']."' value='".$result['rank']."'/></td></tr>";};
 				echo "
-				<tr><td colspan='2'><input type='submit' name='module' value='Enregistrer'></td></tr>
+				<tr><td colspan='2'><input type='submit' name='module' value='".$lng[g__save]."'></td></tr>
 				</table>
 				</form><br />
-				<a class='menu' href='../index.php'>Laissez moi sortir !</a>
+				<a class='menu' href='../index.php'>".$lng[g__return]."</a>
 </div>";
     
 
 if (isset($_POST['module'])) {
 	foreach($_POST['id'] as $id)
 {
-//ECHO "UPDATE guild_module SET active=CASE WHEN '".$_POST['module'.$id]."' = '1' THEN 1 ELSE 0 END WHERE module_ID='".$id[$i]."'";
+//ECHO "UPDATE ".$gm_prefix."module SET active=CASE WHEN '".$_POST['module'.$id]."' = '1' THEN 1 ELSE 0 END WHERE module_ID='".$id[$i]."'";
 
-$sql1="UPDATE guild_module SET active= '".$_POST['module'.$id]."', rank= '".$_POST['rank'.$id]."' WHERE module_ID='".$id[$i]."'";
+$sql1="UPDATE ".$gm_prefix."module SET active= '".$_POST['module'.$id]."', rank= '".$_POST['rank'.$id]."' WHERE module_ID='".$id[$i]."'";
 $result1=mysql_query($sql1);
 
 }

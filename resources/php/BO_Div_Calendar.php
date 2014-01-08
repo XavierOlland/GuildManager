@@ -1,5 +1,6 @@
 <?php 
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -19,6 +20,8 @@
 include('../../../config.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('../config.php');
+//Language management / Gestion des traductions
+include('../language.php');
 
 //Creating needed date variables / Création des variables de dates nécessaires
 $date = $_GET['date'] ;
@@ -47,7 +50,7 @@ $title = utf8_encode( $title );
 
 $computed_day = date( 'N', $first_day) ;
 
-$sql = "SELECT value FROM guild_param WHERE TYPE = 'day' AND complement = '$computed_day'";
+$sql = "SELECT value FROM ".$gm_prefix."param WHERE TYPE = 'day' AND complement = '$computed_day'";
 $list=mysql_query($sql);
 while($result=mysql_fetch_row($list)) { $blank = $result[0]; };
 
@@ -55,67 +58,65 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 //Creating calendar / Création du calendrier
  echo "
 <div id='calendar'>
-<table border=1 width=294 >
-<theader>
-<tr><th colspan=7> $title $year</th></tr>
-<tr>";
-//Day ordering / Ordre des jours
-$sql = "SELECT LEFT( translation, 1 ) FROM guild_param WHERE TYPE = 'day' ORDER BY value";
-$list=mysql_query($sql);
-while($result=mysql_fetch_row($list))
-{ echo "<td class='center' width=42>".$result[0]."</td>" ; };
-echo "
-</tr>
-</theader>
-<tbody>";
-//Day in week count / Compteur des jours de la semaine
-$day_count = 1; echo "<tr>";
-//Blank creation / Création des cases vides
-while ( $blank > 0 ) { echo "<td></td>"; $blank = $blank-1;  $day_count++; }  
-$day_num = 1;
-//Count of days in month / Compteur des jours du mois
-while ( $day_num <= $days_in_month ) 
-{ 
-//Retrieving day / Récupération du jour
-$computed_date = strtotime($year."-".$month."-".$day_num);
+	<table border=1 width=294 >
+		<theader>
+			<tr><th colspan=7> $title $year</th></tr>
+			<tr>";
+			//Day ordering / Ordre des jours
+			$sql = "SELECT LEFT( d.$local, 1 ) FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=p.param_ID AND d.entity_name='param' WHERE TYPE = 'day' ORDER BY value";
+			$list=mysql_query($sql);
+			while($result=mysql_fetch_row($list))
+			{ echo "<td class='center' width=42>".$result[0]."</td>" ; };
+			echo "
+			</tr>
+		</theader>
+		<tbody>";
+			//Day in week count / Compteur des jours de la semaine
+			$day_count = 1; echo "<tr>";
+			//Blank creation / Création des cases vides
+			while ( $blank > 0 ) { echo "<td></td>"; $blank = $blank-1;  $day_count++; }  
+			$day_num = 1;
+			//Count of days in month / Compteur des jours du mois
+			while ( $day_num <= $days_in_month ) { 
+			//Retrieving day / Récupération du jour
+			$computed_date = strtotime($year."-".$month."-".$day_num);
 
-//Retrieving Events / Récupération des évènements
-if ( $year.'-'.$month.'-'.$day_num >= $event_limit_date ){ 
-$sqlr="SELECT r.raid_event_ID, r.map, r.color
-FROM guild_raid_event AS r 
-WHERE r.dateRaid='$year-$month-$day_num'";
+			//Retrieving Events / Récupération des évènements
+			if ( $year.'-'.$month.'-'.$day_num >= $event_limit_date ){ 
+			$sqlr="SELECT r.raid_event_ID, r.map, r.color
+			FROM ".$gm_prefix."raid_event AS r 
+			WHERE r.dateRaid='$year-$month-$day_num'";
 
-$listr=mysql_query($sqlr); 
-if( mysql_num_rows($listr)>0)
-{ while( $resultr=mysql_fetch_row($listr)) 
-{ echo "<td class='center' style='background-color:".$resultr[2].";color:#FFFFFF;";
-if( $current_month == $month && $current_day == $day_num){echo "text-decoration:underline;border:solid 3px #606060";};
-echo"'>
-<a class='calendar' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=".$resultr[0]."&date=$computed_date');$('#event').show();\" href='#'>".$day_num."</a></td>"; };}
-else {echo "<td class='center' ";
-if( $current_month == $month && $current_day == $day_num){echo "style='border:solid 2px #8c1922;'";};
-echo "
-><a style='text-decoration:none;color:#000000;' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=0&date=$computed_date');$('#event').show();\" href='#'>".$day_num."</a></td>"; };
-}
-//Day without event / Jour sans évènement
-else {echo "<td class='center' >".$day_num."</td>"; };
-$day_num++; $day_count++;
-//End of week / Fin de semaine
-if ($day_count > 7) { echo "</tr><tr>"; $day_count = 1; }
-}
-//Blank creation / Création des cases vides
- while ( $day_count >1 && $day_count <=7 ) {  echo "<td> </td>";  $day_count++;  } 
+			$listr=mysql_query($sqlr); 
+			if( mysql_num_rows($listr)>0)
+			{ while( $resultr=mysql_fetch_row($listr)) 
+			{ echo "<td class='center' style='background-color:".$resultr[2].";color:#FFFFFF;";
+			if( $current_month == $month && $current_day == $day_num){echo "text-decoration:underline;border:solid 3px #606060";};
+			echo"'>
+			<a class='calendar' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=".$resultr[0]."&date=$computed_date');$('#event').show();\" href='#'>".$day_num."</a></td>"; };}
+			else {echo "<td class='center' ";
+			if( $current_month == $month && $current_day == $day_num){echo "style='border:solid 2px #8c1922;'";};
+			echo "><a style='text-decoration:none;color:#000000;' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=0&date=$computed_date');$('#event').show();\" href='#'>".$day_num."</a></td>"; };
+			}
+			//Day without event / Jour sans évènement
+			else {echo "<td class='center' >".$day_num."</td>"; };
+			$day_num++; $day_count++;
+			//End of week / Fin de semaine
+			if ($day_count > 7) { echo "</tr><tr>"; $day_count = 1; }
+			}
+			//Blank creation / Création des cases vides
+			while ( $day_count >1 && $day_count <=7 ) {  echo "<td> </td>";  $day_count++;  } 
 
-//End of calendat, navigation / Fin du calendrier, navigation
-echo "</tr>
-</tbody>
-<tfooter>
-<tr class='footer'>
-<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$prev."');$('#result').show();\" href='#'>Pr&eacute;c.</a></td>
-<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$year."-".$current_month."-01');$('#result').show();\" href='#'>Mois en cours</a></td>
-<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$next."');$('#result').show();\" href='#'>Suiv.</a></td>
-</tr>
-</tfooter>
-</table></div>
-";
+			//End of calendat, navigation / Fin du calendrier, navigation
+			echo "</tr>	
+		</tbody>
+		<tfooter>
+			<tr class='footer'>
+				<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$prev."');$('#result').show();\" href='#'>".$lng[p_BO_Div_Calendar_a_1]."</a></td>
+				<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$year."-".$current_month."-01');$('#result').show();\" href='#'>".$lng[p_BO_Div_Calendar_a_2]."</a></td>
+				<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$next."');$('#result').show();\" href='#'>".$lng[p_BO_Div_Calendar_a_3]."</a></td>
+			</tr>
+		</tfooter>
+	</table>
+	</div>";
 ?>

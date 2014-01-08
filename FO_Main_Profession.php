@@ -1,5 +1,6 @@
 <?php
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -22,8 +23,8 @@ include('resources/config.php');
 
 //Page variables creation / Création des variables spécifiques pour la page
 $id = $_GET['id']; 
-$class = mysql_result(mysql_query("SELECT text_ID FROM guild_param WHERE param_ID=$id"),0);
-$color = mysql_result(mysql_query("SELECT color FROM guild_param WHERE param_ID=$id"),0);
+$class = mysql_result(mysql_query("SELECT text_ID FROM ".$gm_prefix."param WHERE param_ID=$id"),0);
+$color = mysql_result(mysql_query("SELECT color FROM ".$gm_prefix."param WHERE param_ID=$id"),0);
 
 //Creating language variables
 //include('resources/language.php');
@@ -58,7 +59,7 @@ echo "
 				<h6>Professions</h6>
 				<table>
 				<tr>";
-				$sql="SELECT a.param_ID, a.color, a.text_ID, a.translation FROM guild_param AS a WHERE a.type='profession'" ;
+				$sql="SELECT a.param_ID, a.color, a.text_ID, a.translation FROM ".$gm_prefix."param AS a WHERE a.type='profession'" ;
 				$list=mysql_query($sql);
 				while($result=mysql_fetch_row($list))
 				{ echo "<tr>

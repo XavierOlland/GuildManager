@@ -1,5 +1,6 @@
 <?php 
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -19,46 +20,45 @@
 include('resources/phpBB_Connect.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('resources/config.php');
-$con = mysql_connect($dbhost,$dbuser,$dbpasswd);
+//Language management / Gestion des traductions
+include('resources/language.php');
 
-if (!$con) { die('Could not connect: ' . mysql_error()); } 
-mysql_select_db($dbname, $con);
-
-$test = htmlentities($user->data['group_id']);
 //Start of html page / Début du code html
 echo	"<html>
 <head>";
-include('resources/php/FO_Head.php');
-echo "
-<style> body {background-image:url('resources/images/Perso_BG.jpg');background-size:100%; background-repeat:no-repeat;} </style>
-    
+	include('resources/php/FO_Head.php');
+	echo "<style> body {background-image:url('resources/images/Perso_BG.jpg');background-size:100%; background-repeat:no-repeat;} </style>
 </head>
-
-	<body>
-		<div class='Main'>
-   <div class='Title'><h1> $cfg_title </h1></div>";
-//User permissions test / Test des permissions utilisateur
-			if (in_array($user->data['group_id'],$cfg_groups)){
-			//Registered user code / Code pour utilisateurs enregistrés
+<body>
+	<div class='Main'>
+		<div class='Title'><h1> $cfg_title </h1></div>";
+		//User permissions test / Test des permissions utilisateur
+		if (in_array($user->data['group_id'],$cfg_groups)){
+		//Registered user code / Code pour utilisateurs enregistrés
 		echo "
 		<div class='Menu'>";
-					include('resources/php/FO_Div_Menu.php');
-					include('resources/php/FO_Div_Match.php');
+			include('resources/php/FO_Div_Menu.php');
+			include('resources/php/FO_Div_Match.php');
 		echo "
 		</div>";
 		echo "
 		<div class='Page'>
 			<div class='Core'>
-			<h2>Bienvenue dans l'outil de gestion de guilde</h2>
-		<p>Un outil avec des vrais morceaux d'outils dedans<br /></p>
-    <div id='Lobby'></div></div>
-    <div class='right'></div>
-    <div class='Copyright'>Copyright &copy; 2013 Xavier Olland, publi&eacute; sous licence GNU AGPL</div></div>
-<script type=\"text/javascript\">
-	$('#Lobby').load(\"resources/php/FO_Div_Chantal.php\");
-  </script>
-<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>  
-			</body></html>"; }
+			<h2>".$lng[p_index_h2_1]."</h2>
+			<p>".$lng[p_index_p_1]."</p>
+				<div id='Lobby'></div>
+			</div>
+			<div class='right'></div>
+			<div class='Copyright'>".$lng[g__copyright]."</div>
+		</div>
+	</div>
+	<script type=\"text/javascript\">
+		$('#Lobby').load(\"resources/php/FO_Div_Chantal.php\");
+	</script>
+	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
+	<script type=\"text/javascript\" src=\"resources/js/Menu_Match.js\"></script>  
+</body>
+</html>"; }
 //Non authorized user / utilisateur non autorisé
 else { include('resources/php/FO_Div_Register.php'); }
 ?>

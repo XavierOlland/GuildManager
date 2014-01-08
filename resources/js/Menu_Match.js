@@ -1,4 +1,5 @@
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -16,8 +17,6 @@
 
 
 //Définition des variables
-var default_world_id = 2103;
-
 var world_names;
 var matches;
 var match_details;
@@ -48,7 +47,7 @@ var current_matchup = {
 
 //Récupéraiton des noms des mondes
 var main = function () {
-	$.getJSON("https://api.guildwars2.com/v1/world_names.json?lang=fr", worlds_callback);
+	$.getJSON("https://api.guildwars2.com/v1/world_names.json?lang="+api_lng, worlds_callback);
 };
 //Récupération des matches en cours
 var worlds_callback = function (data) {

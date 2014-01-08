@@ -1,5 +1,6 @@
 <?php
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -19,6 +20,8 @@
 include('../../../config.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('../config.php');
+//Language management / Gestion des traductions
+include('../language.php');
 
 //Enregistrement dans la base de données
 $usertest = $_POST['user_ID'];
@@ -26,23 +29,23 @@ if (strlen($usertest) == 0 ){$usertest = $_GET['user_ID'];};
 $raid_absence_ID=$_GET['delete'];
 
 if ($_POST['action']=='create'){ 
-$sql1="INSERT INTO guild_raid_absence (user_ID, dateAbsence ) VALUES ('$usertest',STR_TO_DATE('$_POST[dateAbsence]', '%d/%m/%Y'))"; 
-if (!mysql_query($sql1,$con)){$actionresult="Erreur dans l'enregistrement.";} ; };
+$sql1="INSERT INTO ".$gm_prefix."raid_absence (user_ID, dateAbsence ) VALUES ('$usertest',STR_TO_DATE('$_POST[dateAbsence]', '%d/%m/%Y'))"; 
+if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_record];} ; };
 
 if (strlen($raid_absence_ID) > 0){ 
-$sql1="DELETE FROM guild_raid_absence WHERE raid_absence_ID='$raid_absence_ID'"; 
-if (!mysql_query($sql1,$con)){$actionresult="Erreur dans la suppression.";} ; };
+$sql1="DELETE FROM ".$gm_prefix."raid_absence WHERE raid_absence_ID='$raid_absence_ID'"; 
+if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_delete];} ; };
 
 
 //Liste des absences futures
 
 echo "
-<h6>Absences pr&eacute;vues</h6>
+<h6>".$lng[p_FO_Div_Absence_h6_1]."</h6>
 <table>";
 
-mysql_query("SET lc_time_names = 'FO_FR'");
+mysql_query("SET lc_time_names = '$local'");
 $sql="SELECT raid_absence_ID, DATE_FORMAT(dateAbsence,'%W %e %M') AS dateAbsence 
-FROM guild_raid_absence 
+FROM ".$gm_prefix."raid_absence 
 WHERE user_ID = ".$usertest." 
 ORDER BY dateAbsence ASC";
 $list=mysql_query($sql);

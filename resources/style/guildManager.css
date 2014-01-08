@@ -1,4 +1,5 @@
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -120,4 +121,4 @@ div.PageBO  { position:inherit;float:left; clear: right; padding:0px; margin:0px
   div.ExtandBO { position:relative; float:left; margin:0px; padding:0px; width:auto; z-index: 2; }
 
 
-div.Copyright{ position:inherit;  width:auto; margin-left:5px; margin-right:5px; font-size:12px; }
+div.Copyright{ position:inherit;  width:auto; margin-left:5px; margin-right:5px; font-size:10px; }

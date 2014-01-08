@@ -1,5 +1,6 @@
  <?php 
- /*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+ /* Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -21,12 +22,12 @@ include('../../../config.php');
 include('../config.php');
 
 if ( $_POST['raid_id'] == 0){
-$sql1="INSERT INTO guild_raid_event ( dateRaid, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateRaid]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
+$sql1="INSERT INTO ".$gm_prefix."raid_event ( dateRaid, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateRaid]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
 $test=mysql_insert_id();
 $response="<p class='red'>Ev&egrave;nement cr&eacute;&eacute; $test</p>"; 
 }
 else{
-$sql1="UPDATE guild_raid_event SET dateRaid='$_POST[dateRaid]', time='$_POST[time]', map='$_POST[map]', color='$_POST[color]', event='$_POST[event]', user_ID_leader='$_POST[user_ID_leader]', comment='$_POST[comment]' WHERE raid_event_ID='$_POST[raid_id]'"; 
+$sql1="UPDATE ".$gm_prefix."raid_event SET dateRaid='$_POST[dateRaid]', time='$_POST[time]', map='$_POST[map]', color='$_POST[color]', event='$_POST[event]', user_ID_leader='$_POST[user_ID_leader]', comment='$_POST[comment]' WHERE raid_event_ID='$_POST[raid_id]'"; 
 $response="<p class='red'>Ev&egrave;nement modifi&eacute;</p>";};
 
 if (!mysql_query($sql1,$con)){$actionresult="Erreur dans l'enregistrement.";} else {echo $response;}; 

@@ -16,20 +16,17 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-//This code allows use of phpBB identification and the link between the manager and the forum.
-//Utilisation de l'authentification phpBB, lien entre le manager et le forum
-define('IN_PHPBB', true);
-$phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : '../';
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-include($phpbb_root_path . 'common.' . $phpEx);
-include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
-include($phpbb_root_path . 'config.' . $phpEx);
+$sql="SELECT CONCAT(LEFT(entity,1),'_',variable_name) AS name, $local 
+FROM ".$gm_prefix."dictionnary 
+WHERE entity IN ( 'table' , 'generic' )";
+$result=mysql_query($sql);
+$lng = array();
+while ($row = mysql_fetch_array($result)) { $lng[$row['name']] = $row[$local]; };
 
-
-//Create the mandatory variables / Création des variables nécessaires
-$user->session_begin();
-$auth->acl($user->data);
-$user->setup();
-$usertest = htmlentities($user->data['user_id'],ENT_QUOTES,"UTF-8");
-$usergroup = htmlentities($user->data['group_id'],ENT_QUOTES,"UTF-8");
+$page = str_ireplace('.php','',basename($_SERVER['PHP_SELF']) );
+$sql="SELECT CONCAT(LEFT(entity,1),'_',variable_name) AS name, $local 
+FROM ".$gm_prefix."dictionnary 
+WHERE entity='page' AND entity_name='$page'";
+$result=mysql_query($sql);
+while ($row = mysql_fetch_array($result)) { $lng[$row['name']] = $row[$local]; };
 ?>

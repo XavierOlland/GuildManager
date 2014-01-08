@@ -1,5 +1,6 @@
 <?php
-/*  Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+/*  Guild Manager v1.0.3
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
     This program is free software: you can redistribute it and/or modify
@@ -19,13 +20,12 @@
 include('resources/phpBB_Connect.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('resources/config.php');
+//Language management / Gestion des traductions
+include('resources/language.php');
 
 //Page variables creation / Création des variables spécifiques pour la page
 $id = $_GET['user'];
 $action = $_GET['action'];
-
-//Creating language variables
-//include('resources/language.php');
 
 //Start of html page / Début du code html
 echo "
@@ -43,10 +43,11 @@ echo "
 	<link rel='stylesheet' type='text/css' href='resources/style/jquery.jqplot.css' />
 	<script type=\"text/javascript\">$(document).ready(function(){
 		var data = [";
-		$total=mysql_result(mysql_query("SELECT count(character_ID) FROM guild_character WHERE main=1"),0);
-		$sql="SELECT c.translation, COUNT( a.character_ID )/$total AS num, c.color
-		FROM guild_character AS a
-		INNER JOIN guild_param AS c ON c.param_ID = a.param_ID_profession
+		$total=mysql_result(mysql_query("SELECT count(character_ID) FROM ".$gm_prefix."character WHERE main=1"),0);
+		$sql="SELECT d.$local AS translation, COUNT( a.character_ID )/$total AS num, c.color
+		FROM ".$gm_prefix."character AS a
+		INNER JOIN ".$gm_prefix."param AS c ON c.param_ID = a.param_ID_profession
+		LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=c.param_ID AND d.entity_name='param'
 		WHERE a.main =1
 		GROUP BY c.param_ID " ;
 		$list=mysql_query($sql);
@@ -87,10 +88,11 @@ $(document).ready(function(){
     $(\"#piechart1\").hide();
     $(\"#stat2\").show();
     var data = [";
-		$total=mysql_result(mysql_query("SELECT count(character_ID) FROM guild_character WHERE main=1"),0);
-		$sql="SELECT c.translation, COUNT( a.character_ID )/$total AS num, c.color
-		FROM guild_character AS a
-		INNER JOIN guild_param AS c ON c.param_ID = a.param_ID_gameplay
+		$total=mysql_result(mysql_query("SELECT count(character_ID) FROM ".$gm_prefix."character WHERE main=1"),0);
+		$sql="SELECT d.$local AS translation, COUNT( a.character_ID )/$total AS num, c.color
+		FROM ".$gm_prefix."character AS a
+		INNER JOIN ".$gm_prefix."param AS c ON c.param_ID = a.param_ID_gameplay
+		LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=c.param_ID AND d.entity_name='param' 
 		WHERE a.main =1
 		GROUP BY c.param_ID " ;
 		$list=mysql_query($sql);
@@ -143,14 +145,14 @@ echo " ],
 			//Registered user code / Code pour utilisateurs enregistrés
 		echo "
 		<div class='Menu'>";
-					include('resources/php/FO_Div_Menu.php');
-					include('resources/php/FO_Div_Match.php');
+			include('resources/php/FO_Div_Menu.php');
+			include('resources/php/FO_Div_Match.php');
 		echo "
 		</div>";
 		echo "
 		<div class='Page'>
 			<div class='Core'>
-				<h2>Le Bus</h2>
+				<h2>".$lng[p_FO_Main_Bus_h2_1]."</h2>
 				<table>
 					<colgroup>
 						<col span='1' style='width:16px'>
@@ -160,24 +162,24 @@ echo " ],
 					<tr>
 						<th></th>
 						<th></th>
-						<th>Personnage</th>
-						<th>Joueur</th>
-						<th>Race</th>
-						<th>Profession</th>
-						<th>Level</th>
-						<th>McM</th>
-						<th>Gameplay</th>
-						<th>Build</th>
+						<th>".$lng[g__character]."</th>
+						<th>".$lng[g__player]."</th>
+						<th>".$lng[t_character_race]."</th>
+						<th>".$lng[t_character_profession]."</th>
+						<th>".$lng[t_character_level]."</th>
+						<th>".$lng[t_character_level_wvw]."</th>
+						<th>".$lng[t_character_gameplay]."</th>
+						<th>".$lng[t_character_build]."</th>
 					</tr>";
 					$sqlp="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_race, r.translation AS race, a.param_ID_profession, c.value AS profession, 
 					a.level, a.level_wvw, a.build, CASE WHEN LENGTH(a.build) > 0 THEN CONCAT('<a href=\'',a.build,'\' target=\'blank\'>Voir</a>') ELSE '' END AS buildlink,
 					a.comment, c.text_ID, c.translation, c.color, a.param_ID_gameplay, o.value AS gameplay, 
 					CASE WHEN s.session_time > (s.session_time-3600) THEN 'Online' ELSE 'Offline' END AS online, u.username
-					FROM guild_character AS a  
-					INNER JOIN guild_param AS c ON c.param_ID=a.param_ID_profession 
-					INNER JOIN guild_param AS r ON r.param_ID=a.param_ID_race 
-					INNER JOIN guild_param AS o ON o.param_ID=a.param_ID_gameplay
-          INNER JOIN guild_profession AS p ON p.param_ID=c.param_ID
+					FROM ".$gm_prefix."character AS a  
+					INNER JOIN ".$gm_prefix."param AS c ON c.param_ID=a.param_ID_profession 
+					INNER JOIN ".$gm_prefix."param AS r ON r.param_ID=a.param_ID_race 
+					INNER JOIN ".$gm_prefix."param AS o ON o.param_ID=a.param_ID_gameplay
+          INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
 					LEFT JOIN ".$table_prefix."sessions AS s ON s.session_user_ID=a.user_ID
 					LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=a.user_ID
 					WHERE a.main=1 
@@ -204,11 +206,11 @@ echo " ],
 					<tr>
 						<td></td>
 						<td><img src='resources/images/upperReturn.png'></td>
-						<td colspan='10'>Cliquez sur une ic&ocirc;ne pour afficher les personnages de la classe.</td>
+						<td colspan='10'>".$lng[p_FO_Main_Bus_td_1]."</td>
 					</tr>
 					<tr>
-						<td></td><td></td><td colspan='10'>ou alors <a class='table' href='#'' onclick=\"createParties()\">affichez les groupes</a> <input type='radio' name='type' value='auto' checked='checked'>Auto
-<input type='radio' name='type' value='manuel'>Manuel</td>
+						<td></td><td></td><td colspan='10'><a class='table' href='#'' onclick=\"createParties()\">".$lng[g__create_parties]."</a> <input type='radio' name='type' value='auto' checked='checked'>".$lng[g__auto]."
+<input type='radio' name='type' value='manuel'>".$lng[g__manual]."</td>
 					</tr>
 				</table>
 				<br />
@@ -216,21 +218,24 @@ echo " ],
 				<div class='extand' id='result'></div>
 			</div>
 			<div class='right'>
-				<h5>Statistiques</h5>
+				<h5>".$lng[p_FO_Main_Bus_h5_1]."</h5>
 				<div id='stat1'>
-					<h6>Professions</h6>
+					<h6>".$lng[p_FO_Main_Bus_h6_1]."</h6>
 					<div id='piechart1'></div>
-					<p class='right'><table class='right'><tr><td><img src='resources/images/Next.png' /></td><td><a class='mright' id='stat1_next' href='#'>GamePlays</a></td></tr></table></p>
+					<p class='right'>
+						<table class='right'>
+							<tr><td><img src='resources/images/Next.png' /></td>
+									<td><a class='mright' id='stat1_next' href='#'>".$lng[p_FO_Main_Bus_h6_2]."</a></td></tr></table></p>
 				</div>
 
 				<div id='stat2'>
-					<h6>GamePlays</h6>
+					<h6>".$lng[p_FO_Main_Bus_h6_2]."</h6>
 					<div id='piechart2'></div>
-					<p class='right'><table class='right'><tr><td><img src='resources/images/Next.png' /></td><td><a class='mright' id='stat2_next' href='#'>Professions</a></td></tr></table></p>
+					<p class='right'><table class='right'><tr><td><img src='resources/images/Next.png' /></td><td><a class='mright' id='stat2_next' href='#'>".$lng[p_FO_Main_Bus_h6_1]."</a></td></tr></table></p>
 				</div>
 			</div>
 		</div>
-		<div class='Copyright'>Copyright &copy; 2013 Xavier Olland, publi&eacute; sous licence GNU AGPL</div>
+		<div class='Copyright'>".$lng[g__copyright]."</div>
 	</div>
 <script type=\"text/javascript\">
 	function createParties(){   
@@ -247,6 +252,7 @@ echo " ],
 		}
 	
 	</script>
+	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
 	<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>
 </body>
 </html>"; }
