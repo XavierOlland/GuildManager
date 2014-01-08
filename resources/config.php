@@ -25,12 +25,12 @@ mysql_set_charset('utf8');
 
 //locale variables / Variables locales
 //local / locale => en_EN || fr_FR
-$local = 'fr_FR';
+$local = 'en_EN';
 date_default_timezone_set('Europe/Brussels');
 setlocale(LC_ALL, $local);
 
 //GuildManager table prefix / Préfixe des tables Guild Manager
-$gm_prefix = 'guild_';
+$gm_prefix = 'gm_';
 
 //Guild Wars 2 api variables / Variables de l'API Guild Wars 2
 //Server ID can be found here : https://api.guildwars2.com/v1/world_names.json?lang=en
