@@ -40,7 +40,7 @@ $sql1="DELETE FROM ".$gm_prefix."raid_event WHERE raid_event_ID='$id'";
 if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_delete];}
 else {
 echo "
-<script type=\"text/javascript\">$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
+<script >$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
 <p class='red'>".$lng[p_BO_Div_Event_p_1]."</p><br />
 <p>".$lng[p_BO_Div_Event_p_2]."</p>";
 }
@@ -60,7 +60,7 @@ else {
 			if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_create];}
 		else { $id = mysql_insert_id();
 			echo "
-			<script type=\"text/javascript\">$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
+			<script >$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
 			<p class='red'>".$lng[p_BO_Div_Event_p_4]."</p><br />";
 			};}	
 		else {
@@ -68,7 +68,7 @@ else {
 		if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_create];}
 		else { 
 			echo "
-			<script type=\"text/javascript\">$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
+			<script >$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
 			<p class='red'>".$lng[p_BO_Div_Event_p_4]."</p><br />";
 			};}	;
 		
@@ -76,7 +76,7 @@ else {
 	};
 }; 
  
-if ($id == 0){echo "<script type=\"text/javascript\">$(\"#delete\").hide()</script>";} else {echo "<script type=\"text/javascript\">$(\"#delete\").show()</script>";};
+if ($id == 0){echo "<script >$(\"#delete\").hide()</script>";} else {echo "<script >$(\"#delete\").show()</script>";};
 
 //Retrieving event information
 $sql="SELECT r.raid_event_ID,  r.event, r.map, r.color, r.time, u.username,r.comment
@@ -167,7 +167,7 @@ echo"</table></td></tr></table>
 
 
 
-<script type=\"text/javascript\">
+<script >
 $('#raidevent').submit(function(event){   
 		$.ajax({
 			type: \"POST\",
@@ -181,12 +181,12 @@ $('#raidevent').submit(function(event){
  });
 
 	</script>
-<script type=\"text/javascript\">
+<script >
 	function deleteEvent(id){
   $(\"#event\").load(\"resources/php/BO_Div_Event.php?date=$sqldate&action=delete&id=\" + id);
   }
 </script>
-<script type=\"text/javascript\"> $(function() { $( \"#dateEvent\" ).datepicker({ 
+<script > $(function() { $( \"#dateEvent\" ).datepicker({ 
 dateFormat: \"DD d MM\",  altField: \"#hiddenDateEvent\",
 altFormat: \"yy-mm-dd\" }); });</script>
 ";

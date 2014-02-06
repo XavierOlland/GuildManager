@@ -92,16 +92,16 @@ echo "
 //Match up score / Affichage des scores du match up
 echo "
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
-	<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script> ";
+	<script   src=\"resources/js/Menu_Match.js\"></script> ";
 //Loading module / chargement des modules 
 echo "
-	<script type=\"text/javascript\">
+	<script >
 	$('#result').load(\"resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=$date\");
 	$('#presence').load(\"resources/php/FO_Div_Presence.php?user_ID=".$usertest."\");
 	</script>";
 //Presence module form management / Gestion du formulaire de présence
 echo "
-	<script type=\"text/javascript\"> $(function() { $( \"#dateEvent\" ).datepicker(); });</script>
+	<script > $(function() { $( \"#dateEvent\" ).datepicker(); });</script>
 </body>
 </html>"; }
 //Non authorized user / utilisateur non autorisé

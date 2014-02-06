@@ -38,8 +38,8 @@ echo "
 //Scripts
 //Stats
 echo "
-	<script type=\"text/javascript\" src=\"resources/style/jquery.jqplot.min.js\"></script>
-	<script type=\"text/javascript\" src=\"resources/style/jqplot.pieRenderer.js\"></script>
+	<script src=\"resources/style/jquery.jqplot.min.js\"></script>
+	<script src=\"resources/style/jqplot.pieRenderer.js\"></script>
 	<link rel='stylesheet' type='text/css' href='resources/style/jquery.jqplot.css' />
 	<script type=\"text/javascript\">$(document).ready(function(){
 		var data = [";
@@ -136,6 +136,7 @@ echo " ],
           #stat2 {display:none;}
           #stat1 img {float:right;}
           #stat2 a {float:right;} </style>
+		  
 </head>
 <body>
 	<div class='Main'>
@@ -193,7 +194,7 @@ echo " ],
 						<td><a onclick=\"$('#result').load('resources/php/FO_Div_Profession.php?id=".$resultp['param_ID_profession']."');$('#result').show();\" href='#'>
 							<img src='resources/images/".$resultp['text_ID']."_Icon.png'></a></td>
 						<td><a class='table' href='FO_Main_CharacterEdit.php?character=".$resultp['character_ID']."'>".$resultp['name']."</a></td>
-						<td>".$resultp['username']."</td>
+						<td><a class='table' href='FO_Main_User.php?user=".$resultp['user_ID']."'>".$resultp['username']."</a></td>
 						<td>".$resultp['race']."</td>
 						<td><a class='table' href='FO_Main_Profession.php?id=".$resultp['param_ID_profession']."' >".$resultp['translation']."</a></td>
 						<td>".$resultp['level']."</td>
@@ -237,7 +238,7 @@ echo " ],
 		</div>
 		<div class='Copyright'>".$lng[g__copyright]."</div>
 	</div>
-<script type=\"text/javascript\">
+<script>
 	function createParties(){   
 		$.ajax({
 			type: \"POST\",
@@ -253,7 +254,7 @@ echo " ],
 	
 	</script>
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
-	<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>
+	<script src=\"resources/js/Menu_Match.js\"></script>
 </body>
 </html>"; }
 //Non authorized user / utilisateur non autorisé

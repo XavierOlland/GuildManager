@@ -71,8 +71,8 @@ echo "
 		</div>
 		<div class='Copyright'>Copyright &copy; 2013 Xavier Olland, publi&eacute; sous licence GNU AGPL</div>
 	</div>
-	<script type=\"text/javascript\">$('#result').load('resources/php/FO_Div_Profession.php?id=".$id."');</script>
-	<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>
+	<script >$('#result').load('resources/php/FO_Div_Profession.php?id=".$id."');</script>
+	<script   src=\"resources/js/Menu_Match.js\"></script>
 </body>
 </html>"; }
 //Non authorized user / utilisateur non autorisé

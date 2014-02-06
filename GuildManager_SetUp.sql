@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mysql51-107.perso
--- Generation Time: Jan 08, 2014 at 03:46 PM
+-- Generation Time: Feb 06, 2014 at 02:04 PM
 -- Server version: 5.1.66
 -- PHP Version: 5.3.8
 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `gm_dictionnary` (
   UNIQUE KEY `dictionnary_ID` (`dictionnary_ID`),
   KEY `entity_name` (`entity_name`),
   KEY `entity` (`entity`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=159 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=167 ;
 
 --
 -- Dumping data for table `gm_dictionnary`
@@ -225,7 +225,15 @@ INSERT INTO `gm_dictionnary` (`dictionnary_ID`, `variable_name`, `entity`, `enti
 (155, 'FO_Div_Register_td_4', 'generic', 'FO_Div_Register', NULL, NULL, 'Connection', 'Connexion'),
 (156, 'FO_Div_Register_h3_1', 'generic', 'FO_Div_Register', NULL, NULL, 'Want to join ?', 'Vous voulez nous rejoindre ?'),
 (157, 'FO_Div_Register_p_2', 'generic', 'FO_Div_Register', NULL, NULL, 'Register', 'S''enregistrer'),
-(158, 'BO_Div_Event_p_5', 'page', 'BO_Div_Event', NULL, NULL, 'Participating', 'Membres présents');
+(158, 'BO_Div_Event_p_5', 'page', 'BO_Div_Event', NULL, NULL, 'Participating', 'Membres présents'),
+(159, 'FO_Div_Event_a_1', 'page', 'FO_Div_Event', NULL, NULL, 'You need to register a character prior to joining the event.', 'Vous devez enregistrer un personnage pour participer aux évènements.'),
+(160, '_red', 'generic', '', NULL, NULL, 'Red', 'Rouge'),
+(161, '_blue', 'generic', '', NULL, NULL, 'Blue', 'Bleu'),
+(162, '_green', 'generic', '', NULL, NULL, 'Green', 'Vert'),
+(163, '_gold', 'generic', '', NULL, NULL, 'Gold', 'Doré'),
+(164, '_error_character', 'generic', NULL, NULL, NULL, 'You have to select a character in order to join the event.', 'Vous devez sélectionner un personnage pour participer à l''évènement.'),
+(165, 'FO_Main_User_warning_1', 'page', 'FO_Main_User', NULL, NULL, 'User ', 'L''utilisateur '),
+(166, 'FO_Main_User_warning_2', 'page', 'FO_Main_User', NULL, NULL, ' and all his character will be deleted. This action cannot be cancelled. Are you sure you want to continue ?', ' et tous ces personnages seront supprimés. Cette action est irréversible. ëtes vous certains de vouloir continuer ?');
 
 -- --------------------------------------------------------
 

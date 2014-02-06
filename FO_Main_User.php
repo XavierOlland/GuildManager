@@ -28,6 +28,25 @@ include('resources/language.php');
 $id = $_GET['user'];
 $action = $_GET['action'];
 
+//Delete / Suppression
+if ( $action=='delete' ){ $actionresult=0;
+//Characters / Personnages
+$sql1="DELETE FROM ".$gm_prefix."character WHERE user_ID='$id'"; 
+if (!mysql_query($sql1,$con)){$actionresult=1;} 
+//Raid
+$sql2="DELETE FROM ".$gm_prefix."raid_presence WHERE user_ID='$id'";
+if (!mysql_query($sql2,$con)){$actionresult=2;} 
+$sql3="DELETE FROM ".$gm_prefix."raid_absence WHERE user_ID='$id'";
+if (!mysql_query($sql3,$con)){$actionresult=3;} 
+//User information / Information utilisateur
+$sql4="DELETE FROM ".$gm_prefix."userinfo WHERE user_ID='$id'";
+if (!mysql_query($sql4,$con)){$actionresult=4;}  
+if ($actionresult > 0 ) {echo $lng[g__error_record]." ($actionresult)<br />";} 
+else { header( 'Location: index.php'); die(); }; 
+  
+};
+
+
 //Start of html page / Début du code html
 echo "
 <html>
@@ -143,7 +162,11 @@ echo "
 						</div>
 						</td>
 					</tr>
-					<tr><td></td><td><input type='submit' value='".$lng[g__save]."' ".$disabled."/></td></tr>
+					<tr><td></td><td><input type='submit' value='".$lng[g__save]."' ".$disabled."/>";
+					//Suppress user / Suppression de l'utilisateur
+					if (in_array($user->data['group_id'],$cfg_groups_backoffice)){ 
+					echo " <a class='Menu' href='FO_Main_User.php?user=".$id."&action=delete' onclick=\"return confirm('".$lng[p_FO_Main_User_warning_1].$player.$lng[p_FO_Main_User_warning_2]."');\" >".$lng[g__delete]."</a>"; };
+					echo "</td></tr>
 				</table>
 				</form>
 			</div>
@@ -176,7 +199,7 @@ echo "
 		<div class='Copyright'>".$lng[g__copyright]."</div>
 	</div>
 <script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
-<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>
+<script src=\"resources/js/Menu_Match.js\"></script>
 </body>
 </html>"; } 
 

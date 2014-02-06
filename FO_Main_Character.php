@@ -122,7 +122,7 @@ echo "
 		<div class='Copyright'>".$lng[g__copyright]."</div>
     </div>
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
-	<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>
+	<script   src=\"resources/js/Menu_Match.js\"></script>
 </body>
 </html>"; }
 //Non authorized user / utilisateur non autorisé

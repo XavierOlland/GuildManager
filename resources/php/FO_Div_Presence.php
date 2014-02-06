@@ -59,7 +59,7 @@ echo "<tr>
         </tr>";  } ;
 echo "</table>
 
-<script type=\"text/javascript\">
+<script >
 	function deletePresence(id,dateSql){   
 				$(\"#event\").load(\"resources/php/FO_Div_Event.php?user_ID=$usertest&type=day&id=0&date=\" + dateSql  );
 				$(\"#presence\").load(\"resources/php/FO_Div_Presence.php?user_ID=$usertest&delete=\" + id);

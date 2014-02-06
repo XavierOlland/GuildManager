@@ -59,7 +59,7 @@ $result1=mysql_query($sql1);
  }
 ;
 echo "
-<script type=\"text/javascript\"> 
+<script > 
 $('#module').submit(function () {
  sendmodule();
  return false;

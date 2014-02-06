@@ -42,8 +42,9 @@ while( $result=mysql_fetch_row(mysql_query("SELECT raid_event_ID FROM ".$gm_pref
 //Registering player
 
 if ($_POST['action']=='join'){ 
+if ( strlen($_POST[character_ID]) == '0') { echo $lng[g__error_character] ; } else {
 $sql1="INSERT INTO ".$gm_prefix."raid_presence (user_ID, dateEvent, character_ID ) VALUES ('$usertest','$sqldate','$_POST[character_ID]' )"; 
-if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_record];} ; };
+if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_record]; }; }; };
 
 //Retrieving event information
 $sql="SELECT r.raid_event_ID, r.event, r.map, r.time, u.username,r.comment 
@@ -64,28 +65,30 @@ echo"<h3>".$title."</h3><br />
      <td>".$lng[t_raid_event_comment]." :<br /> ".$result[5]."</td></tr>
      <tr></tr>";
      if ($cfg_calendar_mode == 'Presence'){ 
-     $sql = "SELECT * FROM ".$gm_prefix."raid_presence WHERE dateEvent='$sqldate' AND user_ID=$usertest";
-     $result=mysql_query($sql); 
-     $num_rows = mysql_num_rows($result);
-  
-     if ($num_rows == 0) { echo"<tr class='top'><td colspan='2'>
-     <select id=\"character_ID\" >";
-$sql="SELECT a.character_ID, a.name, a.main
-FROM ".$gm_prefix."character AS a 
-WHERE a.user_ID = ".$usertest." 
-ORDER BY a.main DESC, a.param_ID_profession";
-$list=mysql_query($sql);
-while($result=mysql_fetch_array($list))
-{ echo "<option value='".$result['character_ID']."'";
-if ($result['main']==1){ echo "selected"; };
-echo " > ".$result['name']."</option>";
-};
-echo "</select>
-<input type='button' value='".$lng[p_FO_Div_Event_join]."' onclick=\"joinEvent()\" href='#'>
-     </td><tr>";} 
-
-     };
-
+		$sql = "SELECT * FROM ".$gm_prefix."raid_presence WHERE dateEvent='$sqldate' AND user_ID=$usertest";
+		$list=mysql_query($sql); 
+		$num_rows = mysql_num_rows($list);
+		
+		if ($num_rows == 0) { 
+			$sql="SELECT a.character_ID, a.name, a.main
+			FROM ".$gm_prefix."character AS a 
+			WHERE a.user_ID = ".$usertest." 
+			ORDER BY a.main DESC, a.param_ID_profession";
+			
+			$list=mysql_query($sql);
+			$num_rows = mysql_num_rows($list);
+			
+			if ($num_rows == 0) { echo "<tr class='top'><td colspan='2'><a class='menu' href='FO_Main_CharacterEdit.php?action=new'>".$lng[p_FO_Div_Event_a_1]."</a></td></tr>"; }
+			else { echo "<tr class='top'><td colspan='2'>
+				<select id=\"character_ID\" >";
+				while($result=mysql_fetch_array($list))
+				{ echo "<option value='".$result['character_ID']."'";
+				if ($result['main']==1){ echo "selected"; }; echo " > ".$result['name']."</option>"; };
+				echo "</select>
+				<input type='button' value='".$lng[p_FO_Div_Event_join]."' onclick=\"joinEvent()\" href='#'>
+				</td></tr>"; };
+		};
+	};
 if ($cfg_calendar_mode == 'Presence'){ 
 $sql = "SELECT CASE WHEN s.session_time > (s.session_time-3600) THEN 'Online' ELSE 'Offline' END AS online, 
 u.user_ID, u.username,c.character_ID, c.name, c.param_ID_profession, p1.text_ID, p1.color
@@ -134,7 +137,7 @@ echo"
 </td></tr></table>
 <script src='resources/style/jquery.min.js'></script> 
 <script src='resources/style/jquery-ui.js'></script>
-<script type=\"text/javascript\">
+<script>
 	function joinEvent(){   
 		$.ajax({
 			type: \"POST\",
@@ -145,12 +148,10 @@ echo"
 			 $(\"#presence\").load(\"resources/php/FO_Div_Presence.php?user_ID=$usertest\");
 				$(\"#event\").html(html);
 			}
-		});
-		
-		}
-	
-	</script>
-<script type=\"text/javascript\">
+		});		
+		}	
+</script>
+<script>
 	function createParties(){   
 		$.ajax({
 			type: \"POST\",
@@ -162,11 +163,9 @@ echo"
 				$('#members').hide( 'blind' );
 				$('#parties').show( 'blind' );
 			}
-		});
-		
-		}
-	
-	</script>
+		});		
+		}	
+</script>
 
 ";
 };

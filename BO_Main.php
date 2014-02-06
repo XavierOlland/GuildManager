@@ -69,11 +69,11 @@ echo "
 	//Scripts
 	//Loading module / chargement des modules 
 	echo "
-	<script type=\"text/javascript\">$('#result').load(\"resources/php/BO_Div_Calendar.php?date=".$date."\");</script>";
+	<script >$('#result').load(\"resources/php/BO_Div_Calendar.php?date=".$date."\");</script>";
 	//Match Up
 	echo "
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
-	<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>  
+	<script src=\"resources/js/Menu_Match.js\"></script>  
 </body>
 </html>"; }
 //Non authorized user / utilisateur non autorisé
