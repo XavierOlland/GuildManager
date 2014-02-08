@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mysql51-107.perso
--- Generation Time: Feb 06, 2014 at 02:04 PM
+-- Generation Time: Feb 08, 2014 at 02:49 PM
 -- Server version: 5.1.66
 -- PHP Version: 5.3.8
 
@@ -376,7 +376,14 @@ CREATE TABLE IF NOT EXISTS `gm_raid_event` (
   `comment` varchar(1000) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`raid_event_ID`),
   KEY `dateRaid` (`dateRaid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `gm_raid_event`
+--
+
+INSERT INTO `gm_raid_event` (`raid_event_ID`, `dateRaid`, `time`, `map`, `color`, `event`, `user_ID_leader`, `comment`) VALUES
+(0, '2014-02-08', '21-23', 'Home', '#000066', 'Raid', 0, '');
 
 -- --------------------------------------------------------
 
