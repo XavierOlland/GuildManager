@@ -46,6 +46,7 @@ if ($date == '2012-08-31'){
 					INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
 					LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=a.user_ID
 					WHERE e.dateEvent='$date' 
+					GROUP BY a.character_ID
 					ORDER BY p.partyOrder" ; }; 
 					$list=mysql_query($sql);
 					$count=mysql_num_rows($list);

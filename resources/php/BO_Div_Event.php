@@ -37,52 +37,52 @@ $today = date('Y-m-d', time());
 if( $action == 'delete')
 {
 $sql1="DELETE FROM ".$gm_prefix."raid_event WHERE raid_event_ID='$id'"; 
-if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_delete];}
-else {
-echo "
-<script >$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
-<p class='red'>".$lng[p_BO_Div_Event_p_1]."</p><br />
-<p>".$lng[p_BO_Div_Event_p_2]."</p>";
-}
+	if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_delete];}
+	else {
+		echo "
+		<script>$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
+		<p class='red'>".$lng[p_BO_Div_Event_p_1]."</p><br />
+		<p>".$lng[p_BO_Div_Event_p_2]."</p>";
+	}
  ; }
 else {
 	if( $action == 'update'){
-	$sql0="SELECT raid_event_id FROM ".$gm_prefix."raid_event WHERE dateRaid='$_POST[dateRaid]' AND raid_event_ID!=$id";
-	$list0=mysql_query($sql0);
-	$count=mysql_num_rows($list0);
-	if( $count != 0 ){
-		echo "<p class='red'>".$lng[p_BO_Div_Event_p_3]."</p><br />"; 
-							}
+		$sql0="SELECT raid_event_id FROM ".$gm_prefix."raid_event WHERE dateRaid='$_POST[dateRaid]' AND raid_event_ID!=$id";
+		$list0=mysql_query($sql0);
+		$count=mysql_num_rows($list0);
+		if( $count != 0 ){ echo "<p class='red'>".$lng[p_BO_Div_Event_p_3]."</p><br />"; }
 				
-	else {	
-		if ($id == 0){
-			$sql1="INSERT INTO ".$gm_prefix."raid_event ( dateRaid, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateRaid]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
-			if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_create];}
-		else { $id = mysql_insert_id();
-			echo "
-			<script >$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
-			<p class='red'>".$lng[p_BO_Div_Event_p_4]."</p><br />";
-			};}	
-		else {
-			$sql1="UPDATE ".$gm_prefix."raid_event SET dateRaid='$_POST[dateRaid]', time='$_POST[time]', map='$_POST[map]', color='$_POST[color]', event='$_POST[event]', user_ID_leader='$_POST[user_ID_leader]', comment='$_POST[comment]' WHERE raid_event_ID='$id'"; 
-		if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_create];}
-		else { 
-			echo "
-			<script >$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
-			<p class='red'>".$lng[p_BO_Div_Event_p_4]."</p><br />";
-			};}	;
+		else {	
+			if ($id == 0){
+				$sql1="INSERT INTO ".$gm_prefix."raid_event ( dateRaid, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateRaid]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
+				if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_create];}
+				else { $id = mysql_insert_id();
+					echo "
+					<script >$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
+					<p class='red'>".$lng[p_BO_Div_Event_p_4]."</p><br />";
+				};
+			}	
+			else {
+				$sql1="UPDATE ".$gm_prefix."raid_event SET dateRaid='$_POST[dateRaid]', time='$_POST[time]', map='$_POST[map]', color='$_POST[color]', event='$_POST[event]', user_ID_leader='$_POST[user_ID_leader]', comment='$_POST[comment]' WHERE raid_event_ID='$id'"; 
+				if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_create];}
+				else { 
+					echo "
+					<script >$(\"#result\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");</script>
+					<p class='red'>".$lng[p_BO_Div_Event_p_4]."</p><br />";
+				};
+			};
 		
 		};
 	};
 }; 
- 
-if ($id == 0){echo "<script >$(\"#delete\").hide()</script>";} else {echo "<script >$(\"#delete\").show()</script>";};
 
 //Retrieving event information
+
 $sql="SELECT r.raid_event_ID,  r.event, r.map, r.color, r.time, u.username,r.comment
       FROM ".$gm_prefix."raid_event AS r 
       LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=r.user_ID_leader
       WHERE r.raid_event_ID=$id";
+	  echo $sql;
 $list=mysql_query($sql); 
 while( $result=mysql_fetch_row($list))
 {
@@ -114,7 +114,7 @@ echo "<form name='raidevent' id='raidevent' method='POST' action='' onsubmit=\"r
      <tr class='top'>
       <td><p>".$lng[t_raid_event_leader]." :</p></td>
       <td><select name='user_ID_leader' class='p'>";
-      $sqlC="SELECT u.username, u.user_ID FROM ".$table_prefix."_users AS u INNER JOIN ".$gm_prefix."userinfo AS i ON i.user_ID=u.user_ID WHERE i.commander=1";
+      $sqlC="SELECT u.username, u.user_ID FROM ".$table_prefix."users AS u INNER JOIN ".$gm_prefix."userinfo AS i ON i.user_ID=u.user_ID WHERE i.commander=1";
       $listC=mysql_query($sqlC);
 while($resultC=mysql_fetch_array($listC))
 { echo "<option value='".$resultC['user_ID']."' " ;
@@ -161,13 +161,14 @@ while($result=mysql_fetch_array($list))
 <td><a class='table' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
 <td><a class='table' href='FO_Main_User.php?user=".$result['user_ID']."'>".$result['username']."</a></td>
 </tr>"; };
-echo"</table></td></tr></table>
+echo"</table></td></tr></table>";
 
 
 
 
-
-<script >
+if ($id == 0){echo "<script>$(\"#delete\").hide()</script>";} else {echo "<script >$(\"#delete\").show()</script>";};
+echo "
+<script>
 $('#raidevent').submit(function(event){   
 		$.ajax({
 			type: \"POST\",
@@ -181,12 +182,12 @@ $('#raidevent').submit(function(event){
  });
 
 	</script>
-<script >
+<script>
 	function deleteEvent(id){
   $(\"#event\").load(\"resources/php/BO_Div_Event.php?date=$sqldate&action=delete&id=\" + id);
   }
 </script>
-<script > $(function() { $( \"#dateEvent\" ).datepicker({ 
+<script> $(function() { $( \"#dateEvent\" ).datepicker({ 
 dateFormat: \"DD d MM\",  altField: \"#hiddenDateEvent\",
 altFormat: \"yy-mm-dd\" }); });</script>
 ";

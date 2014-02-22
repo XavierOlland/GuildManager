@@ -43,8 +43,10 @@ while( $result=mysql_fetch_row(mysql_query("SELECT raid_event_ID FROM ".$gm_pref
 
 if ($_POST['action']=='join'){ 
 if ( strlen($_POST[character_ID]) == '0') { echo $lng[g__error_character] ; } else {
+$num_rows = mysql_num_rows(mysql_query("SELECT * FROM ".$gm_prefix."raid_presence WHERE user_ID='$usertest' AND dateEvent='$sqldate'"));
+if ($num_rows = 0) {
 $sql1="INSERT INTO ".$gm_prefix."raid_presence (user_ID, dateEvent, character_ID ) VALUES ('$usertest','$sqldate','$_POST[character_ID]' )"; 
-if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_record]; }; }; };
+if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_record]; }; }; }; };
 
 //Retrieving event information
 $sql="SELECT r.raid_event_ID, r.event, r.map, r.time, u.username,r.comment 
