@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mysql51-107.perso
--- Generation Time: Feb 08, 2014 at 02:49 PM
+-- Generation Time: Feb 27, 2014 at 06:01 PM
 -- Server version: 5.1.66
 -- PHP Version: 5.3.8
 
@@ -46,10 +46,10 @@ CREATE TABLE IF NOT EXISTS `gm_character` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gm_dictionnary`
+-- Table structure for table `gm_dictionary`
 --
 
-CREATE TABLE IF NOT EXISTS `gm_dictionnary` (
+CREATE TABLE IF NOT EXISTS `gm_dictionary` (
   `dictionnary_ID` int(11) NOT NULL AUTO_INCREMENT,
   `variable_name` varchar(254) COLLATE utf8_bin NOT NULL,
   `entity` varchar(254) COLLATE utf8_bin NOT NULL,
@@ -61,13 +61,13 @@ CREATE TABLE IF NOT EXISTS `gm_dictionnary` (
   UNIQUE KEY `dictionnary_ID` (`dictionnary_ID`),
   KEY `entity_name` (`entity_name`),
   KEY `entity` (`entity`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=167 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=171 ;
 
 --
--- Dumping data for table `gm_dictionnary`
+-- Dumping data for table `gm_dictionary`
 --
 
-INSERT INTO `gm_dictionnary` (`dictionnary_ID`, `variable_name`, `entity`, `entity_name`, `table_ID`, `table_column_name`, `en_EN`, `fr_FR`) VALUES
+INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entity_name`, `table_ID`, `table_column_name`, `en_EN`, `fr_FR`) VALUES
 (1, 'day_0', 'table', 'param', 28, NULL, 'Friday', 'Vendredi'),
 (2, 'day_1', 'table', 'param', 22, NULL, 'Saturday', 'Samedi'),
 (3, 'day_2', 'table', 'param', 23, NULL, 'Sunday', 'Dimanche'),
@@ -186,8 +186,8 @@ INSERT INTO `gm_dictionnary` (`dictionnary_ID`, `variable_name`, `entity`, `enti
 (116, 'userinfo_comment', 'table', 'userinfo', NULL, NULL, 'Comment', 'Commentaire'),
 (117, 'FO_Main_Raid_h2_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Raids calendar', 'Calendrier des raids'),
 (118, 'FO_Main_Raid_p_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Click on an event to display its details here.', 'Cliquez sur un événement pour afficher le détail ici.'),
-(119, 'FO_Main_Raid_h5_1', 'page', 'FO_Main_Raid', NULL, NULL, 'My presence', 'Mes présences'),
-(120, 'FO_Main_Raid_h5_2', 'page', 'FO_Main_Raid', NULL, NULL, 'My absence', 'Mes absences'),
+(119, 'FO_Div_Presence_h5_1', 'page', 'FO_Div_Presence', NULL, NULL, 'My presence', 'Mes présences'),
+(120, 'FO_Div_Presence_h5_2', 'page', 'FO_Div_Presence', NULL, NULL, 'My absence', 'Mes absences'),
 (121, 'FO_Main_Raid_h6_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Register an absence', 'Enregistrer une absence'),
 (122, 'FO_Div_Absence_h6_1', 'page', 'FO_Div_Absence', NULL, NULL, 'Registered absence', 'Absence prévues'),
 (123, '_error_delete', 'generic', NULL, NULL, NULL, 'Error while deleting.', 'Erreur lors de la suppression.'),
@@ -224,7 +224,7 @@ INSERT INTO `gm_dictionnary` (`dictionnary_ID`, `variable_name`, `entity`, `enti
 (154, 'FO_Div_Register_td_3', 'generic', 'FO_Div_Register', NULL, NULL, 'Stay connected', 'Connexion automatique'),
 (155, 'FO_Div_Register_td_4', 'generic', 'FO_Div_Register', NULL, NULL, 'Connection', 'Connexion'),
 (156, 'FO_Div_Register_h3_1', 'generic', 'FO_Div_Register', NULL, NULL, 'Want to join ?', 'Vous voulez nous rejoindre ?'),
-(157, 'FO_Div_Register_p_2', 'generic', 'FO_Div_Register', NULL, NULL, 'Register', 'S''enregistrer'),
+(157, 'FO_Div_Register_p_2', 'generic', 'FO_Div_Register', NULL, NULL, 'Register', 'S\\''enregistrer'),
 (158, 'BO_Div_Event_p_5', 'page', 'BO_Div_Event', NULL, NULL, 'Participating', 'Membres présents'),
 (159, 'FO_Div_Event_a_1', 'page', 'FO_Div_Event', NULL, NULL, 'You need to register a character prior to joining the event.', 'Vous devez enregistrer un personnage pour participer aux évènements.'),
 (160, '_red', 'generic', '', NULL, NULL, 'Red', 'Rouge'),
@@ -232,8 +232,12 @@ INSERT INTO `gm_dictionnary` (`dictionnary_ID`, `variable_name`, `entity`, `enti
 (162, '_green', 'generic', '', NULL, NULL, 'Green', 'Vert'),
 (163, '_gold', 'generic', '', NULL, NULL, 'Gold', 'Doré'),
 (164, '_error_character', 'generic', NULL, NULL, NULL, 'You have to select a character in order to join the event.', 'Vous devez sélectionner un personnage pour participer à l''évènement.'),
-(165, 'FO_Main_User_warning_1', 'page', 'FO_Main_User', NULL, NULL, 'User ', 'L''utilisateur '),
-(166, 'FO_Main_User_warning_2', 'page', 'FO_Main_User', NULL, NULL, ' and all his character will be deleted. This action cannot be cancelled. Are you sure you want to continue ?', ' et tous ces personnages seront supprimés. Cette action est irréversible. ëtes vous certains de vouloir continuer ?');
+(165, 'FO_Main_User_warning_1', 'page', 'FO_Main_User', NULL, NULL, 'User ', 'L\\''utilisateur '),
+(166, 'FO_Main_User_warning_2', 'page', 'FO_Main_User', NULL, NULL, ' and all his character will be deleted. This action cannot be cancelled. Are you sure you want to continue ?', ' et tous ces personnages seront supprimés. Cette action est irréversible. ëtes vous certains de vouloir continuer ?'),
+(167, '_site', 'generic', NULL, NULL, NULL, 'Back to website', 'Retour au site'),
+(168, 'FO_Div_Event_leave', 'page', 'FO_Div_Event', NULL, NULL, 'Leave event', 'Quitter l\\''évènement'),
+(169, '_del', 'generic', NULL, NULL, NULL, 'Del.', 'Suppr.'),
+(170, 'FO_Div_Event_change', 'page', 'FO_Div_Event', NULL, NULL, 'Change character', 'Changer de personnage');
 
 -- --------------------------------------------------------
 
@@ -349,19 +353,6 @@ INSERT INTO `gm_profession` (`profession_ID`, `name`, `param_ID`, `user_ID_coach
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gm_raid_absence`
---
-
-CREATE TABLE IF NOT EXISTS `gm_raid_absence` (
-  `raid_absence_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `user_ID` int(11) NOT NULL,
-  `dateAbsence` date NOT NULL,
-  UNIQUE KEY `raid_absent_ID` (`raid_absence_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `gm_raid_event`
 --
 
@@ -388,15 +379,17 @@ INSERT INTO `gm_raid_event` (`raid_event_ID`, `dateRaid`, `time`, `map`, `color`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gm_raid_presence`
+-- Table structure for table `gm_raid_player`
 --
 
-CREATE TABLE IF NOT EXISTS `gm_raid_presence` (
-  `raid_presence_ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `gm_raid_player` (
+  `raid_player_ID` int(11) NOT NULL AUTO_INCREMENT,
   `user_ID` int(11) NOT NULL,
   `dateEvent` date NOT NULL,
   `character_ID` int(11) NOT NULL,
-  UNIQUE KEY `raid_presence_ID` (`raid_presence_ID`)
+  `presence` tinyint(1) NOT NULL,
+  UNIQUE KEY `raid_presence_ID` (`raid_player_ID`),
+  KEY `presence` (`presence`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -30,7 +30,7 @@ $sqli="SELECT a.param_ID, a.text_ID, a.image, a.color, d.$local,
         FROM ".$gm_prefix."profession AS p
         LEFT JOIN ".$gm_prefix."param AS a ON a.param_ID=p.param_ID
         LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=p.user_ID_coach
-		LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=a.param_ID AND entity_name='param_plural'
+		LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=a.param_ID AND entity_name='param_plural'
         WHERE p.param_ID='$id'" ;
 $listi=mysql_query($sqli);
 while($resulti=mysql_fetch_row($listi))

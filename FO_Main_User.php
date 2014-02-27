@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -56,7 +56,7 @@ echo "
 	//Page specific <head> elements / Eléments <head> spécifique à la page
 	echo "
 	<style> body {background-image:url('resources/images/Perso_BG.jpg');background-size:100%; background-repeat:no-repeat;}"; 
-	if ( $cfg_calendar_mode='Presence' ){ echo "#absence {display:none;}"; };
+
 	echo "</style>
 </head>
 
@@ -131,7 +131,7 @@ echo "
 				<h3>".$lng[FO_Main_User_h3_1]."</h3>
 				<table>
 					<tr>
-						<td>".$lng[t_userinfo_commander]." :</td><td><input type='checkbox' name='commander' value'1' ".$disabled; if ($userinfo['commander']) { echo "checked" ;} ; echo "/></td></tr>
+						<td>".$lng[t_userinfo_commander]." :</td><td><input type='checkbox' name='commander' value'1' "; if ($userinfo['commander']) { echo "checked " ;} ; echo $disabled."/></td></tr>
 					<tr class='top'>
 						<td>".$lng[t_userinfo_comment]." :</td>
 						<td><textarea form='user' id='comment' name='comment' rows='4' cols='35' ".$disabled.">".$userinfo['comment']."</textarea></td>
@@ -141,22 +141,22 @@ echo "
 							<h4>".$lng[FO_Main_User_h4_1]."</h4>
 							<table>
 								<tr>
-									<th>".$lng[t_param_day_0]."</th>
-									<th>".$lng[t_param_day_1]."</th>
-									<th>".$lng[t_param_day_2]."</th>
-									<th>".$lng[t_param_day_3]."</th>
-									<th>".$lng[t_param_day_4]."</th>
-									<th>".$lng[t_param_day_5]."</th>
-									<th>".$lng[t_param_day_6]."</th>
+									<th>".$lng[t_day_0]."</th>
+									<th>".$lng[t_day_1]."</th>
+									<th>".$lng[t_day_2]."</th>
+									<th>".$lng[t_day_3]."</th>
+									<th>".$lng[t_day_4]."</th>
+									<th>".$lng[t_day_5]."</th>
+									<th>".$lng[t_day_6]."</th>
 								</tr>
 								<tr>
-									<td class='center'><input type='checkbox' name='friday' value='1' ".$disabled; if ($userinfo['friday']) { echo "checked" ;} ;echo "/></td>
-									<td class='center'><input type='checkbox' name='saturday' value='1' ".$disabled ; if ($userinfo['saturday']) { echo "checked" ;} ;echo "/></td>
-									<td class='center'><input type='checkbox' name='sunday' value='1' ".$disabled; if ($userinfo['sunday']) { echo "checked" ;} ;echo "/></td>
-									<td class='center'><input type='checkbox' name='monday' value='1' ".$disabled; if ($userinfo['monday']) { echo "checked" ;} ;echo "/></td>
-									<td class='center'><input type='checkbox' name='tuesday' value='1' ".$disabled; if ($userinfo['tuesday']) { echo "checked" ;} ;echo "/></td>
-									<td class='center'><input type='checkbox' name='wednesday' value='1' ".$disabled; if ($userinfo['wednesday']) { echo "checked" ;} ;echo "/></td>
-									<td class='center'><input type='checkbox' name='thursday' value='1' ".$disabled; if ($userinfo['thursday']) { echo "checked" ;} ;echo "/></td>
+									<td class='center'><input type='checkbox' name='friday' value='1' "; if ($userinfo['friday']) { echo "checked " ;} ; echo $disabled."/></td>
+									<td class='center'><input type='checkbox' name='saturday' value='1' "; if ($userinfo['saturday']) { echo "checked " ;} ; echo $disabled."/></td>
+									<td class='center'><input type='checkbox' name='sunday' value='1' "; if ($userinfo['sunday']) { echo "checked " ;} ; echo $disabled."/></td>
+									<td class='center'><input type='checkbox' name='monday' value='1' "; if ($userinfo['monday']) { echo "checked " ;} ; echo $disabled."/></td>
+									<td class='center'><input type='checkbox' name='tuesday' value='1' "; if ($userinfo['tuesday']) { echo "checked " ;} ; echo $disabled."/></td>
+									<td class='center'><input type='checkbox' name='wednesday' value='1' "; if ($userinfo['wednesday']) { echo "checked " ;} ; echo $disabled."/></td>
+									<td class='center'><input type='checkbox' name='thursday' value='1' "; if ($userinfo['thursday']) { echo "checked " ;} ; echo $disabled."/></td>
 								</tr>
 							</table>
 						</div>

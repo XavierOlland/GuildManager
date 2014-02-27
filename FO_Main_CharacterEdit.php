@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -105,7 +105,7 @@ echo "
 				<table>
 					<tr><td>".$lng[t_character_name]." :</td><td><input type='text' name='name' value='".$perso['name']."' ".$disabled." /></td><td></td></tr>
 					<tr><td>".$lng[t_character_race]." :</td><td><select name='race' ".$disabled.">";
-					$sqlr="SELECT p.param_ID, d.$local AS value FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=p.param_ID AND entity_name='param' WHERE type = 'race'";
+					$sqlr="SELECT p.param_ID, d.$local AS value FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=p.param_ID AND entity_name='param' WHERE type = 'race'";
 					$listr=mysql_query($sqlr);      
 					while($resultr=mysql_fetch_array($listr))
 					{ echo "<option value='".$resultr['param_ID']."' " ;
@@ -114,7 +114,7 @@ echo "
 					};
 					echo "</select></td><td></td></tr>
 					<tr><td>".$lng[t_character_profession]." : </td><td><select name='profession' ".$disabled.">";
-					$sqlp="SELECT p.param_ID, d.$local AS value FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=p.param_ID AND entity_name='param' WHERE type = 'profession'";
+					$sqlp="SELECT p.param_ID, d.$local AS value FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=p.param_ID AND entity_name='param' WHERE type = 'profession'";
 					$listp=mysql_query($sqlp);
 					while($resultp=mysql_fetch_array($listp))
 					{ echo "<option value='".$resultp['param_ID']."' " ;
@@ -126,11 +126,11 @@ echo "
 					<tr><td>".$lng[t_character_level]." :</td><td><input type='text' name='level' value='".$perso['level']."' ".$disabled."/></td><td></td></tr>
 					<tr><td>".$lng[t_character_level_wvw]." :</td><td><input type='text' name='level_wvw' value='".$perso['level_wvw']."' ".$disabled."/></td><td></td></tr>
 					<tr><td>".$lng[t_character_gameplay]." :</td><td><select name='gameplay' ".$disabled.">";
-					$sqlg="SELECT p.param_ID, d.$local AS value FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=p.param_ID AND entity_name='param'  WHERE type = 'gameplay'";
+					$sqlg="SELECT p.param_ID, d.$local AS value FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=p.param_ID AND entity_name='param'  WHERE type = 'gameplay'";
 					$listg=mysql_query($sqlg);
 					while($resultg=mysql_fetch_array($listg))
 					{ echo "<option value='".$resultg['param_ID']."' " ;
-					 if ($resultg['param_ID']==$persg['param_ID_gameplay']) { echo "selected" ;} ;
+					 if ($resultg['param_ID']==$perso['param_ID_gameplay']) { echo "selected" ;} ;
 					 echo ">".$resultg['value']."</option>" ;
 					};
 					echo "</select>
@@ -212,7 +212,7 @@ echo "
 				</table><br />
 					<a class='right' href='FO_Main_CharacterEdit.php?action=new'>".$lng[p_FO_Main_CharacterEdit_a_1]."</a><br />" ;
 					if ( $action != 'new' )  {
-$profession = mysql_result(mysql_query("SELECT $local FROM ".$gm_prefix."dictionnary WHERE table_ID='".$perso['param_ID_profession']."' AND entity_name='param_plural'"),0);
+$profession = mysql_result(mysql_query("SELECT $local FROM ".$gm_prefix."dictionary WHERE table_ID='".$perso['param_ID_profession']."' AND entity_name='param_plural'"),0);
 
 //of the same profession / de la même profession
 echo "
@@ -238,7 +238,7 @@ echo "
 		<div class='Copyright'>".$lng[g__copyright]."</div>
 	</div>
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
-	<script   src=\"resources/js/Menu_Match.js\"></script>
+	<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script>
 </body>
 </html>" ;}  
 //Non authorized user / utilisateur non autorisé

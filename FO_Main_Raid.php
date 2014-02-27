@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -61,30 +61,8 @@ echo "
 				//Event display / Affichage des évènements
 				echo "<div id='event'><p>".$lng[p_FO_Main_Raid_p_1]."</p></div>
 				<div id='parties'></div>";
-				//To come...
-				//if (in_array($user->data['group_id'],$cfg_groups_backoffice)){ 
-				//echo "<a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=$date');\" href='#'>".$lng[g__edit_mode]."</a>"; };
-			echo "</div>
-			<div class='Right'>";
-//Presence-Absence module / Module de gestion des présences-absence
-if ($cfg_calendar_mode == 'Presence'){
-//Mode de gestion "Présence"
-echo "<h5>".$lng[p_FO_Main_Raid_h5_1]."</h5>
-			<div id=\"presence\"></div>"; }
-else { 
-//Mode de gestion "Absence"
-echo "<h5>".$lng[p_FO_Main_Raid_h5_2]."</h5>
-			<h6>".$lng[p_FO_Main_Raid_h6_1]."</h6>
-			<form action=\"\" method=\"post\">
-			<table>
-				<tr><td>".$lng[g__date]." : </td><td><input style='width:100px' type=\"text\" id=\"dateEvent\" /></td></tr>
-				<tr><td></td><td><input style='width:100px' type=\"button\" name=\"submit\" id=\"submit\" value=\"".$lng[g__save]."\" onclick=\"saveAbsence()\"/></td></tr>
-			</table>
-			</form>
-			<div id=\"absence\"></div>";
-};
-echo "
-			</div>
+				echo "</div>
+			<div class='Right' id='right'></div>
 		</div>
 		<div class='Copyright'>".$lng[g__copyright]."</div>
 	</div>";
@@ -92,16 +70,16 @@ echo "
 //Match up score / Affichage des scores du match up
 echo "
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
-	<script   src=\"resources/js/Menu_Match.js\"></script> ";
+	<script type=\"text/javascript\"  src=\"resources/js/Menu_Match.js\"></script> ";
 //Loading module / chargement des modules 
 echo "
-	<script >
+	<script type=\"text/javascript\">
 	$('#result').load(\"resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=$date\");
-	$('#presence').load(\"resources/php/FO_Div_Presence.php?user_ID=".$usertest."\");
+	$('#right').load(\"resources/php/FO_Div_Presence.php?user_ID=$usertest\");
 	</script>";
 //Presence module form management / Gestion du formulaire de présence
 echo "
-	<script > $(function() { $( \"#dateEvent\" ).datepicker(); });</script>
+	<script type=\"text/javascript\"> $(function() { $( \"#dateEvent\" ).datepicker(); });</script>
 </body>
 </html>"; }
 //Non authorized user / utilisateur non autorisé

@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -26,32 +26,48 @@ include('../language.php');
 
 //locale variables / Variables locales
 $date = $_POST['dateEvent'];
+$sqlday = date('l', $date);
+$sqldate = date('Y\-m\-d', $date);
 $type = $_POST['type'];
+
 
 //Party prepartation / Préparation des groupes
 if ($date == '2012-08-31'){
-					$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID, c.translation, c.color, u.username 
-					FROM ".$gm_prefix."character AS a 
-					INNER JOIN ".$gm_prefix."param AS c ON c.param_ID=a.param_ID_profession 
-					INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
-					LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=a.user_ID
-					WHERE a.main=1 
-					ORDER BY p.partyOrder";
-					}
-					else{
-					$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID, c.translation, c.color, u.username 
-					FROM ".$gm_prefix."character AS a 
-					INNER JOIN ".$gm_prefix."raid_presence AS e ON e.character_ID=a.character_ID
-					INNER JOIN ".$gm_prefix."param AS c ON c.param_ID=a.param_ID_profession 
-					INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
-					LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=a.user_ID
-					WHERE e.dateEvent='$date' 
-					GROUP BY a.character_ID
-					ORDER BY p.partyOrder" ; }; 
-					$list=mysql_query($sql);
-					$count=mysql_num_rows($list);
-					$number=ceil($count/5);
-					$partyNum=1;$counter=1;
+	$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID, c.translation, c.color, u.username 
+	FROM ".$gm_prefix."character AS a 
+	INNER JOIN ".$gm_prefix."param AS c ON c.param_ID=a.param_ID_profession 
+	INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
+	LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=a.user_ID
+	WHERE a.main=1 
+	ORDER BY p.partyOrder";
+	}
+else {
+	$sql="SELECT x.user_ID, x.character_ID, x.name, x.text_ID, x.color
+	FROM 
+	(SELECT u.user_ID, c.character_ID, c.name, p1.text_ID, p1.color, p2.partyorder
+	FROM ".$table_prefix."users AS u
+	INNER JOIN ".$gm_prefix."raid_player AS r ON r.user_ID=u.user_ID 
+	INNER JOIN ".$gm_prefix."character AS c ON c.character_ID=r.character_ID 
+	INNER JOIN ".$gm_prefix."param AS p1 ON p1.param_ID=c.param_ID_profession
+	INNER JOIN ".$gm_prefix."profession AS p2 ON p2.param_ID=p1.param_ID
+	WHERE r.dateEvent='$sqldate' AND r.presence=1
+	UNION
+	SELECT  u.user_ID, c.character_ID, c.name, p1.text_ID, p1.color, p2.partyorder
+	FROM ".$table_prefix."users AS u
+	INNER JOIN ".$gm_prefix."userinfo AS m ON m.user_ID=u.user_ID
+	INNER JOIN ".$gm_prefix."character AS c ON c.user_ID=u.user_ID 
+	INNER JOIN ".$gm_prefix."param AS p1 ON p1.param_ID=c.param_ID_profession
+	INNER JOIN ".$gm_prefix."profession AS p2 ON p2.param_ID=p1.param_ID
+	WHERE m.$sqlday=1 AND c.main=1) AS x
+	WHERE x.user_ID NOT IN (SELECT user_ID FROM ".$gm_prefix."raid_player WHERE dateEvent='$sqldate' and presence=0)
+	GROUP BY x.user_ID
+	ORDER BY x.partyOrder" ; 
+	}; 
+	
+	$list=mysql_query($sql);
+	$count=mysql_num_rows($list);
+	$number=ceil($count/5); $number2=$number+$party_add;
+	$partyNum=1;$counter=1;
 
 echo " <head>
 <style>
@@ -60,31 +76,36 @@ li.party { margin: 0 0px 5px 0px; padding: 0px; width:100%}</style>
 <script>
 $(function() {
 $( \"";
-while ( $partyNum <= $number ){ echo "#party_".$partyNum; if($partyNum < $number){ echo ","; } ;  $partyNum++; }; $partyNum=1;
-echo "\" ).sortable({
+while ( $partyNum <= $number2 ){ echo "#party_".$partyNum; if($partyNum < $number2){ echo ","; } ;  $partyNum++; }; $partyNum=1;
+echo "\" ).sortable( {
 connectWith: \".link\"
 }).disableSelection();
 });
-</script></head>
-<h3>".$lng[p_FO_Div_Party_h3_1]."</h3>
+</script>
+</head>
 
+<h3>".$lng[p_FO_Div_Party_h3_1]."</h3>
 				<table>";
+				
 				    if ( $type == 'manuel'){
 					echo "<tr>";
-					while ( $partyNum <= $number ){ echo"<th>".$lng[p_FO_Div_Party_party]." $partyNum</th><td></td>"; $partyNum++; } ;
-					$partyNum=1;echo "</tr><tr class='top'>";
+					while ( $partyNum <= $number2 ){ echo"<th>".$lng[p_FO_Div_Party_party]." $partyNum</th><td></td>"; $partyNum++; } ;
+					$partyNum=1; echo "</tr><tr class='top'>";
 					while($result=mysql_fetch_array($list)){
 					if ( $counter == 1 ){ echo"<td><ul id='party_$partyNum' class='link'>"; $partyNum++; } ;
-					echo "
+						echo "
 						<li class=\"party\" style='background-color:".$result['color']."' ><img src='resources/images/".$result['text_ID']."_Icon.png'> ".$result['name']."</li>";
-					if ( $counter == 5 ){ echo "</ul></td><td></td>"; $counter=1; } else { $counter++; } ;
-					};
+					if ( $counter == 5 ){ echo "<li> - </li></ul></td><td></td>"; $counter=1; } else { $counter++; } ;
+					} ;
+					if ( $counter > 1 ){ echo "<li> - </li></ul></td><td></td>"; $counter=1; };
+					while ($partyNum <= $number2 ){ echo"<td><ul id='party_$partyNum' class='link'><li> - </li></ul></td><td></td>"; $partyNum++; };
+					
 					echo "</tr><tr><td style='height:auto' colspan='2'></td></tr>";}
 					else {
 					echo "<colgroup>
-						<col span='1' style='width:26px'>
-						<col style='width:auto'>
-					</colgroup><tr>";
+							<col span='1' style='width:26px'>
+							<col style='width:auto'>
+						  </colgroup><tr>";
 					while ( $partyNum <= $number ){ echo"<th colspan='2'>".$lng[p_FO_Div_Party_party]." $partyNum</th><td></td>"; $partyNum++; } ;
 					echo "</tr>";
 					while($result=mysql_fetch_array($list))

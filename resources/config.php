@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -48,10 +48,12 @@ $cfg_groups_backoffice = array('5','9');
 $cfg_title = 'Guild Manager';
 
 //Calendar variables / Variables du calendrier
-//Mode : Absence/Presence
-$cfg_calendar_mode = 'Presence';
+
 //Limit for event display in the past ('x day') / Limite d'affichage des événements passés en jours ('x day').
 $event_limit = '7 day';
 
+//Parties / Groupes
+//Add x parties during creation/ Ajouter x groupes lors de leurs création
+$party_add = '1';
 
 ?>

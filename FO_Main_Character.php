@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -95,7 +95,7 @@ echo "
 					while($result=mysql_fetch_array($list))
 					{ echo "
 					<tr style='background-color:".$result['color']."'>
-						<td><a onclick=\"$('#result').load('resources/php/FO_Div_Profession.php?id=".$result['param_ID_profession']."');$('#result').show();\" href='#'><img src='resources/images/".$result['text_ID']."_Icon.png'></a></td>
+						<td><a onclick=\"$('#result').load('resources/php/FO_Div_Profession.php?id=".$result['param_ID_profession']."');$('#result').show();\" href=\"javascript:void(0)\"><img src='resources/images/".$result['text_ID']."_Icon.png'></a></td>
 						<td><a class='table' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
 						<td>".$result['race']."</td>
 						<td><a class='table' href='FO_Main_Profession.php?id=".$result['param_ID_profession']."' >".$result['translation']."</a></td>

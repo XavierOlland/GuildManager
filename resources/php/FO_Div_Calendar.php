@@ -1,5 +1,5 @@
 <?php 
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -68,7 +68,7 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 	<tr>";
 
 	//Day ordering / Ordre des jours
-	$sql = "SELECT LEFT( d.$local, 1 ) FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=p.param_ID AND d.entity_name='param' WHERE TYPE = 'day' ORDER BY value";
+	$sql = "SELECT LEFT( d.$local, 1 ) FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=p.param_ID AND d.entity_name='param' WHERE TYPE = 'day' ORDER BY value";
 	$list=mysql_query($sql);
 	while($result=mysql_fetch_row($list))
 	{ echo "<td class='center' width=42>".$result[0]."</td>" ; };
@@ -92,13 +92,14 @@ if ( $year.'-'.$month.'-'.$day_num >= $event_limit_date ){
 $sqlr="SELECT r.raid_event_ID, r.map, r.color
 FROM ".$gm_prefix."raid_event AS r 
 WHERE r.dateRaid='$year-$month-$day_num'";
+
 $listr=mysql_query($sqlr); 
 if( mysql_num_rows($listr)>0)
 { while( $resultr=mysql_fetch_row($listr)) 
 { echo "<td class='center' style='background-color:".$resultr[2].";color:#FFFFFF;";
 if( $current_month == $month && $current_day == $day_num){echo "text-decoration:underline;border:solid 3px #606060";};
 echo"'>
-<a class='calendar' onclick=\"$('#parties').hide();$('#event').load('resources/php/FO_Div_Event.php?user_ID=$usertest&type=day&id=".$resultr[0]."&date=$computed_date');\" href='#'>".$day_num."</a></td>"; };}
+<a class='calendar' onclick=\"$('#parties').hide();$('#event').load('resources/php/FO_Div_Event.php?user_ID=$usertest&id=".$resultr[0]."&date=$computed_date&action=2');\" href=\"javascript:void(0)\">".$day_num."</a></td>"; };}
 
 else {echo "<td ";
 if( $current_month == $month && $current_day == $day_num){echo "style='border:solid 2px #8c1922'";};
@@ -124,9 +125,9 @@ echo "</tr>
 </tbody>
 <tfooter>
 <tr class='footer'>
-<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$prev."');$('#result').show();\" href='#'>".$lng[p_FO_Div_Calendar_a_1]."</a></td>
-<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$current_year."-".$current_month."-01');$('#result').show();\" href='#'>".$lng[p_FO_Div_Calendar_a_2]."</a></td>
-<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$next."');$('#result').show();\" href='#'>".$lng[p_FO_Div_Calendar_a_3]."</a></td>
+<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$prev."');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_FO_Div_Calendar_a_1]."</a></td>
+<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$current_year."-".$current_month."-01');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_FO_Div_Calendar_a_2]."</a></td>
+<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/FO_Div_Calendar.php?user_ID=$usertest&date=".$next."');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_FO_Div_Calendar_a_3]."</a></td>
 </tr>
 </tfooter>
 </table>

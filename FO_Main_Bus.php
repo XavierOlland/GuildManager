@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -47,7 +47,7 @@ echo "
 		$sql="SELECT d.$local AS translation, COUNT( a.character_ID )/$total AS num, c.color
 		FROM ".$gm_prefix."character AS a
 		INNER JOIN ".$gm_prefix."param AS c ON c.param_ID = a.param_ID_profession
-		LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=c.param_ID AND d.entity_name='param'
+		LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=c.param_ID AND d.entity_name='param'
 		WHERE a.main =1
 		GROUP BY c.param_ID " ;
 		$list=mysql_query($sql);
@@ -92,7 +92,7 @@ $(document).ready(function(){
 		$sql="SELECT d.$local AS translation, COUNT( a.character_ID )/$total AS num, c.color
 		FROM ".$gm_prefix."character AS a
 		INNER JOIN ".$gm_prefix."param AS c ON c.param_ID = a.param_ID_gameplay
-		LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=c.param_ID AND d.entity_name='param' 
+		LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=c.param_ID AND d.entity_name='param' 
 		WHERE a.main =1
 		GROUP BY c.param_ID " ;
 		$list=mysql_query($sql);
@@ -191,7 +191,7 @@ echo " ],
 					{ echo "
 					<tr style='background-color:".$resultp['color']."'>
 						<td><img src='resources/images/".$resultp['online'].".png'></td>
-						<td><a onclick=\"$('#result').load('resources/php/FO_Div_Profession.php?id=".$resultp['param_ID_profession']."');$('#result').show();\" href='#'>
+						<td><a onclick=\"$('#result').load('resources/php/FO_Div_Profession.php?id=".$resultp['param_ID_profession']."');$('#result').show();\" href=\"javascript:void(0)\">
 							<img src='resources/images/".$resultp['text_ID']."_Icon.png'></a></td>
 						<td><a class='table' href='FO_Main_CharacterEdit.php?character=".$resultp['character_ID']."'>".$resultp['name']."</a></td>
 						<td><a class='table' href='FO_Main_User.php?user=".$resultp['user_ID']."'>".$resultp['username']."</a></td>
@@ -210,7 +210,7 @@ echo " ],
 						<td colspan='10'>".$lng[p_FO_Main_Bus_td_1]."</td>
 					</tr>
 					<tr>
-						<td></td><td></td><td colspan='10'><a class='table' href='#'' onclick=\"createParties()\">".$lng[g__create_parties]."</a> <input type='radio' name='type' value='auto' checked='checked'>".$lng[g__auto]."
+						<td></td><td></td><td colspan='10'><a class='table' href=\"javascript:void(0)\"' onclick=\"createParties()\">".$lng[g__create_parties]."</a> <input type='radio' name='type' value='auto' checked='checked'>".$lng[g__auto]."
 <input type='radio' name='type' value='manuel'>".$lng[g__manual]."</td>
 					</tr>
 				</table>
@@ -226,13 +226,13 @@ echo " ],
 					<p class='right'>
 						<table class='right'>
 							<tr><td><img src='resources/images/Next.png' /></td>
-									<td><a class='mright' id='stat1_next' href='#'>".$lng[p_FO_Main_Bus_h6_2]."</a></td></tr></table></p>
+									<td><a class='mright' id='stat1_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_2]."</a></td></tr></table></p>
 				</div>
 
 				<div id='stat2'>
 					<h6>".$lng[p_FO_Main_Bus_h6_2]."</h6>
 					<div id='piechart2'></div>
-					<p class='right'><table class='right'><tr><td><img src='resources/images/Next.png' /></td><td><a class='mright' id='stat2_next' href='#'>".$lng[p_FO_Main_Bus_h6_1]."</a></td></tr></table></p>
+					<p class='right'><table class='right'><tr><td><img src='resources/images/Next.png' /></td><td><a class='mright' id='stat2_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_1]."</a></td></tr></table></p>
 				</div>
 			</div>
 		</div>

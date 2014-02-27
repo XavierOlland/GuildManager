@@ -1,5 +1,5 @@
 <?php 
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -63,7 +63,7 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 			<tr><th colspan=7> $title $year</th></tr>
 			<tr>";
 			//Day ordering / Ordre des jours
-			$sql = "SELECT LEFT( d.$local, 1 ) FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionnary AS d ON d.table_ID=p.param_ID AND d.entity_name='param' WHERE TYPE = 'day' ORDER BY value";
+			$sql = "SELECT LEFT( d.$local, 1 ) FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=p.param_ID AND d.entity_name='param' WHERE TYPE = 'day' ORDER BY value";
 			$list=mysql_query($sql);
 			while($result=mysql_fetch_row($list))
 			{ echo "<td class='center' width=42>".$result[0]."</td>" ; };
@@ -93,10 +93,10 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 			{ echo "<td class='center' style='background-color:".$resultr[2].";color:#FFFFFF;";
 			if( $current_month == $month && $current_day == $day_num){echo "text-decoration:underline;border:solid 3px #606060";};
 			echo"'>
-			<a class='calendar' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=".$resultr[0]."&date=$computed_date');$('#event').show();\" href='#'>".$day_num."</a></td>"; };}
+			<a class='calendar' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=".$resultr[0]."&date=$computed_date');$('#event').show();\" href=\"javascript:void(0)\">".$day_num."</a></td>"; };}
 			else {echo "<td class='center' ";
 			if( $current_month == $month && $current_day == $day_num){echo "style='border:solid 2px #8c1922;'";};
-			echo "><a style='text-decoration:none;color:#000000;' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=0&date=$computed_date');$('#event').show();\" href='#'>".$day_num."</a></td>"; };
+			echo "><a style='text-decoration:none;color:#000000;' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=0&date=$computed_date');$('#event').show();\" href=\"javascript:void(0)\">".$day_num."</a></td>"; };
 			}
 			//Day without event / Jour sans évènement
 			else {echo "<td class='center' >".$day_num."</td>"; };
@@ -112,9 +112,9 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 		</tbody>
 		<tfooter>
 			<tr class='footer'>
-				<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$prev."');$('#result').show();\" href='#'>".$lng[p_BO_Div_Calendar_a_1]."</a></td>
-				<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$year."-".$current_month."-01');$('#result').show();\" href='#'>".$lng[p_BO_Div_Calendar_a_2]."</a></td>
-				<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$next."');$('#result').show();\" href='#'>".$lng[p_BO_Div_Calendar_a_3]."</a></td>
+				<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$prev."');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_1]."</a></td>
+				<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$year."-".$current_month."-01');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_2]."</a></td>
+				<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$next."');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_3]."</a></td>
 			</tr>
 		</tfooter>
 	</table>

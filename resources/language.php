@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.3
+/*  Guild Manager v1.0.4
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 $sql="SELECT CONCAT(LEFT(entity,1),'_',variable_name) AS name, $local 
-FROM ".$gm_prefix."dictionnary 
+FROM ".$gm_prefix."dictionary 
 WHERE entity IN ( 'table' , 'generic' )";
 $result=mysql_query($sql);
 $lng = array();
@@ -25,7 +25,7 @@ while ($row = mysql_fetch_array($result)) { $lng[$row['name']] = $row[$local]; }
 
 $page = str_ireplace('.php','',basename($_SERVER['PHP_SELF']) );
 $sql="SELECT CONCAT(LEFT(entity,1),'_',variable_name) AS name, $local 
-FROM ".$gm_prefix."dictionnary 
+FROM ".$gm_prefix."dictionary 
 WHERE entity='page' AND entity_name='$page'";
 $result=mysql_query($sql);
 while ($row = mysql_fetch_array($result)) { $lng[$row['name']] = $row[$local]; };
