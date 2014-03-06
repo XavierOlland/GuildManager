@@ -29,7 +29,7 @@ $id = $_GET['user'];
 $action = $_GET['action'];
 
 //Delete / Suppression
-if ( $action=='delete' ){ $actionresult=0;
+if ( $action=='delete'  && is_numeric($id) && in_array($user->data['group_id'],$cfg_groups_backoffice) ){ $actionresult=0;
 //Characters / Personnages
 $sql1="DELETE FROM ".$gm_prefix."character WHERE user_ID='$id'"; 
 if (!mysql_query($sql1,$con)){$actionresult=1;} 

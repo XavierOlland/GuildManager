@@ -46,9 +46,10 @@ mysql_query("SET lc_time_names = '$local'");
 $sql="SELECT p.raid_player_ID, DATE_FORMAT(p.dateEvent,'%a %e.%m') AS dateEvent, p.dateEvent AS dateSql, c.name 
 FROM ".$gm_prefix."raid_player AS p
 INNER JOIN ".$gm_prefix."character AS c ON c.character_ID=p.character_ID
-WHERE p.user_ID = ".$usertest." AND presence=1
+WHERE p.user_ID = ".$usertest." AND presence=1 
+AND p.dateEvent >= DATE(now())
 ORDER BY p.dateEvent ASC";
-//AND p.dateEvent >= DATE(now())
+
 $list=mysql_query($sql);
 while($result=mysql_fetch_array($list))
 { $date = strtotime($result['dateSql']);
@@ -69,8 +70,9 @@ echo "</table>
 $sql="SELECT raid_player_ID, DATE_FORMAT(dateEvent,'%W %e %M') AS dateEvent
 FROM ".$gm_prefix."raid_player  
 WHERE user_ID = ".$usertest." AND presence=0
+AND dateEvent >= DATE(now())
 ORDER BY dateEvent ASC";
-//AND dateEvent >= DATE(now())
+
 
 $list=mysql_query($sql);
 while($result=mysql_fetch_array($list))
