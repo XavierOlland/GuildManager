@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
+/*  Guild Manager v1.1.0 (Princesse dï¿½Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -16,7 +16,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-//MySQL connection / Connexion à MySQL
+//MySQL connection / Connexion ï¿½ MySQL
 include('../../../config.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('../config.php');
@@ -31,9 +31,9 @@ $sqldate = date('Y\-m\-d', $date);
 $type = $_POST['type'];
 
 
-//Party prepartation / Préparation des groupes
+//Party prepartation / Prï¿½paration des groupes
 if ($date == '2012-08-31'){
-	$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID, c.translation, c.color, u.username 
+	$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID,  c.color, u.username 
 	FROM ".$gm_prefix."character AS a 
 	INNER JOIN ".$gm_prefix."param AS c ON c.param_ID=a.param_ID_profession 
 	INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
