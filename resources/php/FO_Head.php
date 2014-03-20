@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -19,7 +19,7 @@
 echo "<meta charset=\"UTF-8\">
 <meta name='description' content='HTML'>
 <title>".$cfg_title."</title>
-<link rel='stylesheet' type='text/css' href='resources/style/guildManager.css'>
+<link rel='stylesheet' type='text/css' href='resources/theme/$theme/GuildManager.css'>
 <link rel='stylesheet' type='text/css' href='resources/style/jquery-ui.custom.css'>       
 <script src='resources/style/jquery.min.js'></script> 
 <script src='resources/style/jquery-ui.js'></script>    ";

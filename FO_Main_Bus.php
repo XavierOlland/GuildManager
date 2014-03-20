@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -26,6 +26,7 @@ include('resources/language.php');
 //Page variables creation / Création des variables spécifiques pour la page
 $id = $_GET['user'];
 $action = $_GET['action'];
+if (in_array($user->data['group_id'],$cfg_groups_backoffice)){ $admin = 1; };
 
 //Start of html page / Début du code html
 echo "
@@ -41,18 +42,19 @@ echo "
 	<script src=\"resources/style/jquery.jqplot.min.js\"></script>
 	<script src=\"resources/style/jqplot.pieRenderer.js\"></script>
 	<link rel='stylesheet' type='text/css' href='resources/style/jquery.jqplot.css' />
-	<script type=\"text/javascript\">$(document).ready(function(){
+	<script>$(document).ready(function(){
 		var data = [";
-		$total=mysql_result(mysql_query("SELECT count(character_ID) FROM ".$gm_prefix."character WHERE main=1"),0);
+		$sql=mysqli_query($con,"SELECT character_ID FROM ".$gm_prefix."character WHERE main=1");
+		$total=mysqli_num_rows($sql);
 		$sql="SELECT d.$local AS translation, COUNT( a.character_ID )/$total AS num, c.color
 		FROM ".$gm_prefix."character AS a
 		INNER JOIN ".$gm_prefix."param AS c ON c.param_ID = a.param_ID_profession
 		LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=c.param_ID AND d.entity_name='param'
 		WHERE a.main =1
 		GROUP BY c.param_ID " ;
-		$list=mysql_query($sql);
-		$count=mysql_num_rows($list);
-		while($result=mysql_fetch_array($list)){
+		$list=mysqli_query($con,$sql);
+		$count=mysqli_num_rows($list);
+		while($result=mysqli_fetch_array($list,MYSQLI_ASSOC)){
 		echo "['".$result['translation']."', ".$result['num']."]"; $count--; if( $count > 0) {echo",";};};
 		echo " ];
 		var plot1 = jQuery.jqplot ('piechart1', [data],
@@ -66,9 +68,9 @@ echo "
 			},
 			legend: { show:false, location: 's' },
 			seriesColors: [ ";
-										$list2=mysql_query($sql);
-										$count=mysql_num_rows($list2);
-										while($result2=mysql_fetch_array($list2))
+										$list2=mysqli_query($con,$sql);
+										$count=mysqli_num_rows($list2);
+										while($result2=mysqli_fetch_array($list2,MYSQLI_ASSOC))
 										{ echo "'".$result2['color']."'" ; $count--; if( $count > 0) {echo",";};};
 echo " ],
 			grid: {
@@ -88,16 +90,16 @@ $(document).ready(function(){
     $(\"#piechart1\").hide();
     $(\"#stat2\").show();
     var data = [";
-		$total=mysql_result(mysql_query("SELECT count(character_ID) FROM ".$gm_prefix."character WHERE main=1"),0);
+		
 		$sql="SELECT d.$local AS translation, COUNT( a.character_ID )/$total AS num, c.color
 		FROM ".$gm_prefix."character AS a
 		INNER JOIN ".$gm_prefix."param AS c ON c.param_ID = a.param_ID_gameplay
 		LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=c.param_ID AND d.entity_name='param' 
 		WHERE a.main =1
 		GROUP BY c.param_ID " ;
-		$list=mysql_query($sql);
-		$count=mysql_num_rows($list);
-		while($result=mysql_fetch_array($list)){
+		$list=mysqli_query($con,$sql);
+		$count=mysqli_num_rows($list);
+		while($result=mysqli_fetch_array($list,MYSQLI_ASSOC)){
 		echo "['".$result['translation']."', ".$result['num']."]"; $count--; if( $count > 0) {echo",";};};
 		echo " ];
 		var plot1 = jQuery.jqplot ('piechart2', [data],
@@ -111,9 +113,9 @@ $(document).ready(function(){
 			},
 			legend: { show:true, location: 's' },
 			seriesColors: [ ";
-										$list2=mysql_query($sql);
-										$count=mysql_num_rows($list2);
-										while($result2=mysql_fetch_array($list2))
+$list2=mysqli_query($con,$sql);
+										$count=mysqli_num_rows($list2);
+										while($result2=mysqli_fetch_array($list2,MYSQLI_ASSOC))
 										{ echo "'".$result2['color']."'" ; $count--; if( $count > 0) {echo",";};};
 echo " ],
 			grid: {
@@ -132,27 +134,27 @@ echo " ],
 });
 </script>
   
-	<style> body {background-image:url('resources/images/Perso_BG.jpg');background-size:100%; background-repeat:no-repeat;}
+	<style>
           #stat2 {display:none;}
           #stat1 img {float:right;}
           #stat2 a {float:right;} </style>
 		  
 </head>
 <body>
-	<div class='Main'>
-		<div class='Title'><h1>".$cfg_title."</h1></div>";
+	<div id='Main'>
+		<div id='Title'><h1>".$cfg_title."</h1></div>";
 //User permissions test / Test des permissions utilisateur
 			if (in_array($user->data['group_id'],$cfg_groups)){
 			//Registered user code / Code pour utilisateurs enregistrés
 		echo "
-		<div class='Menu'>";
+		<div id='Left'>";
 			include('resources/php/FO_Div_Menu.php');
 			include('resources/php/FO_Div_Match.php');
 		echo "
 		</div>";
 		echo "
-		<div class='Page'>
-			<div class='Core'>
+		<div id='Page'>
+			<div id='Core'>
 				<h2>".$lng[p_FO_Main_Bus_h2_1]."</h2>
 				<table>
 					<colgroup>
@@ -172,41 +174,45 @@ echo " ],
 						<th>".$lng[t_character_gameplay]."</th>
 						<th>".$lng[t_character_build]."</th>
 					</tr>";
-					$sqlp="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_race, r.translation AS race, a.param_ID_profession, c.value AS profession, 
-					a.level, a.level_wvw, a.build, CASE WHEN LENGTH(a.build) > 0 THEN CONCAT('<a href=\'',a.build,'\' target=\'blank\'>Voir</a>') ELSE '' END AS buildlink,
-					a.comment, c.text_ID, c.translation, c.color, a.param_ID_gameplay, o.value AS gameplay, 
+					$sqlp="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_race, rd.$local AS race, a.param_ID_profession, pd.$local AS profession,
+					a.level, a.level_wvw, a.build, CASE WHEN LENGTH(a.build) > 0 THEN CONCAT('<a class=\'colorbg\' href=\'',a.build,'\' target=\'blank\'>Voir</a>') ELSE '' END AS buildlink,
+					a.comment, c.text_ID,  c.color, a.param_ID_gameplay, o.value AS gameplay, 
 					CASE WHEN s.session_time > (s.session_time-3600) THEN 'Online' ELSE 'Offline' END AS online, u.username
 					FROM ".$gm_prefix."character AS a  
-					INNER JOIN ".$gm_prefix."param AS c ON c.param_ID=a.param_ID_profession 
-					INNER JOIN ".$gm_prefix."param AS r ON r.param_ID=a.param_ID_race 
+					INNER JOIN ".$gm_prefix."param AS c ON c.param_ID=a.param_ID_profession
+					INNER JOIN ".$gm_prefix."param AS r ON r.param_ID=a.param_ID_race
+					LEFT JOIN ".$gm_prefix."dictionary AS rd ON rd.table_ID=r.param_ID AND rd.entity_name='param' 					
 					INNER JOIN ".$gm_prefix."param AS o ON o.param_ID=a.param_ID_gameplay
-          INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
+					INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
+					LEFT JOIN ".$gm_prefix."dictionary AS pd ON pd.table_ID=p.param_ID AND pd.entity_name='param' 
 					LEFT JOIN ".$table_prefix."sessions AS s ON s.session_user_ID=a.user_ID
 					LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=a.user_ID
 					WHERE a.main=1 
 					GROUP BY a.character_ID
 					ORDER BY p.partyOrder, a.name" ; 
-					$listp=mysql_query($sqlp);
-					while($resultp=mysql_fetch_array($listp))
+					$listp=mysqli_query($con,$sqlp);
+					while($resultp=mysqli_fetch_array($listp,MYSQLI_ASSOC))
 					{ echo "
 					<tr style='background-color:".$resultp['color']."'>
-						<td><img src='resources/images/".$resultp['online'].".png'></td>
-						<td><a onclick=\"$('#result').load('resources/php/FO_Div_Profession.php?id=".$resultp['param_ID_profession']."');$('#result').show();\" href=\"javascript:void(0)\">
-							<img src='resources/images/".$resultp['text_ID']."_Icon.png'></a></td>
-						<td><a class='table' href='FO_Main_CharacterEdit.php?character=".$resultp['character_ID']."'>".$resultp['name']."</a></td>
-						<td><a class='table' href='FO_Main_User.php?user=".$resultp['user_ID']."'>".$resultp['username']."</a></td>
-						<td>".$resultp['race']."</td>
-						<td><a class='table' href='FO_Main_Profession.php?id=".$resultp['param_ID_profession']."' >".$resultp['translation']."</a></td>
-						<td>".$resultp['level']."</td>
-						<td>".$resultp['level_wvw']."</td>
-						<td>".$resultp['gameplay']."</td>
-						<td>".$resultp['buildlink']."</td>
+						<td class='colorbg'><img src='resources/theme/$theme/images/".$resultp['online'].".png'></td>
+						<td class='colorbg'>
+						<a onclick=\"$('#result').load('resources/php/FO_Div_Profession.php?id=".$resultp['param_ID_profession']."&admin=$admin');\" 
+						href=\"javascript:void(0)\">
+							<img src='resources/theme/$theme/images/".$resultp['text_ID']."_Icon.png'></a></td>
+						<td class='colorbg'><a class='colorbg' href='FO_Main_CharacterEdit.php?character=".$resultp['character_ID']."'>".$resultp['name']."</a></td>
+						<td class='colorbg'><a class='colorbg' href='FO_Main_User.php?user=".$resultp['user_ID']."'>".$resultp['username']."</a></td>
+						<td class='colorbg'>".$resultp['race']."</td>
+						<td class='colorbg'><a class='colorbg' href='FO_Main_Profession.php?id=".$resultp['param_ID_profession']."' >".$resultp['profession']."</a></td>
+						<td class='colorbg'>".$resultp['level']."</td>
+						<td class='colorbg'>".$resultp['level_wvw']."</td>
+						<td class='colorbg'>".$resultp['gameplay']."</td>
+						<td class='colorbg'>".$resultp['buildlink']."</td>
 					</tr>";
 					};
 					echo "
 					<tr>
 						<td></td>
-						<td><img src='resources/images/upperReturn.png'></td>
+						<td><img src='resources/theme/$theme/images/upperReturn.png'></td>
 						<td colspan='10'>".$lng[p_FO_Main_Bus_td_1]."</td>
 					</tr>
 					<tr>
@@ -218,25 +224,29 @@ echo " ],
 				<br />
 				<div class='extand' id='result'></div>
 			</div>
-			<div class='right'>
+			<div id='Right'>
 				<h5>".$lng[p_FO_Main_Bus_h5_1]."</h5>
-				<div id='stat1'>
+				<div id='Stat1'>
 					<h6>".$lng[p_FO_Main_Bus_h6_1]."</h6>
-					<div id='piechart1'></div>
+					<div id='Piechart1'></div>
 					<p class='right'>
 						<table class='right'>
-							<tr><td><img src='resources/images/Next.png' /></td>
-									<td><a class='mright' id='stat1_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_2]."</a></td></tr></table></p>
+							<tr>
+								<td><img src='resources/theme/$theme/images/Next.png' /></td>
+								<td><a class='mright' id='stat1_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_2]."</a></td>
+							</tr>
+						</table>
+					</p>
 				</div>
 
-				<div id='stat2'>
+				<div id='Stat2'>
 					<h6>".$lng[p_FO_Main_Bus_h6_2]."</h6>
-					<div id='piechart2'></div>
-					<p class='right'><table class='right'><tr><td><img src='resources/images/Next.png' /></td><td><a class='mright' id='stat2_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_1]."</a></td></tr></table></p>
+					<div id='Piechart2'></div>
+					<p class='right'><table class='right'><tr><td><img src='resources/theme/$theme/images/Next.png' /></td><td><a class='mright' id='stat2_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_1]."</a></td></tr></table></p>
 				</div>
 			</div>
 		</div>
-		<div class='Copyright'>".$lng[g__copyright]."</div>
+		<div id='Copyright'>".$lng[g__copyright]."</div>
 	</div>
 <script>
 	function createParties(){   
@@ -253,6 +263,8 @@ echo " ],
 		}
 	
 	</script>
+		<script>function adminPanelShow(){ $('#adminLink').hide(  'blind' );$('#adminPanel').show( 'blind' );}</script>
+	<script>function adminPanelHide(){ $('#adminPanel').hide( 'blind' );$('#adminLink').show(  'blind' );}</script>
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
 	<script src=\"resources/js/Menu_Match.js\"></script>
 </body>

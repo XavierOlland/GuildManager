@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -16,7 +16,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 	
-echo "<div class='LogIn'>
+echo "<div id='Menu'>
 		<h5>".$lng[g__menu]."</h5>
 			<h6 style='margin-left:5px;'>";
 				$sql="SELECT d.$local AS module, m.page, m.user
@@ -24,8 +24,8 @@ echo "<div class='LogIn'>
 				LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=m.module_ID AND d.entity_name='module' 
 				WHERE m.active=1 
 				ORDER BY m.rank" ;
-				$list=mysql_query($sql);
-				while($result=mysql_fetch_array($list))
+				$list=mysqli_query($con,$sql);
+				while($result=mysqli_fetch_array($list,MYSQLI_ASSOC))
 				{ echo "<a class='menu' href='".$result['page']; 
 				if($result['user']==1){echo "?user=".htmlentities($user->data['user_id'],ENT_QUOTES,"UTF-8");};
 				echo "'>".$result['module']."</a><br />";};
@@ -35,8 +35,8 @@ echo "<div class='LogIn'>
 			</h6>
 			<h6 style='text-align:right'>";
 				//User permissions test / Test des permissions utilisateur
-				if (in_array($user->data['group_id'],$cfg_groups_backoffice))
-				{ echo "<a class='menu' href='BO_Main.php'>".$lng[g__setting]."</a><br />";};
+				//if (in_array($user->data['group_id'],$cfg_groups_backoffice))
+				//{ echo "<a class='menu' href='BO_Main.php'>".$lng[g__setting]."</a><br />";};
 				
 				echo "<a class='menu' href='../index.php'>".$lng[g__return]."</a>
 			</h6>

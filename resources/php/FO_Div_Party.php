@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -64,8 +64,8 @@ else {
 	ORDER BY x.partyOrder" ; 
 	}; 
 	
-	$list=mysql_query($sql);
-	$count=mysql_num_rows($list);
+	$list=mysqli_query($con,$sql);
+	$count=mysqli_num_rows($list);
 	$number=ceil($count/5); $number2=$number+$party_add;
 	$partyNum=1;$counter=1;
 
@@ -91,10 +91,10 @@ connectWith: \".link\"
 					echo "<tr>";
 					while ( $partyNum <= $number2 ){ echo"<th>".$lng[p_FO_Div_Party_party]." $partyNum</th><td></td>"; $partyNum++; } ;
 					$partyNum=1; echo "</tr><tr class='top'>";
-					while($result=mysql_fetch_array($list)){
+					while($result=mysqli_fetch_array($list,MYSQLI_ASSOC)){
 					if ( $counter == 1 ){ echo"<td><ul id='party_$partyNum' class='link'>"; $partyNum++; } ;
 						echo "
-						<li class=\"party\" style='background-color:".$result['color']."' ><img src='resources/images/".$result['text_ID']."_Icon.png'> ".$result['name']."</li>";
+						<li class=\"party\" style='background-color:".$result['color']."' ><img src='resources/theme/$theme/images/".$result['text_ID']."_Icon.png'> ".$result['name']." </li>";
 					if ( $counter == 5 ){ echo "<li> - </li></ul></td><td></td>"; $counter=1; } else { $counter++; } ;
 					} ;
 					if ( $counter > 1 ){ echo "<li> - </li></ul></td><td></td>"; $counter=1; };
@@ -108,12 +108,12 @@ connectWith: \".link\"
 						  </colgroup><tr>";
 					while ( $partyNum <= $number ){ echo"<th colspan='2'>".$lng[p_FO_Div_Party_party]." $partyNum</th><td></td>"; $partyNum++; } ;
 					echo "</tr>";
-					while($result=mysql_fetch_array($list))
+					while($result=mysqli_fetch_array($list,MYSQLI_ASSOC))
 					{ if ($counter == 1){ echo "<tr>";} ;
 					echo "
 						<td style='background-color:".$result['color']."'><a href='FO_Main_Profession.php?id=".$result['param_ID_profession']."'>
-							<img src='resources/images/".$result['text_ID']."_Icon.png'></a></td> 
-              <td style='background-color:".$result['color']."'><a class='table' alt='".$result['username']."' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
+							<img src='resources/theme/$theme/images/".$result['text_ID']."_Icon.png'></a></td> 
+              <td class='colorbg' style='background-color:".$result['color']."'><a class='colorbg' alt='".$result['username']."' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
               <td></td>";
 					if ($counter == $number){ echo "</tr>"; $counter=1;} else{ $counter++; } ;
 					};

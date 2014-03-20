@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -17,15 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 //MySQL connection / Connexion MySQL
-$con = mysql_connect($dbhost,$dbuser,$dbpasswd);
-
-if (!$con) { die('Could not connect: ' . mysql_error()); } 
-mysql_select_db($dbname, $con);
-mysql_set_charset('utf8');
+$con = mysqli_connect($dbhost,$dbuser,$dbpasswd,$dbname);
+if (!$con) { die('Could not connect: ' . mysqli_error()); } 
+mysqli_set_charset($con,'utf8');
 
 //locale variables / Variables locales
 //local / locale => en_EN || fr_FR
-$local = 'en_EN';
+$local = 'fr_FR';
 date_default_timezone_set('Europe/Brussels');
 setlocale(LC_ALL, $local);
 
@@ -40,9 +38,9 @@ $api_lng = substr($local, 0, 2 );
 
 //phpBB Groups permissions / Permissions des groupes phpBB
 //Standard (members / membres)
-$cfg_groups = array('5','8','9');
+$cfg_groups = array('1','2');
 //Backoffice (officer / officiers)
-$cfg_groups_backoffice = array('5','9');
+$cfg_groups_backoffice = array('1');
 
 //Guild Manager display title / Titre affiché dans Guild Manager
 $cfg_title = 'Guild Manager';
@@ -56,4 +54,7 @@ $event_limit = '7 day';
 //Add x parties during creation/ Ajouter x groupes lors de leurs création
 $party_add = '1';
 
+//Theme
+$theme = 'Light';
+$theme_dynamic_bg = 1;
 ?>

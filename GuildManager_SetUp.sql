@@ -1,12 +1,20 @@
--- phpMyAdmin SQL Dump
--- version OVH
--- http://www.phpmyadmin.net
---
--- Host: mysql51-107.perso
--- Generation Time: Feb 27, 2014 at 06:01 PM
--- Server version: 5.1.66
--- PHP Version: 5.3.8
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
+	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+    Copyright (C) 2013  Xavier Olland
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+	
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -41,7 +49,14 @@ CREATE TABLE IF NOT EXISTS `gm_character` (
   PRIMARY KEY (`character_ID`),
   KEY `param_ID_classe` (`param_ID_profession`),
   KEY `main` (`main`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `gm_character`
+--
+
+INSERT INTO `gm_character` (`character_ID`, `user_ID`, `name`, `level`, `level_wvw`, `comment`, `main`, `build`, `param_ID_gameplay`, `param_ID_race`, `param_ID_profession`) VALUES
+(0, 0, '', 0, 0, '', 0, '', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -61,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `gm_dictionary` (
   UNIQUE KEY `dictionnary_ID` (`dictionnary_ID`),
   KEY `entity_name` (`entity_name`),
   KEY `entity` (`entity`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=171 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=200 ;
 
 --
 -- Dumping data for table `gm_dictionary`
@@ -85,7 +100,7 @@ INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entit
 (15, 'profession_8', 'table', 'param', 8, NULL, 'Thief', 'Voleur'),
 (16, 'race_1', 'table', 'param', 9, NULL, 'Asura', 'Asura'),
 (17, 'race_2', 'table', 'param', 10, NULL, 'Charr', 'Charr'),
-(18, 'race_3', 'table', 'param', 11, NULL, 'Human', 'Human'),
+(18, 'race_3', 'table', 'param', 11, NULL, 'Human', 'Humain'),
 (19, 'race_4', 'table', 'param', 12, NULL, 'Norn', 'Norn'),
 (20, 'race_5', 'table', 'param', 13, NULL, 'Sylvari', 'Sylvari'),
 (21, 'gameplay_1', 'table', 'param', 14, NULL, 'DPS', 'DPS'),
@@ -127,7 +142,7 @@ INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entit
 (57, 'index_h2_1', 'page', 'index', NULL, NULL, 'Welcome to the guild management tool', 'Bienvenue dans l''outil de gestion de guilde'),
 (58, 'index_p_1', 'page', 'index', NULL, NULL, 'A simple but powerfull tool, with real pieces of tool in it !', 'Un outil simple et performant avec des vrais morceaux d''outils dedans<br />'),
 (59, 'FO_Main_Bus_td_1', 'page', 'FO_Main_Bus', NULL, NULL, 'Click an icon to display the profession information.', 'Cliquez sur une icône pour afficher les personnages de la classe.'),
-(60, '_create_parties', 'generic', NULL, NULL, NULL, 'Create parties', 'Crées les groupes'),
+(60, '_create_parties', 'generic', NULL, NULL, NULL, 'Create parties', 'Créez les groupes'),
 (61, '_auto', 'generic', NULL, NULL, NULL, 'Auto', 'Auto'),
 (62, '_manual', 'generic', NULL, NULL, NULL, 'Manual', 'Manuel'),
 (63, 'FO_Main_Bus_h5_1', 'page', 'FO_Main_Bus', NULL, NULL, 'Statistics', 'Statistiques'),
@@ -136,7 +151,7 @@ INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entit
 (66, 'module_1', 'table', 'module', 1, NULL, 'User information', 'Mes informations'),
 (67, 'module_2', 'table', 'module', 2, NULL, 'My characters', 'Mes personnages'),
 (68, 'module_3', 'table', 'module', 3, NULL, 'The Bus', 'Le Bus'),
-(69, 'module_4', 'table', 'module', 4, NULL, 'Parties', 'Les groupes'),
+(69, 'module_4', 'table', 'module', 4, NULL, 'Professions', 'Les professions'),
 (70, 'module_5', 'table', 'module', 5, NULL, 'Raid planner', 'Les raids'),
 (71, '_menu', 'generic', 'FO_Div_Menu', NULL, NULL, 'Menu', 'Menu'),
 (72, '_setting', 'generic', 'FO_Div_Menu', NULL, NULL, 'Settings', 'Paramètrage'),
@@ -176,16 +191,15 @@ INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entit
 (106, 'profession_6_plural', 'table', 'param_plural', 6, NULL, 'Necromancers', 'Nécromants'),
 (107, 'profession_7_plural', 'table', 'param_plural', 7, NULL, 'Rangers', 'Rodeurs'),
 (108, 'profession_8_plural', 'table', 'param_plural', 8, NULL, 'Thieves', 'Voleurs'),
-(109, 'FO_Main_User_update', 'page', 'FO_Main_User', NULL, NULL, 'Your information has been updated', 'Vos informations ont bien été mises à jour.'),
+(109, 'FO_Script_User_update', 'page', 'FO_Script_User', NULL, NULL, 'Your information has been updated', 'Vos informations ont bien été mises à jour.'),
 (110, 'FO_Main_User_h3_1', 'page', 'FO_Main_User', NULL, NULL, 'Information', 'Informations'),
-(111, 'FO_Main_User_h4_1', 'page', 'FO_Main_User', NULL, NULL, 'Presence day', 'Jours de présence'),
-(112, 'FO_Main_User_h4_1', '', NULL, NULL, NULL, NULL, NULL),
-(113, 'FO_Main_User_h5_1', 'page', 'FO_Main_User', NULL, NULL, 'My other characters', 'Mes autres personnages'),
+(111, 'FO_Main_User_h3_2', 'page', 'FO_Main_User', NULL, NULL, 'Presence day', 'Jours de présence'),
+(113, 'FO_Main_User_h5_1', 'page', 'FO_Main_User', NULL, NULL, 'My characters', 'Mes personnages'),
 (114, 'FO_Main_User_h5_2', 'page', 'FO_Main_User', NULL, NULL, 'The characters of', 'Les personnages de'),
 (115, 'userinfo_commander', 'table', 'userinfo', NULL, NULL, 'Commander', 'Commandant'),
 (116, 'userinfo_comment', 'table', 'userinfo', NULL, NULL, 'Comment', 'Commentaire'),
 (117, 'FO_Main_Raid_h2_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Raids calendar', 'Calendrier des raids'),
-(118, 'FO_Main_Raid_p_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Click on an event to display its details here.', 'Cliquez sur un événement pour afficher le détail ici.'),
+(118, 'FO_Main_Raid_p_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Select a date to show event''s detail.', 'Cliquez sur une date pour en voir le détail.'),
 (119, 'FO_Div_Presence_h5_1', 'page', 'FO_Div_Presence', NULL, NULL, 'My presence', 'Mes présences'),
 (120, 'FO_Div_Presence_h5_2', 'page', 'FO_Div_Presence', NULL, NULL, 'My absence', 'Mes absences'),
 (121, 'FO_Main_Raid_h6_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Register an absence', 'Enregistrer une absence'),
@@ -194,7 +208,7 @@ INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entit
 (124, 'FO_Div_Calendar_a_1', 'page', 'FO_Div_Calendar', NULL, NULL, 'Prev.', 'Préc.'),
 (125, 'FO_Div_Calendar_a_2', 'page', 'FO_Div_Calendar', NULL, NULL, 'Current month', 'Mois en cours'),
 (126, 'FO_Div_Calendar_a_3', 'page', 'FO_Div_Calendar', NULL, NULL, 'Next', 'Suiv.'),
-(127, 'FO_Div_Event_join', 'page', 'FO_Div_Event', NULL, NULL, 'Join', 'Participer'),
+(127, 'FO_Div_Event_join', 'page', 'FO_Div_Event', NULL, NULL, 'Join them with', 'Rejoignez les avec'),
 (128, 'FO_Div_Event_p_1', 'page', 'FO_Div_Event', NULL, NULL, 'Participating', 'Membres présents'),
 (129, '_perso', 'generic', NULL, NULL, NULL, 'Character', 'Perso'),
 (130, 'FO_Div_Chantal_h3_1', 'page', 'FO_Div_Chantal', NULL, NULL, 'Events to come', 'Evénements à venir'),
@@ -224,7 +238,7 @@ INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entit
 (154, 'FO_Div_Register_td_3', 'generic', 'FO_Div_Register', NULL, NULL, 'Stay connected', 'Connexion automatique'),
 (155, 'FO_Div_Register_td_4', 'generic', 'FO_Div_Register', NULL, NULL, 'Connection', 'Connexion'),
 (156, 'FO_Div_Register_h3_1', 'generic', 'FO_Div_Register', NULL, NULL, 'Want to join ?', 'Vous voulez nous rejoindre ?'),
-(157, 'FO_Div_Register_p_2', 'generic', 'FO_Div_Register', NULL, NULL, 'Register', 'S\\''enregistrer'),
+(157, 'FO_Div_Register_p_2', 'generic', 'FO_Div_Register', NULL, NULL, 'Register', 'S''enregistrer'),
 (158, 'BO_Div_Event_p_5', 'page', 'BO_Div_Event', NULL, NULL, 'Participating', 'Membres présents'),
 (159, 'FO_Div_Event_a_1', 'page', 'FO_Div_Event', NULL, NULL, 'You need to register a character prior to joining the event.', 'Vous devez enregistrer un personnage pour participer aux évènements.'),
 (160, '_red', 'generic', '', NULL, NULL, 'Red', 'Rouge'),
@@ -232,12 +246,41 @@ INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entit
 (162, '_green', 'generic', '', NULL, NULL, 'Green', 'Vert'),
 (163, '_gold', 'generic', '', NULL, NULL, 'Gold', 'Doré'),
 (164, '_error_character', 'generic', NULL, NULL, NULL, 'You have to select a character in order to join the event.', 'Vous devez sélectionner un personnage pour participer à l''évènement.'),
-(165, 'FO_Main_User_warning_1', 'page', 'FO_Main_User', NULL, NULL, 'User ', 'L\\''utilisateur '),
-(166, 'FO_Main_User_warning_2', 'page', 'FO_Main_User', NULL, NULL, ' and all his character will be deleted. This action cannot be cancelled. Are you sure you want to continue ?', ' et tous ces personnages seront supprimés. Cette action est irréversible. ëtes vous certains de vouloir continuer ?'),
+(165, 'FO_Main_User_warning_1', 'page', 'FO_Main_User', NULL, NULL, 'The selected information of ', 'Les informations sélectionnés de '),
+(166, 'FO_Main_User_warning_2', 'page', 'FO_Main_User', NULL, NULL, ' will be deleted. This action cannot be cancelled. Are you sure you want to continue ?', ' seront supprimées. Cette action est irréversible. Êtes vous certains de vouloir continuer ?'),
+(177, 'FO_Main_User_warning_3', 'page', 'FO_Main_User', NULL, NULL, 'Warning ! User in phpBB database will still exist. Go to ACP if you want to definitely delete it.', 'Attention ! L&#39;utilisateur existera encore dans la base de données phpBB. Aller au PCA du forum si vous souhaitez le supprimer définitivement.'),
 (167, '_site', 'generic', NULL, NULL, NULL, 'Back to website', 'Retour au site'),
-(168, 'FO_Div_Event_leave', 'page', 'FO_Div_Event', NULL, NULL, 'Leave event', 'Quitter l\\''évènement'),
+(168, 'FO_Div_Event_leave', 'page', 'FO_Div_Event', NULL, NULL, 'Or just leave them alone...', 'Ou abandonnez les à leur triste sort...'),
 (169, '_del', 'generic', NULL, NULL, NULL, 'Del.', 'Suppr.'),
-(170, 'FO_Div_Event_change', 'page', 'FO_Div_Event', NULL, NULL, 'Change character', 'Changer de personnage');
+(170, 'FO_Div_Event_change', 'page', 'FO_Div_Event', NULL, NULL, 'Change for ', 'Changez pour '),
+(171, '_adminPanel', 'generic', NULL, NULL, NULL, 'Admin panel', 'Zone admin'),
+(172, 'FO_Main_User_h6_1', 'page', 'FO_Main_User', NULL, NULL, 'Delete :', 'Supprimer :'),
+(173, 'FO_Main_User_deletePlayer', 'page', 'FO_Main_User', NULL, NULL, 'Delete the player and/or', 'Supprimer le joueur et/ou'),
+(174, 'FO_Main_User_raid_player', 'page', 'FO_Main_User', NULL, NULL, 'his presence to raids', 'ses présences aux raids'),
+(175, 'FO_Main_User_character', 'page', 'FO_Main_User', NULL, NULL, 'his characters', 'ses personnages'),
+(176, 'FO_Main_User_userinfo', 'page', 'FO_Main_User', NULL, NULL, 'his information and settings', 'ses informations et préférences'),
+(178, 'FO_Main_Profession_h5_1', 'page', 'FO_Main_Profession', NULL, NULL, 'Professions', 'Professions'),
+(179, 'FO_Div_Presence_h6_1', 'page', 'FO_Div_Presence', NULL, NULL, 'Regular', 'Habituelles'),
+(180, 'FO_Div_Presence_h6_2', 'page', 'FO_Div_Presence', NULL, NULL, 'Other', 'Autres'),
+(181, '_hide', 'generic', NULL, NULL, NULL, 'Hide', 'Masquer'),
+(182, 'FO_Div_Profession_p_1', 'page', 'FO_Div_Profession', NULL, NULL, 'Select a profession on the right to display its details here.', 'Sélectionnez une profession sur la droite pour en afficher le détail ici.'),
+(199, '_profession', 'generic', NULL, NULL, NULL, 'Profession', 'Profession'),
+(183, 'FO_Main_Raid_h2_2', 'page', 'FO_Main_Raid', NULL, NULL, 'Edit raids calendar', 'Edition du calendrier des raids'),
+(184, 'FO_Main_Raid_p_2', 'page', 'FO_Main_Raid', NULL, NULL, 'Click on a date to display the event details or to create a new one.', 'Cliquez sur une date pour afficher le détail de l''événement ou en créer un nouveau.'),
+(185, 'FO_Main_Raid_warning_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Warning ! The selected information will be deleted. This action cannot be undone. Are you sure you want to continue ?', 'Attention ! Les données sélectionnées  seront supprimées définitivement. Cette action est irréversible. Êtes vous certains de vouloir continuer ? '),
+(186, 'FO_Main_Raid_h6_1', 'page', 'FO_Main_Raid', NULL, NULL, 'Spring Clean', 'Nettoyage de printemps'),
+(187, 'FO_Main_Raid_DB_Event', 'page', 'FO_Main_Raid', NULL, NULL, 'Delete all events', 'Supprimer tous les évènements'),
+(188, 'FO_Main_Raid_DB_Event_Date', 'page', 'FO_Main_Raid', NULL, NULL, 'until', 'jusqu''au'),
+(189, 'FO_Main_Raid_DB_Player', 'page', 'FO_Main_Raid', NULL, NULL, 'Delete all events participation', 'Supprimer toutes les participations aux évènements'),
+(190, 'FO_Main_Raid_DB_Player_Presence', 'page', 'FO_Main_Raid', NULL, NULL, 'Delete presences', 'Supprimer les présences'),
+(191, 'FO_Main_Raid_DB_Player_Absence', 'page', 'FO_Main_Raid', NULL, NULL, 'Delete absences', 'Supprimer les absences'),
+(192, 'FO_Main_Raid_DB_Player_Date', 'page', 'FO_Main_Raid', NULL, NULL, 'until', 'jusqu''au '),
+(193, '_clean', 'generic', NULL, NULL, NULL, 'Clean !', 'Nettoyer !'),
+(194, '_included', 'generic', NULL, NULL, NULL, '(included)', '(inclus)'),
+(195, 'BO_Script_Raid_Event', 'page', 'BO_Script_Raid', NULL, NULL, 'Events successfully deleted !', 'Les évènements ont été supprimés.'),
+(196, 'BO_Script_Raid_Player', 'page', 'BO_Script_Raid', NULL, NULL, 'Participations successfully deleted !', 'Les participations ont été supprimées.'),
+(197, 'BO_Script_Raid_Presence', 'page', 'BO_Script_Raid', NULL, NULL, 'Presences successfully deleted !', 'Les présences ont été supprimées.'),
+(198, 'BO_Script_Raid_Absence', 'page', 'BO_Script_Raid', NULL, NULL, 'Absences successfully deleted !', 'Les absences ont été supprimées.');
 
 -- --------------------------------------------------------
 
@@ -261,10 +304,11 @@ CREATE TABLE IF NOT EXISTS `gm_module` (
 --
 
 INSERT INTO `gm_module` (`module_ID`, `name`, `description`, `page`, `user`, `active`, `rank`) VALUES
-(1, 'User Information', 'Mes infos', 'FO_Main_User.php', 1, 1, 5),
-(2, 'Characters', 'Mes personnages', 'FO_Main_Character.php', 1, 1, 4),
-(3, 'Bus', 'Le Bus', 'FO_Main_Bus.php', 0, 1, 2),
-(5, 'Raids', 'Les raids', 'FO_Main_Raid.php', 0, 1, 1);
+(1, 'User Information', 'User Information', 'FO_Main_User.php', 1, 1, 5),
+(2, 'Characters', 'Characters', 'FO_Main_Character.php', 1, 1, 4),
+(2, 'Professions', 'Professions', 'FO_Main_Character.php', 1, 1, 3),
+(3, 'Bus', 'Bus', 'FO_Main_Bus.php', 0, 1, 2),
+(5, 'Raids', 'Raids', 'FO_Main_Raid.php', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -341,12 +385,12 @@ CREATE TABLE IF NOT EXISTS `gm_profession` (
 --
 
 INSERT INTO `gm_profession` (`profession_ID`, `name`, `param_ID`, `user_ID_coach`, `strategy`, `build`, `partyOrder`) VALUES
-(1, 'Elementalist', 1, NULL, '', '', 3),
-(2, 'Mesmer', 2, NULL, '', '', 5),
-(3, 'Guardian', 3, 51, '', 'http://gw2skills.net/editor/?fUMQJASWlUgqCHFSLEmIFSuAbBYPwI4LjueQRYIDB-jkDBYLAoLKaUEQkFA0HJL7pIasVWFRjVXDTVKpqXBSFD2cG2gWQzfIpyAovAA-w', 1),
-(4, 'Warrior', 4, 53, '', '', 2),
+(1, 'Elementalist', 1, NULL, '', '', 5),
+(2, 'Mesmer', 2, NULL, '', '', 4),
+(3, 'Guardian', 3, NULL, '', '', 1),
+(4, 'Warrior', 4, NULL, '', '', 2),
 (5, 'Engineer', 5, NULL, '', '', 6),
-(6, 'Necromancer', 6, 50, '', '', 4),
+(6, 'Necromancer', 6, NULL, '', '', 3),
 (7, 'Ranger', 7, NULL, '', '', 7),
 (8, 'Thief', 8, NULL, '', '', 8);
 
@@ -400,7 +444,7 @@ CREATE TABLE IF NOT EXISTS `gm_raid_player` (
 
 CREATE TABLE IF NOT EXISTS `gm_userinfo` (
   `user_ID` int(11) NOT NULL,
-  `commander` tinyint(1) NOT NULL,
+  `commander` tinyint(1) NOT NULL DEFAULT '0',
   `comment` mediumtext COLLATE utf8_bin NOT NULL,
   `monday` tinyint(1) NOT NULL DEFAULT '0',
   `tuesday` tinyint(1) NOT NULL DEFAULT '0',

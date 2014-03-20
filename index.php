@@ -1,5 +1,5 @@
 <?php 
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -27,36 +27,34 @@ include('resources/language.php');
 echo	"<html>
 <head>";
 	include('resources/php/FO_Head.php');
-	echo "<style> body {background-image:url('resources/images/Perso_BG.jpg');background-size:100%; background-repeat:no-repeat;} </style>
+	echo "
 </head>
 <body>
-	<div class='Main'>
-		<div class='Title'><h1> $cfg_title </h1></div>";
+	<div id='Main'>
+		<div id='Title'><h1> $cfg_title </h1></div>";
 		//User permissions test / Test des permissions utilisateur
 		if (in_array($user->data['group_id'],$cfg_groups)){
 		//Registered user code / Code pour utilisateurs enregistrés
 		echo "
-		<div class='Menu'>";
+		<div id='Left'>";
 			include('resources/php/FO_Div_Menu.php');
 			include('resources/php/FO_Div_Match.php');
 		echo "
 		</div>";
 		echo "
-		<div class='Page'>
-			<div class='Core'>
+		<div id='Page'>
+			<div id='Core'>
 			<h2>".$lng[p_index_h2_1]."</h2>
 			<p>".$lng[p_index_p_1]."</p>
 				<div id='Lobby'></div>
 			</div>
-			<div class='right'></div>
-			<div class='Copyright'>".$lng[g__copyright]."</div>
+			<div id='Right'></div>
+			<div id='Copyright'>".$lng[g__copyright]."</div>
 		</div>
 	</div>
-	<script >
-		$('#Lobby').load(\"resources/php/FO_Div_Chantal.php\");
-	</script>
+	<script>$('#Lobby').load(\"resources/php/FO_Div_Chantal.php\")</script>
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
-	<script  src=\"resources/js/Menu_Match.js\"></script>  
+	<script src=\"resources/js/Menu_Match.js\"></script>  
 </body>
 </html>"; }
 //Non authorized user / utilisateur non autorisé

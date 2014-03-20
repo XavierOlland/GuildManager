@@ -1,5 +1,5 @@
 <?php 
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -22,7 +22,6 @@ include('../../../config.php');
 include('../config.php');
 //Language management / Gestion des traductions
 include('../language.php');
-
 //Creating needed date variables / Création des variables de dates nécessaires
 $date = $_GET['date'] ;
 $date = strtotime($date);
@@ -36,36 +35,35 @@ $next = date_format(date_add( $computed_date , date_interval_create_from_date_st
 $current_day = date('d', time() );
 $current_week = date('W', time() );
 $current_month = date('m', time() );
+$current_year = date('Y', time() );
 $event_limit_date = date('Y-m-d', time());
 $event_limit_date = date_create( $event_limit_date );
 $event_limit_date = date_format(date_sub( $event_limit_date , date_interval_create_from_date_string( $event_limit )), 'Y-m-d');
 
 //First day of the month / Premier jour du mois
 $first_day = mktime(0,0,0,$month, 1, $year);
-$title =strftime( '%B', $first_day);
+$title = strftime( '%B', $first_day);
 $title = utf8_encode( $title );
 
 //switching day numbers for WvW week / Modification des numéros de jours pour la semain McM
-// Saturday = 1 /Samedi = 1
-
 $computed_day = date( 'N', $first_day) ;
 
 $sql = "SELECT value FROM ".$gm_prefix."param WHERE TYPE = 'day' AND complement = '$computed_day'";
-$list=mysql_query($sql);
-while($result=mysql_fetch_row($list)) { $blank = $result[0]; };
+$list=mysqli_query($con,$sql);
+while($result=mysqli_fetch_row($list)) { $blank = $result[0]; };
 
 $days_in_month = cal_days_in_month(0, $month, $year) ; 
 //Creating calendar / Création du calendrier
  echo "
-<div id='calendar'>
+<div id='Calendar'>
 	<table border=1 width=294 >
 		<theader>
 			<tr><th colspan=7> $title $year</th></tr>
 			<tr>";
 			//Day ordering / Ordre des jours
 			$sql = "SELECT LEFT( d.$local, 1 ) FROM ".$gm_prefix."param AS p LEFT JOIN ".$gm_prefix."dictionary AS d ON d.table_ID=p.param_ID AND d.entity_name='param' WHERE TYPE = 'day' ORDER BY value";
-			$list=mysql_query($sql);
-			while($result=mysql_fetch_row($list))
+			$list=mysqli_query($con,$sql);
+			while($result=mysqli_fetch_row($list))
 			{ echo "<td class='center' width=42>".$result[0]."</td>" ; };
 			echo "
 			</tr>
@@ -80,26 +78,27 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 			while ( $day_num <= $days_in_month ) { 
 			//Retrieving day / Récupération du jour
 			$computed_date = strtotime($year."-".$month."-".$day_num);
-
+			$computed_limit = strtotime($event_limit_date);
 			//Retrieving Events / Récupération des évènements
-			if ( $year.'-'.$month.'-'.$day_num >= $event_limit_date ){ 
+
+			if ( $computed_date >= $computed_limit ){ 
 			$sqlr="SELECT r.raid_event_ID, r.map, r.color
 			FROM ".$gm_prefix."raid_event AS r 
-			WHERE r.dateRaid='$year-$month-$day_num'";
-
-			$listr=mysql_query($sqlr); 
-			if( mysql_num_rows($listr)>0)
-			{ while( $resultr=mysql_fetch_row($listr)) 
-			{ echo "<td class='center' style='background-color:".$resultr[2].";color:#FFFFFF;";
+			WHERE r.dateEvent='$year-$month-$day_num'";
+			$listr=mysqli_query($con,$sqlr); 
+			if( mysqli_num_rows($listr)>0)
+			{ while( $resultr=mysqli_fetch_row($listr)) 
+			{ echo "<td class='calendar' style='background-color:".$resultr[2].";color:#F0F0F0;";
 			if( $current_month == $month && $current_day == $day_num){echo "text-decoration:underline;border:solid 3px #606060";};
 			echo"'>
-			<a class='calendar' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=".$resultr[0]."&date=$computed_date');$('#event').show();\" href=\"javascript:void(0)\">".$day_num."</a></td>"; };}
-			else {echo "<td class='center' ";
+			<a class='calendar' onclick=\"$('#BO_Event').load('resources/php/BO_Div_Event.php?id=".$resultr[0]."&date=$computed_date');$('#event').show();\" href=\"javascript:void(0)\">".$day_num."</a></td>";
+			};}
+			else {echo "<td class='calendar' ";
 			if( $current_month == $month && $current_day == $day_num){echo "style='border:solid 2px #8c1922;'";};
-			echo "><a style='text-decoration:none;color:#000000;' onclick=\"$('#event').load('resources/php/BO_Div_Event.php?id=0&date=$computed_date');$('#event').show();\" href=\"javascript:void(0)\">".$day_num."</a></td>"; };
+			echo "><a class='calendar' onclick=\"$('#BO_Event').load('resources/php/BO_Div_Event.php?id=0&date=$computed_date');$('#event').show();\" href=\"javascript:void(0)\">".$day_num."</a></td>"; };
 			}
 			//Day without event / Jour sans évènement
-			else {echo "<td class='center' >".$day_num."</td>"; };
+			else {echo "<td class='calendar' >".$day_num."</td>"; };
 			$day_num++; $day_count++;
 			//End of week / Fin de semaine
 			if ($day_count > 7) { echo "</tr><tr>"; $day_count = 1; }
@@ -112,9 +111,9 @@ $days_in_month = cal_days_in_month(0, $month, $year) ;
 		</tbody>
 		<tfooter>
 			<tr class='footer'>
-				<td class='center' ><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$prev."');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_1]."</a></td>
-				<td class='center' colspan=5><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$year."-".$current_month."-01');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_2]."</a></td>
-				<td class='center'><a class='menu' onclick=\"$('#result').load('resources/php/BO_Div_Calendar.php?date=".$next."');$('#result').show();\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_3]."</a></td>
+				<td class='center' ><a class='menu' onclick=\"$('#BO_Calendar').load('resources/php/BO_Div_Calendar.php?date=".$prev."');\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_1]."</a></td>
+				<td class='center' colspan=5><a class='menu' onclick=\"$('#BO_Calendar').load('resources/php/BO_Div_Calendar.php?date=".$year."-".$current_month."-01');\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_2]."</a></td>
+				<td class='center'><a class='menu' onclick=\"$('#BO_Calendar').load('resources/php/BO_Div_Calendar.php?date=".$next."');\" href=\"javascript:void(0)\">".$lng[p_BO_Div_Calendar_a_3]."</a></td>
 			</tr>
 		</tfooter>
 	</table>

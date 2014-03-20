@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -17,19 +17,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 echo "
-	<div class='Match'>
+	<div id='Match'>
 		<h5>".$lng[g__matchup]."</h5>
-		<div id=\"red_score\">
+		<div id=\"red_score\" style='margin-left:5px'>
 			<div class=\"label\"></div>
 			<div class=\"bar\"></div>
 		</div>
-		<div id=\"blue_score\">
+		<br />
+		<div id=\"blue_score\" style='margin-left:5px'>
 			<div class=\"label\"></div>
 			<div class=\"bar\"></div>
 		</div>
-		<div id=\"green_score\">
+		<br />
+		<div id=\"green_score\" style='margin-left:5px'>
 			<div class=\"label\"></div>
 			<div class=\"bar\"></div>
 		</div>
+		
 	</div>"
 ?>

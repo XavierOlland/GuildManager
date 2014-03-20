@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -18,16 +18,16 @@
 
 
 echo "
-<div class='Menu'>
-  <div class='LogIn'>
+<div id='Left'>
+  <div id='Menu'>
   <h4>".$lng[g_FO_Div_Register_h4_1]."</h4>
   <br />
   <p>".$lng[g_FO_Div_Register_p_1]."</p>
   </div>
 </div>
 
-<div class='Page'>
-  <div class='Core'>
+<div id='Page'>
+  <div id='Core'>
   <h2>".$lng[g_FO_Div_Register_h2_1]."</h2>
   <form action='../ucp.php' accept-charset='UTF-8' method='post'>
   <table>
@@ -39,7 +39,7 @@ echo "
   </form>
   <br />
   <h3>".$lng[g_FO_Div_Register_h3_1]."</h3>
-  <p><a class='menu' href='../ucp.php?mode=register'>".$lng[g_FO_Div_Register_p_2]."</a></p>
+  <p><a id='Menu' href='../ucp.php?mode=register'>".$lng[g_FO_Div_Register_p_2]."</a></p>
   </div>
 </div>
 

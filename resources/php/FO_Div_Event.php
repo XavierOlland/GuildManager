@@ -1,5 +1,5 @@
  <?php 
- /* Guild Manager v1.0.4
+ /* Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -36,31 +36,26 @@ $sqldate = date('Y\-m\-d', $date);
 
 //creating ID if missing
 if ( $id == 0 ){ 
-	$list=mysql_query("SELECT raid_event_ID FROM ".$gm_prefix."raid_event WHERE dateRaid='$sqldate'");
-	while( $result=mysql_fetch_row($list) ) { $id = $result[0]; };
+	$list=mysqli_query($con,"SELECT raid_event_ID FROM ".$gm_prefix."raid_event WHERE dateEvent='$sqldate'");
+	while( $result=mysqli_fetch_row($list) ) { $id = $result[0]; };
 };
 
 
 //Registering player
 if ( $action != 2 ){ 
-
-	$count = mysql_num_rows(mysql_query("SELECT * FROM ".$gm_prefix."raid_player WHERE dateEvent='$sqldate' AND user_ID=$usertest"));
-	$list=mysql_query("SELECT $sqlday FROM ".$gm_prefix."userinfo WHERE user_ID=$usertest");
-	while( $result=mysql_fetch_row($list) ) { $day = $result[0]; };
+	$sql = mysqli_query($con,"SELECT * FROM ".$gm_prefix."raid_player WHERE dateEvent='$sqldate' AND user_ID=$usertest");
+	$count = mysqli_num_rows($sql);
+	$list=mysqli_query($con,"SELECT $sqlday FROM ".$gm_prefix."userinfo WHERE user_ID=$usertest");
+	while( $result=mysqli_fetch_row($list) ) { $day = $result[0]; };
 	
 		if( $count == 0 )
 			{ $sql1="INSERT INTO ".$gm_prefix."raid_player (user_ID, dateEvent, character_ID, presence ) VALUES ($usertest,'$sqldate',$character_ID,$action)"; }
 		else { 
-		if ( $action==0 && $day==0 ) { 
-			//echo "DELETE FROM ".$gm_prefix."raid_player WHERE user_ID=$usertest AND dateEvent='$sqldate'";
-			$sql1 = "DELETE FROM ".$gm_prefix."raid_player WHERE user_ID=$usertest AND dateEvent='$sqldate'" ;
-			 }
-			else { 
-			//echo "UPDATE ".$gm_prefix."raid_player SET character_ID='$character_ID', presence='$action' WHERE user_ID=$usertest AND dateEvent='$sqldate'"; 
-			$sql1 = "UPDATE ".$gm_prefix."raid_player SET character_ID='$character_ID', presence='$action' WHERE user_ID=$usertest AND dateEvent='$sqldate'"; };
-			};
+			if ( $action==0 && $day==0 ) { $sql1 = "DELETE FROM ".$gm_prefix."raid_player WHERE user_ID=$usertest AND dateEvent='$sqldate'" ;}
+			else { $sql1 = "UPDATE ".$gm_prefix."raid_player SET character_ID='$character_ID', presence='$action' WHERE user_ID=$usertest AND dateEvent='$sqldate'";};
+		};
 	
-	if (!mysql_query($sql1,$con)){$actionresult=$lng[g__error_record]; }; 
+	if (!mysqli_query($con,$sql1)){$actionresult=$lng[g__error_record]; }; 
 	
 	};
 
@@ -69,11 +64,11 @@ $sql="SELECT r.raid_event_ID, r.event, r.map, r.time, u.username,r.comment
       FROM ".$gm_prefix."raid_event AS r 
       LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=r.user_ID_leader
       WHERE r.raid_event_ID=$id";
-$list=mysql_query($sql); 
-while( $result=mysql_fetch_row($list))
+$list=mysqli_query($con,$sql); 
+while( $result=mysqli_fetch_row($list))
 {
-echo"<h3>".$title."</h3><br />
-     <h4>".$result[1]."</h4><br />
+echo"<h3>".$title."</h3>
+     <h4 style='padding-left:20px;'>".$result[1]."</h4>
      <table>
      <tr class='top'><td>
      <p>".$lng[t_raid_event_map]." : <b>".$result[2]."</b><br />
@@ -83,33 +78,6 @@ echo"<h3>".$title."</h3><br />
      <td>".$lng[t_raid_event_comment]." :<br /> ".$result[5]."</td></tr>
      <tr></tr>";
 	 
-	$sql0 = "SELECT presence FROM ".$gm_prefix."raid_player WHERE dateEvent='$sqldate' AND user_ID=$usertest 
-	UNION SELECT $sqlday FROM ".$gm_prefix."userinfo WHERE $sqlday=1 AND user_ID=$usertest AND user_ID NOT IN (SELECT user_ID FROM ".$gm_prefix."raid_player WHERE dateEvent='$sqldate')
-	GROUP BY user_ID";
-	$list0=mysql_query($sql0); 
-	$result0=mysql_fetch_row($list0);
-	
-	$sql1="SELECT a.character_ID, a.name, a.main
-	FROM ".$gm_prefix."character AS a 
-	WHERE a.user_ID = ".$usertest." 
-	ORDER BY a.main DESC, a.param_ID_profession";
-	$list1=mysql_query($sql1);
-	$num_rows = mysql_num_rows($list1);
-			
-	if ($num_rows == 0) { echo "<tr class='top'><td colspan='2'><a class='menu' href='FO_Main_CharacterEdit.php?action=new'>".$lng[p_FO_Div_Event_a_1]."</a></td></tr>"; }
-	else { 	
-		echo "<tr class='top'><td colspan='2'>
-			<select id=\"character_ID\" >";
-			while($result1=mysql_fetch_array($list1))
-			{ echo "<option value='".$result1['character_ID']."'";
-			if ($result1['main']==1){ echo "selected"; }; echo " > ".$result1['name']."</option>"; };
-			echo "</select>";
-				
-			if ($result0[0] == 0) { echo "<input type='button' value='".$lng[p_FO_Div_Event_join]."' onclick=\"eventPresence(1)\" href=\"javascript:void(0)\"></td></tr>"; }
-			else { echo "<input type=\"button\" value=\"".$lng[p_FO_Div_Event_change]."\" onclick=\"eventPresence(1)\" href=\"javascript:void(0)\"></td></tr>
-			<tr><td colspan='2'><input type=\"button\" value=\"".$lng[p_FO_Div_Event_leave]."\" onclick=\"eventPresence(0)\" href=\"javascript:void(0)\"></td></tr>"; 
-			}; 
-	}
 	
 $sql="SELECT x.online,x.user_ID, x.username,x.character_ID, x.name, x.param_ID_profession, x.text_ID, x.color
 FROM 
@@ -137,24 +105,58 @@ x.user_ID NOT IN (SELECT user_ID FROM ".$gm_prefix."raid_player WHERE dateEvent=
 GROUP BY x.user_ID
 ORDER BY x.partyOrder";
 
-$list=mysql_query($sql);
-$count=mysql_num_rows($list);
+$list=mysqli_query($con,$sql);
+$count=mysqli_num_rows($list);
      echo "
      <tr class='top'><td colspan='2'>
-     <p>".$lng[p_FO_Div_Event_p_1]." ($count) : </p>
-     <div id='members'>
+     <p style='font-weight:bold;'>$count ".$lng[p_FO_Div_Event_p_1]."</p><br />";
+	 
+	//Presence 
+	$sql0 = "SELECT presence FROM ".$gm_prefix."raid_player WHERE dateEvent='$sqldate' AND user_ID=$usertest 
+	UNION SELECT $sqlday FROM ".$gm_prefix."userinfo WHERE $sqlday=1 AND user_ID=$usertest AND user_ID NOT IN (SELECT user_ID FROM ".$gm_prefix."raid_player WHERE dateEvent='$sqldate')
+	GROUP BY user_ID";
+	$list0=mysqli_query($con,$sql0); 
+	$result0=mysqli_fetch_row($list0);
+	
+	$sql1="SELECT a.character_ID, a.name, a.main
+	FROM ".$gm_prefix."character AS a 
+	WHERE a.user_ID = ".$usertest." 
+	ORDER BY a.main DESC, a.param_ID_profession";
+	$list1=mysqli_query($con,$sql1);
+	$num_rows = mysqli_num_rows($list1);
+			
+	if ($num_rows == 0) { echo "<p style='padding-left:10px;'><a id='Menu' href='FO_Main_CharacterEdit.php?action=new'>".$lng[p_FO_Div_Event_a_1]."</a></p>"; }
+	else { 	
+			if ($result0[0] == 0) { echo "<p style='padding-left:10px;'><input type='button' value='".$lng[p_FO_Div_Event_join]."' onclick=\"eventPresence(1)\" href=\"javascript:void(0)\">"; }
+			else { echo "<p style='padding-left:10px;'><input type=\"button\" value=\"".$lng[p_FO_Div_Event_change]."\" onclick=\"eventPresence(1)\" href=\"javascript:void(0)\">"; };
+		echo " <select id=\"character_ID\" >";
+			while($result1=mysqli_fetch_array($list1,MYSQLI_ASSOC))
+			{ echo "<option value='".$result1['character_ID']."'";
+			if ($result1['main']==1){ echo "selected"; }; echo " > ".$result1['name']."</option>"; };
+			echo "</select></p>";
+				
+			if ($result0[0] != 0) { echo "<p style='padding-left:10px;'><input type=\"button\" value=\"".$lng[p_FO_Div_Event_leave]."\" onclick=\"eventPresence(0)\" href=\"javascript:void(0)\"></p>"; 
+			}; 
+	}
+	//End Presence
+	 
+	 
+	 
+	 echo "
+     <div id='FO_Member'>
+	 <br/>
      <table>";
-while($result=mysql_fetch_array($list))
+while($result=mysqli_fetch_array($list,MYSQLI_ASSOC))
 { echo "<tr style='background-color:".$result['color']."'>
-<td><img src='resources/images/".$result['online'].".png'></td>
-<td><a href='FO_Main_Profession.php?id=".$result['param_ID_profession']."'><img src='resources/images/".$result['text_ID']."_Icon.png'></a></td>
-<td><a class='table' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
-<td><a class='table' href='FO_Main_User.php?user=".$result['user_ID']."'>".$result['username']."</a></td>
+<td><img src='resources/theme/$theme/images/".$result['online'].".png'></td>
+<td><a href='FO_Main_Profession.php?id=".$result['param_ID_profession']."'><img src='resources/theme/$theme/images/".$result['text_ID']."_Icon.png'></a></td>
+<td><a class='colorbg' href='FO_Main_CharacterEdit.php?character=".$result['character_ID']."'>".$result['name']."</a></td>
+<td><a class='colorbg' href='FO_Main_User.php?user=".$result['user_ID']."'>".$result['username']."</a></td>
 </tr>"; };
 echo "
 </tr></table></div>
-
-<img src='resources/images/Next.png'>
+<br />
+<img src='resources/theme/$theme/images/Next.png'>
 <a class='table' href=\"javascript:void(0)\"' onclick=\"createParties()\">".$lng[g__create_parties]."</a>
 <input type='radio' name='type' value='auto' checked='checked'>".$lng[g__auto]."
 <input type='radio' name='type' value='manuel'>".$lng[g__manual]."
@@ -169,8 +171,8 @@ echo "
 			url: \"resources/php/FO_Div_Event.php?user_ID=$usertest&id=$id&date=$date&action=\" + a,
 			data: \"&character_ID=\" + document.getElementById(\"character_ID\").value,
 			success: function(html){
-			 $(\"#right\").load(\"resources/php/FO_Div_Presence.php?user_ID=$usertest\");
-			 $(\"#event\").html(html);
+			 $('#Right').load(\"resources/php/FO_Div_Presence.php?user_ID=$usertest\");
+			 $('#FO_Event').html(html);
 			}
 		});		
 	}	
@@ -183,9 +185,9 @@ echo "
 			data: \"dateEvent=$date\" +
 				  \"&type=\" + $(\"input[name=type]:checked\").val(),
 			success: function(html){
-				$(\"#parties\").html(html);
-				$('#members').hide( 'blind' );
-				$('#parties').show( 'blind' );
+				$('#FO_Party').html(html);
+				$('#FO_Member').hide( 'blind' );
+				$('#FO_Party').show( 'blind' );
 			}
 		});		
 	}	

@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -29,19 +29,19 @@ echo "<h3>".$lng[p_FO_Div_Chantal_h3_1]."</h3>
 <table>
 <tr>";
 //Retrieving event information
-$sql="SELECT r.raid_event_ID,  UNIX_TIMESTAMP(r.dateRaid) AS dateRaid, r.event, r.map, r.color, r.time, u.username,r.comment,
+$sql="SELECT r.raid_event_ID,  UNIX_TIMESTAMP(r.dateEvent) AS dateEvent, r.event, r.map, r.color, r.time, u.username,r.comment,
       COUNT(p.character_ID) AS count
       FROM ".$gm_prefix."raid_event AS r 
       LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=r.user_ID_leader
-      LEFT JOIN ".$gm_prefix."raid_presence AS p ON p.dateEvent=r.dateRaid
-      WHERE r.dateRaid >= DATE(CURDATE())
+      LEFT JOIN ".$gm_prefix."raid_presence AS p ON p.dateEvent=r.dateEvent
+      WHERE r.dateEvent >= DATE(CURDATE())
       GROUP BY r.raid_event_ID
-	  ORDER BY r.dateRaid
+	  ORDER BY r.dateEvent
       LIMIT 2";
-$list=mysql_query($sql); 
-while( $result=mysql_fetch_array($list))
+$list=mysqli_query($con,$sql); 
+while( $result=mysqli_fetch_array($list,MYSQLI_ASSOC))
 { 
-$title = strftime('%A %e %B', $result['dateRaid']);
+$title = strftime('%A %e %B', $result['dateEvent']);
 $title = utf8_encode( $title );
 echo "<td>
      <p><b>".$title."</b><br />
