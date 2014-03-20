@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
+/*  Guild Manager v1.1.0 (Princesse dï¿½Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -16,26 +16,26 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-//PHPBB connection / Connexion à phpBB
+//PHPBB connection / Connexion ï¿½ phpBB
 include('resources/phpBB_Connect.php');
 //GuildManager main configuration file / Fichier de configuration principal GuildManager
 include('resources/config.php');
 //Language management / Gestion des traductions
 include('resources/language.php');
 
-//Page variables creation / Création des variables spécifiques pour la page
+//Page variables creation / Crï¿½ation des variables spï¿½cifiques pour la page
 $id = $_GET['user'];
 $action = $_GET['action'];
 if (in_array($user->data['group_id'],$cfg_groups_backoffice)){ $admin = 1; };
 
-//Start of html page / Début du code html
+//Start of html page / Dï¿½but du code html
 echo "
 <html>
 <head>";
-//Common <head> elements / Eléments <head> communs
+//Common <head> elements / Elï¿½ments <head> communs
 	include('resources/php/FO_Head.php');
 
-//Page specific <head> elements / Eléments <head> spécifique à la page
+//Page specific <head> elements / Elï¿½ments <head> spï¿½cifique ï¿½ la page
 //Scripts
 //Stats
 echo "
@@ -145,7 +145,7 @@ echo " ],
 		<div id='Title'><h1>".$cfg_title."</h1></div>";
 //User permissions test / Test des permissions utilisateur
 			if (in_array($user->data['group_id'],$cfg_groups)){
-			//Registered user code / Code pour utilisateurs enregistrés
+			//Registered user code / Code pour utilisateurs enregistrï¿½s
 		echo "
 		<div id='Left'>";
 			include('resources/php/FO_Div_Menu.php');
@@ -222,7 +222,7 @@ echo " ],
 				</table>
 				<br />
 				<br />
-				<div class='extand' id='result'></div>
+				<div class='extand' id='Result'></div>
 			</div>
 			<div id='Right'>
 				<h5>".$lng[p_FO_Main_Bus_h5_1]."</h5>
@@ -256,20 +256,20 @@ echo " ],
 			data: \"dateEvent=2012-08-31\" +
 				  \"&type=\" + $(\"input[name=type]:checked\").val(),
 			success: function(html){
-				$(\"#result\").html(html);
+				$(\"#Result\").html(html);
 			}
 		});
 		
 		}
 	
 	</script>
-		<script>function adminPanelShow(){ $('#adminLink').hide(  'blind' );$('#adminPanel').show( 'blind' );}</script>
-	<script>function adminPanelHide(){ $('#adminPanel').hide( 'blind' );$('#adminLink').show(  'blind' );}</script>
+	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
+	<script>function adminPanelHide(){ $('#AdminPanel').hide( 'blind' );$('#AdminLink').show(  'blind' );}</script>
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
 	<script src=\"resources/js/Menu_Match.js\"></script>
 </body>
 </html>"; }
-//Non authorized user / utilisateur non autorisé
+//Non authorized user / utilisateur non autorisï¿½
 else { include('resources/php/FO_Div_Register.php'); }
 ?>
 
