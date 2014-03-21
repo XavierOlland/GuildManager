@@ -115,7 +115,7 @@ $('#RaidEvent').submit(function(){
 		$.ajax({
 			type: \"POST\",
 			url: \"resources/php/BO_Script_Event.php\",
-			data: $('#raidevent').serialize() + \"&date=$date&id=$id&action=update\",
+			data: $('#RaidEvent').serialize() + \"&date=$date&id=$id&action=update\",
 			success: function(){
 				$(\"#BO_Calendar\").load(\"resources/php/BO_Div_Calendar.php?date=$today\");
 				$(\"#BO_Event\").load(\"resources/php/BO_Div_Event.php?date=$date\");

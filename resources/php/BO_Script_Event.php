@@ -30,45 +30,20 @@ $action = $_POST['action'];
 $sqlday = date('l', $date);
 $sqldate = date('Y\-m\-d', $date);
 $today = date('Y-m-d', time());
-echo $id;
+
 //Action management / Gestion des actions
-if( $action == 'delete')
-{
-$sql1="DELETE FROM ".$gm_prefix."raid_event WHERE raid_event_ID='$id'"; 
-if (!mysqli_query($con,$sql1)){$actionresult=$lng[g__error_delete];}
+if( $action == 'delete'){
+	$sql1="DELETE FROM ".$gm_prefix."raid_event WHERE raid_event_ID='$id'"; 
+	if (!mysqli_query($con,$sql1)){$actionresult=$lng[g__error_delete];};}
 else {
-echo "
-<p class='red'>".$lng['p_BO_Div_Event_p_1']."</p><br />
-<p>".$lng['p_BO_Div_Event_p_2']."</p>";
-}
- ; }
-else {
-	if( $action == 'update'){
-	$sql0="SELECT raid_event_id FROM ".$gm_prefix."raid_event WHERE dateEvent='$_POST[dateEvent]' AND raid_event_ID!=$id";
-	$list0=mysqli_query($con,$sql0);
-	$count=mysqli_num_rows($list0);
-	if( $count != 0 ){
-		echo "<p class='red'>".$lng['p_BO_Div_Event_p_3']."</p><br />"; 
-							}
-				
-	else {	
-		if ($id == 0){
-			$sql1="INSERT INTO ".$gm_prefix."raid_event ( dateEvent, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateEvent]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
-			if (!mysqli_query($con,$sql1)){$actionresult=$lng[g__error_create];}
-		else { $id = mysql_insert_id();
-			echo "
-			<script>alert(\"Create\")</script>
-			<p class='red'>".$lng[p_BO_Div_Event_p_4]."Create</p><br />";
-			};}	
-		else {
-			$sql1="UPDATE ".$gm_prefix."raid_event SET dateEvent='$_POST[dateEvent]', time='$_POST[time]', map='$_POST[map]', color='$_POST[color]', event='$_POST[event]', user_ID_leader='$_POST[user_ID_leader]', comment='$_POST[comment]' WHERE raid_event_ID='$id'"; 
-			if (!mysqli_query($con,$sql1)){$actionresult=$lng[g__error_create];}
-			else { echo " <p class='red'>".$lng[p_BO_Div_Event_p_4]."Update</p><br />";};
-		};
+	if ($id == 0){
+		$sql1="INSERT INTO ".$gm_prefix."raid_event ( dateEvent, time, map, color, event, user_ID_leader, comment ) VALUES ('$_POST[dateEvent]','$_POST[time]','$_POST[map]','$_POST[color]','$_POST[event]','$_POST[user_ID_leader]','$_POST[comment]')"; 
+		if (!mysqli_query($con,$sql1)){$actionresult=$lng[g__error_create];};}	
+	else {
+		$sql1="UPDATE ".$gm_prefix."raid_event SET dateEvent='$_POST[dateEvent]', time='$_POST[time]', map='$_POST[map]', color='$_POST[color]', event='$_POST[event]', user_ID_leader='$_POST[user_ID_leader]', comment='$_POST[comment]' WHERE raid_event_ID='$id'"; 
+		if (!mysqli_query($con,$sql1)){$actionresult=$lng[g__error_create];};};
 		
-		};
-	};
-}; 
- 
+};
+
 
 ?>

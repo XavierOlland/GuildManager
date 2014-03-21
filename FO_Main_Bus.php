@@ -85,10 +85,10 @@ echo " ],
 	</script>
   <script>
 $(document).ready(function(){
-  $(\"#stat1_next\").click(function(){
-    $(\"#stat1\").hide();
-    $(\"#piechart1\").hide();
-    $(\"#stat2\").show();
+  $(\"#Stat1_next\").click(function(){
+    $(\"#Stat1\").hide();
+    $(\"#Piechart1\").hide();
+    $(\"#Stat2\").show();
     var data = [";
 		
 		$sql="SELECT d.$local AS translation, COUNT( a.character_ID )/$total AS num, c.color
@@ -126,10 +126,10 @@ echo " ],
 			} 
 		});
   });
-  $(\"#stat2_next\").click(function(){
-    $(\"#stat2\").hide();
-    $(\"#stat1\").show();
-    $(\"#piechart1\").show();
+  $(\"#Stat2_next\").click(function(){
+    $(\"#Stat2\").hide();
+    $(\"#Stat1\").show();
+    $(\"#Piechart1\").show();
   });
 });
 </script>
@@ -233,7 +233,7 @@ echo " ],
 						<table class='right'>
 							<tr>
 								<td><img src='resources/theme/$theme/images/Next.png' /></td>
-								<td><a class='mright' id='stat1_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_2]."</a></td>
+								<td><a class='mright' id='Stat1_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_2]."</a></td>
 							</tr>
 						</table>
 					</p>
@@ -242,7 +242,7 @@ echo " ],
 				<div id='Stat2'>
 					<h6>".$lng[p_FO_Main_Bus_h6_2]."</h6>
 					<div id='Piechart2'></div>
-					<p class='right'><table class='right'><tr><td><img src='resources/theme/$theme/images/Next.png' /></td><td><a class='mright' id='stat2_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_1]."</a></td></tr></table></p>
+					<p class='right'><table class='right'><tr><td><img src='resources/theme/$theme/images/Next.png' /></td><td><a class='mright' id='Stat2_next' href=\"javascript:void(0)\">".$lng[p_FO_Main_Bus_h6_1]."</a></td></tr></table></p>
 				</div>
 			</div>
 		</div>
@@ -263,7 +263,23 @@ echo " ],
 		}
 	
 	</script>
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+		<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
+=======
 	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
+>>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
+=======
+	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
+>>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
+=======
+	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
+>>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
+=======
+	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
+>>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
 	<script>function adminPanelHide(){ $('#AdminPanel').hide( 'blind' );$('#AdminLink').show(  'blind' );}</script>
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
 	<script src=\"resources/js/Menu_Match.js\"></script>

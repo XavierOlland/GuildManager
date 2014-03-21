@@ -1,4 +1,4 @@
-WELCOME TO GUILDMANAGER v1.0.3
+WELCOME TO GUILDMANAGER v1.1.0
 
 First things first ! You should read our board first : http://www.guildmanager.eu
 There you will have the last information available on the project.
@@ -13,7 +13,7 @@ Here is a short "how to" for installation procedure :
 
 4. Go to "your-board-url/GuildManager", enjoy !
 
-BIENVENUE DANS GUILDMANAGER v1.0.3
+BIENVENUE DANS GUILDMANAGER v1.1.0
 
 Tout d'abord, vous devriez lire le forum : http://www.guildmanager.eu
 Il contient les dernières informations sur le projet.

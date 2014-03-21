@@ -47,7 +47,8 @@ echo "
 	
 	$list=mysqli_query($con,$sql);
 	while($result=mysqli_fetch_row($list))
-	{ $sql1="SELECT ".$result[1]." FROM guild_userinfo WHERE user_ID=$usertest";
+	{ $sql1="SELECT ".$result[1]." FROM ".$gm_prefix."userinfo WHERE user_ID=$usertest";
+	
 		$list1=mysqli_query($con,$sql1);
 		while($result1=mysqli_fetch_row($list1))
 	{ if( $result1[0] == 1 ){ echo "<th class='center' width='18'>".$result[0]."</th>" ; }
