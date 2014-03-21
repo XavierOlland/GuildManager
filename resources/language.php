@@ -1,5 +1,5 @@
 <?php
-/*  Guild Manager v1.0.4
+/*  Guild Manager v1.1.0 (Princesse d’Ampshere)
 	Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
     Copyright (C) 2013  Xavier Olland
 
@@ -19,14 +19,14 @@
 $sql="SELECT CONCAT(LEFT(entity,1),'_',variable_name) AS name, $local 
 FROM ".$gm_prefix."dictionary 
 WHERE entity IN ( 'table' , 'generic' )";
-$result=mysql_query($sql);
+$result=mysqli_query($con,$sql);
 $lng = array();
-while ($row = mysql_fetch_array($result)) { $lng[$row['name']] = $row[$local]; };
+while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) { $lng[$row['name']] = $row[$local]; };
 
 $page = str_ireplace('.php','',basename($_SERVER['PHP_SELF']) );
 $sql="SELECT CONCAT(LEFT(entity,1),'_',variable_name) AS name, $local 
 FROM ".$gm_prefix."dictionary 
 WHERE entity='page' AND entity_name='$page'";
-$result=mysql_query($sql);
-while ($row = mysql_fetch_array($result)) { $lng[$row['name']] = $row[$local]; };
+$result=mysqli_query($con,$sql);
+while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) { $lng[$row['name']] = $row[$local]; };
 ?>
