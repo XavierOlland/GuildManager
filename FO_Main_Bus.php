@@ -57,7 +57,7 @@ echo "
 		while($result=mysqli_fetch_array($list,MYSQLI_ASSOC)){
 		echo "['".$result['translation']."', ".$result['num']."]"; $count--; if( $count > 0) {echo",";};};
 		echo " ];
-		var plot1 = jQuery.jqplot ('piechart1', [data],
+		var plot1 = jQuery.jqplot ('Piechart1', [data],
 		{
 			seriesDefaults: {
 				renderer: jQuery.jqplot.PieRenderer,
@@ -102,7 +102,7 @@ $(document).ready(function(){
 		while($result=mysqli_fetch_array($list,MYSQLI_ASSOC)){
 		echo "['".$result['translation']."', ".$result['num']."]"; $count--; if( $count > 0) {echo",";};};
 		echo " ];
-		var plot1 = jQuery.jqplot ('piechart2', [data],
+		var plot1 = jQuery.jqplot ('Piechart2', [data],
 		{
 			seriesDefaults: {
 				renderer: jQuery.jqplot.PieRenderer,
@@ -263,23 +263,9 @@ echo " ],
 		}
 	
 	</script>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
-=======
-	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
->>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
-=======
-	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
->>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
-=======
-	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
->>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
-=======
-	<script>function adminPanelShow(){ $('#AdminLink').hide(  'blind' );$('#AdminPanel').show( 'blind' );}</script>
->>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
+
 	<script>function adminPanelHide(){ $('#AdminPanel').hide( 'blind' );$('#AdminLink').show(  'blind' );}</script>
 	<script>var api_lng = '$api_lng'; var default_world_id = $api_srv</script>
 	<script src=\"resources/js/Menu_Match.js\"></script>

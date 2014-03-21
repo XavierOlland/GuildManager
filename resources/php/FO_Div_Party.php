@@ -33,23 +33,8 @@ $type = $_POST['type'];
 
 //Party prepartation / Pr�paration des groupes
 if ($date == '2012-08-31'){
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID, c.color, u.username 
-=======
-	$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID,  c.color, u.username 
->>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
-=======
-	$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID,  c.color, u.username 
->>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
-=======
-	$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID,  c.color, u.username 
->>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
-=======
-	$sql="SELECT a.user_ID, a.character_ID, a.name, a.param_ID_profession, c.text_ID,  c.color, u.username 
->>>>>>> 64a9a625b534c0ccf887a38fb75711f150fe8bcf
 	FROM ".$gm_prefix."character AS a 
 	INNER JOIN ".$gm_prefix."param AS c ON c.param_ID=a.param_ID_profession 
 	INNER JOIN ".$gm_prefix."profession AS p ON p.param_ID=c.param_ID
