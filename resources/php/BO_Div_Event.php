@@ -73,7 +73,7 @@ echo "<form name='raidevent' id='RaidEvent' method='POST' action='' onsubmit=\"r
 		{ echo "<option value='".$resultC['user_ID']."' " ;if ($resultC['user_ID']==$result[5]) { echo "selected" ;}; echo ">".$resultC['username']."</option>";};
 		echo "</select></p></td></tr>
 		<tr class='top'><td><p>".$lng[t_raid_event_comment]." : </p></td><td>
-		<textArea style='width:240px; height:80px;' form='raidevent' name='comment' >".$result[6]."</textArea></td></tr>";
+		<textArea style='width:240px; height:80px;' form='RaidEvent' name='comment' >".$result[6]."</textArea></td></tr>";
 	 
 $sql1="SELECT x.online,x.user_ID, x.username,x.character_ID, x.name, x.param_ID_profession, x.text_ID, x.color
 FROM 
