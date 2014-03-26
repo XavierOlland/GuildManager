@@ -46,9 +46,10 @@ $cfg_groups_backoffice = array('1');
 $cfg_title = 'Guild Manager';
 
 //Calendar variables / Variables du calendrier
-
 //Limit for event display in the past ('x day') / Limite d'affichage des événements passés en jours ('x day').
 $event_limit = '7 day';
+//Number of upcoming events shown on index / Nombre d'événements à venir sur la page d'accueil
+$event_next = '3';
 
 //Parties / Groupes
 //Add x parties during creation/ Ajouter x groupes lors de leurs création

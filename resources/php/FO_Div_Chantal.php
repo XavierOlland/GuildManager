@@ -29,19 +29,19 @@ echo "<h3>".$lng[p_FO_Div_Chantal_h3_1]."</h3>
 <table>
 <tr>";
 //Retrieving event information
-$sql="SELECT r.raid_event_ID,  UNIX_TIMESTAMP(r.dateEvent) AS dateEvent, r.event, r.map, r.color, r.time, u.username,r.comment,
+$sql="SELECT r.raid_event_ID, UNIX_TIMESTAMP(r.dateEvent) AS dateEvent, r.event, r.map, r.color, r.time, u.username,r.comment,
 	  r.dateEvent AS sqlDate, DATE_FORMAT(r.dateEvent,'%W') AS day
       FROM ".$gm_prefix."raid_event AS r 
       LEFT JOIN ".$table_prefix."users AS u ON u.user_ID=r.user_ID_leader
       WHERE r.dateEvent >= DATE(CURDATE())
       GROUP BY r.raid_event_ID
 	  ORDER BY r.dateEvent
-      LIMIT 2";
+      LIMIT $event_next";
 
 $list=mysqli_query($con,$sql); 
 while( $result=mysqli_fetch_array($list,MYSQLI_ASSOC))
 { 
-$sql="SELECT x.online,x.user_ID, x.username,x.character_ID, x.name, x.param_ID_profession, x.text_ID, x.color
+$sql1="SELECT x.online,x.user_ID, x.username,x.character_ID, x.name, x.param_ID_profession, x.text_ID, x.color
 FROM 
 (SELECT CASE WHEN s.session_time > (s.session_time-3600) THEN 'Online' ELSE 'Offline' END AS online,
 u.user_ID, u.username,c.character_ID, c.name, c.param_ID_profession, p1.text_ID, p1.color, p2.partyorder
@@ -67,11 +67,12 @@ x.user_ID NOT IN (SELECT user_ID FROM ".$gm_prefix."raid_player WHERE dateEvent=
 GROUP BY x.user_ID
 ORDER BY x.partyOrder";
 
-$list=mysqli_query($con,$sql);
-$count=mysqli_num_rows($list);
+$list1=mysqli_query($con,$sql1);
+$count=mysqli_num_rows($list1);
 
 $title = strftime('%A %e %B', $result['dateEvent']);
 $title = utf8_encode( $title );
+
 echo "<td>
      <p><b>".$title."</b><br />
      <b>".$result['event']."</b><br />
@@ -82,6 +83,6 @@ echo "<td>
     ".$lng[p_FO_Div_Chantal_p_1]." : <b>$count</b></p></td>" ;
      };
 
-     echo "</tr></table>"
+     echo "</tr></table>";
 
 ?>
