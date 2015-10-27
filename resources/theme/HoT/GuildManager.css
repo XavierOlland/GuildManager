@@ -1,0 +1,133 @@
+/* Guild Manager v1.0.3
+        Guild Manager has been designed to help Guild Wars 2 (and other MMOs) guilds to organize themselves for PvP battles.
+Copyright (C) 2013 Xavier Olland
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+body { overflow:auto; background-image:url('images/Main_BG.jpg'); background-size:100%; background-repeat:no-repeat;}
+
+@font-face { font-family: managerTitle; src: url('fonts/GW2.ttf'); }
+@font-face { font-family: guildText2; src: url('fonts/SourceSansPro-Light.otf'); }
+@font-face { font-family: guildText; src: url('fonts/SourceSansPro-Regular.otf'); }
+@font-face { font-family: guildTitle; src: url('fonts/SourceSansPro-Semibold.otf'); }
+@font-face { font-family: guildTitle2; src: url('fonts/SourceSansPro-Bold.otf'); }
+
+h1 { font-family: managerTitle; color:#484848; font-size:54px; text-align: left; text-indent:40px; line-height: 10%; display:inline-block;}
+h2 { font-family: guildTitle; color:#484848; font-size:28px; margin-bottom: 5px; margin-top: 5px; line-height: 100%; display:inline-block; }
+h3 { font-family: guildTitle; color:#9AAF56; font-size:24px; margin-bottom: 5px; margin-top: 5px; margin-left:5px; line-height: 100%; }
+h4 { font-family: guildText; color:#9AAF56; font-size:20px; margin-bottom: 5px; margin-top: 5px;}
+h3:first-letter { text-transform: uppercase; }
+h5 { font-family: guildTitle; color:#484848; font-size:22px; margin-bottom: 5px; margin-top: 5px; line-height: 100%; }
+h6 { font-family: guildText; color:#9AAF56; font-size:18px; margin-top: 10px; margin-bottom: 5px; margin-left:5px; }
+
+
+p { font-family: guildText; font-size:16px; margin:0px; vertical-align:top;line-height: 110%; }
+p.red { font-family: guildText; color:#9AAF56; font-size:16px; margin:0px; vertical-align:top; }
+p.right { font-family: guildText; font-size:16px; margin:0px; vertical-align:top; text-align:right;line-height: 110%; }
+
+a.titre:link { color:#9AAF56; text-decoration:none; }
+a.titre:visited { color:#9AAF56; text-decoration:none; }
+a.titre:hover { color:#3C4B37; text-decoration:none; }
+a.titre:active { color:#3C4B37; text-decoration:none; }
+
+a.menu:link { color:#9AAF56; text-decoration:underline; font-family: guildText; font-size:16px; line-height: 20px; }
+a.menu:visited { color:#9AAF56; text-decoration:underline; font-family: guildText; font-size:16px; line-height: 20px; }
+a.menu:hover { color:#3C4B37; text-decoration:underline; font-family: guildText; font-size:16px; line-height: 20px;}
+a.menu:active { color:#3C4B37; text-decoration:underline; font-family: guildText; font-size:16px; line-height: 20px;}
+
+a.mright:link { color:#9AAF56; text-decoration:underline; font-family: guildText; font-size:16px; text-align:right;line-height: 20px; }
+a.mright:visited { color:#9AAF56; text-decoration:underline; font-family: guildText; font-size:16px; text-align:right;line-height: 20px; }
+a.mright:hover { color:#3C4B37; text-decoration:underline; font-family: guildText; font-size:16px; text-align:right;line-height: 20px;}
+a.mright:active { color:#3C4B37; text-decoration:underline; font-family: guildText; font-size:16px; text-align:right;line-height: 20px;}
+
+a.calendar:link { color:#484848; text-decoration:none; font-family: guildText; font-size:16px; line-height: 20px; }
+a.calendar:visited { color:#484848; text-decoration:none; font-family: guildText; font-size:16px; line-height: 20px; }
+a.calendar:hover { color:#000000; text-decoration:none; font-family: guildText; font-size:16px; line-height: 20px;}
+a.calendar:active { color:#000000; text-decoration:none; font-family: guildText; font-size:16px; line-height: 20px;}
+
+a.table:link { color:#000000; text-decoration:underline; font-family: guildText; font-size:16px; margin:0px; }
+a.table:visited { color:#000000; text-decoration:underline; font-family: guildText; font-size:16px; margin:0px; }
+a.table:hover { color:#484848; text-decoration:underline bold; font-family: guildText; font-size:16px; margin:0px; }
+a.table:active { color:#484848; text-decoration:underline bold; font-family: guildText; font-size:16px; margin:0px; }
+
+a.colorbg:link { color:#484848; text-decoration:underline; font-family: guildText; font-size:16px; margin:0px; }
+a.colorbg:visited { color:#484848; text-decoration:underline; font-family: guildText; font-size:16px; margin:0px; }
+a.colorbg:hover { color:#000000; text-decoration:underline bold; font-family: guildText; font-size:16px; margin:0px; }
+a.colorbg:active { color:#000000; text-decoration:underline bold; font-family: guildText; font-size:16px; margin:0px; }
+
+a.right:link { color:#000000; text-decoration:underline; font-family: guildText; font-size:16px; margin:0px; text-align:right;}
+a.right:visited { color:#000000; text-decoration:underline; font-family: guildText; font-size:16px; margin:0px; }
+a.right:hover { color:#484848; text-decoration:underline bold; font-family: guildText; font-size:16px; margin:0px; }
+a.right:active { color:#484848; text-decoration:underline bold; font-family: guildText; font-size:16px; margin:0px; }
+
+
+table {border: 0px ; margin:0px;}
+table.right {float:right; border: 0px ; margin:0px;}
+th {height : 20px; border: 0px ; padding: 3px; background-color:rgba(50, 55, 55, 0.25); font-family: guildTitle; color:#484848; font-size:16px; vertical-align:center;}
+tr {height : 20px; border: 0px ; padding: 3px; vertical-align:center; }
+tr.center { height : 20px; border: 0px ; vertical-align:center;}
+tr.top {height : 20px; border: 0px ; vertical-align:top; }
+td {border: 0px; padding: 3px; font-family: guildText; font-size:16px; vertical-align:center; text-align:left;}
+td.colorbg {border: 0px; padding: 3px; font-family: guildText; font-size:16px; vertical-align:center; text-align:left;}
+td.center {border: 0px; padding: 3px; font-family: guildText; font-size:16px; vertical-align:center; text-align:center;}
+td.bottom { border: 0px; padding: 3px; font-family: guildText; font-size:16px; vertical-align:bottom; text-align:right; }
+td.result { border: 0px; padding: 3px; font-family: guildTitle; font-size:16px; vertical-align:center; text-align:left; }
+td.calendar {border: 0px; padding: 3px; font-family: guildText; font-size:16px; vertical-align:center; text-align:center;}
+td.fade {border: 0px; padding: 3px; font-family: guildText; font-size:16px; vertical-align:center; text-align:center; color:rgba(0, 0, 0, 0.3)}
+tr.footer {height : 20px; border: 0px ; padding: 3px; background-color:rgba(50, 55, 55, 0.15); font-family: guildTitle; color:#484848; font-size:16px; vertical-align:center; text-align:center;}
+
+table.menu { border:1px; }
+th.menu {vertical-align:center;}
+tr.menu {vertical-align:center; }
+td.menu {font-family: guildText; padding-left: 10px; padding-right: 10px; vertical-align:center;}
+
+
+input.h3 {width:300px; height:36px; background-color: transparent; border-style:solid; border-color:#606060; border-width:1px; border-style:none none solid none; font-family: guildTitle; color:#9AAF56; font-size:24px;}
+input.h4 {width:300px; height:30px; background-color: transparent; border-style:solid; border-color:#606060; border-width:1px; border-style:none none solid none; font-family: guildText; color:#9AAF56; font-size:20px;}
+input.p {width:150px; height:20px; background-color: transparent; border-style:solid; border-color:#606060; border-width:1px; border-style:none none solid none; font-family: guildText; color:#000000; font-size:16px; font-weight:bold;}
+select.p {width:150px; height:20px; border-style:solid; border-color:#606060; border-width:1px; border-style:none none solid none; font-family: guildText; color:#000000; font-size:16px;}
+textarea { background-color:transparent; border-style:none none solid solid; border-color:#848484; border-width:1px; font-family: guildText; color:#000000; font-size:16px; font-weight:bold;}
+fieldset.admin { border: dashed 1px #9AAF56; width:680px; }
+fieldset.adminRight { border: dashed 1px #9AAF56; min-width:170px; margin:2px; padding:1px; }
+legend.admin { font-family: guildText; color:#9AAF56; font-size:20px; }
+input.admin { background-color:rgba(255,255,255,0); border:0px; float:right; color:#9AAF56; }
+
+li { color:#000000; font-family: guildText; font-size:16px; text-align:left;}
+
+div#Main { width:1080px; top:0px; margin-left:auto; margin-right:auto; z-index: 0; }
+
+div#Title { position:inherit; width:auto; margin-left:5px; margin-right:5px; top:10px; height:75px; padding:5px; background-color:rgba(255,255,255,0.5); border-radius:5px; border-style:solid; border-color:#606060; border-width:1px; z-index: 0; }
+
+div#Left { position:inherit; float:left; padding:0px; margin:0px; padding:0px; width:150px; height:auto; z-index: 0; line-height:100%; display:inline-block; }
+  div#Menu { float:left; margin-right:0px; margin:5px;; padding:5px; width:133px; min-height:200px; height:auto; background-color:rgba(255,255,255,0.5); border-radius:5px; border-style:solid; border-color:#606060; border-width:1px; z-index: 0; }
+  div#Match { float:left; margin-right:0px; margin-top:0px; margin-left:5px; padding:5px; width:133px; height:250px; background-color:rgba(255,255,255,0.5); border-radius:5px; border-style:solid; border-color:#606060; border-width:1px; z-index: 0; }
+
+
+div#Page { position:inherit;float:left; clear: right; padding:0px; margin:0px; width:930px; min-height:305px; z-index: -1; line-height:100%; display:inline-block; }
+  div#Core { float:left; margin:5px; padding:5px; width:710px; min-height:471px; background-color:rgba(255,255,255,0.5); border-radius:5px; border-style:solid;border-color:#606060;border-width:1px; z-index: 1; }
+	div#Event { float:left;padding-left:35px; width:350px; }
+	div.extand { position:relative; float:left; margin:0px; padding:0px; width:auto; z-index: 2; }
+  div#Right { float:left; margin:5px; margin-left:0px; padding:5px; width:180px; min-height:471px; background-color:rgba(255,255,255,0.5); border-radius:5px; border-style:solid;border-color:#606060;border-width:1px; z-index: 1; }
+  div#CoreFull { float:left; margin:5px; padding:5px; width:908px; min-height:471px; background-color:rgba(255,255,255,0.5); border-radius:5px; border-style:solid;border-color:#606060;border-width:1px; z-index: 1; }
+
+
+div#Copyright{ position:inherit; width:auto; margin-left:5px; margin-right:5px; font-size:10px; }
+
+div#LeftBO { position:inherit; float:left; padding:0px; margin:0px; padding:0px; width:220px; height:auto; min-height:447px; z-index: 0; line-height:100%; display:inline-block; }
+  div#MenuBO { float:left; margin-right:0px; margin:5px; padding:5px; width:auto; min-height:200px; height:auto; background-color:rgba(255,255,255,0.5); border-radius:5px;  border-style:solid; border-color:#606060; border-width:1px; z-index: 0; }
+  div#MatchBO { float:left; margin-right:0px; margin-top:0px; margin-left:5px; padding:5px; width:183px; height:180px; background-color:rgba(255,255,255,0.5); border-radius:5px; border-style:solid; border-color:#606060; border-width:1px; z-index: 0; }
+
+div#PageBO { position:inherit;float:left; clear: right; padding:0px; margin:0px; width:850px; min-height:300px; z-index: -1; line-height:100%; display:inline-block; }
+  div#CoreBO { float:left; margin:5px; padding:5px; width:838px; min-height:397px; background-color:rgba(255, 255, 255, 0.5); border-radius:5px; border-style:solid;border-color:#606060;border-width:1px; z-index: 1; }
+  div#ExtandBO { position:relative; float:left; margin:0px; padding:0px; width:auto; z-index: 2; }

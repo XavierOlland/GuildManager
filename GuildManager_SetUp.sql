@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
-	
+
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -281,7 +281,7 @@ INSERT INTO `gm_dictionary` (`dictionnary_ID`, `variable_name`, `entity`, `entit
 (196, 'BO_Script_Raid_Player', 'page', 'BO_Script_Raid', NULL, NULL, 'Participations successfully deleted !', 'Les participations ont été supprimées.'),
 (197, 'BO_Script_Raid_Presence', 'page', 'BO_Script_Raid', NULL, NULL, 'Presences successfully deleted !', 'Les présences ont été supprimées.'),
 (198, 'BO_Script_Raid_Absence', 'page', 'BO_Script_Raid', NULL, NULL, 'Absences successfully deleted !', 'Les absences ont été supprimées.');
-
+(199, 'profession_9', 'table', 'param', 29, NULL, 'Revenant', 'Revenant'),
 -- --------------------------------------------------------
 
 --
@@ -306,8 +306,8 @@ CREATE TABLE IF NOT EXISTS `gm_module` (
 INSERT INTO `gm_module` (`module_ID`, `name`, `description`, `page`, `user`, `active`, `rank`) VALUES
 (1, 'User Information', 'User Information', 'FO_Main_User.php', 1, 1, 5),
 (2, 'Characters', 'Characters', 'FO_Main_Character.php', 1, 1, 4),
-(2, 'Professions', 'Professions', 'FO_Main_Character.php', 1, 1, 3),
 (3, 'Bus', 'Bus', 'FO_Main_Bus.php', 0, 1, 2),
+(4, 'Professions', 'Professions', 'FO_Main_Character.php', 1, 1, 3),
 (5, 'Raids', 'Raids', 'FO_Main_Raid.php', 0, 1, 1);
 
 -- --------------------------------------------------------
@@ -360,7 +360,8 @@ INSERT INTO `gm_param` (`param_ID`, `text_ID`, `type`, `value`, `image`, `color`
 (25, 'tuesday', 'day', '4', '', '', 'Mardi', '2'),
 (26, 'wednesday', 'day', '5', '', '', 'Mercredi', '3'),
 (27, 'thursday', 'day', '6', '', '', 'Jeudi', '4'),
-(28, 'friday', 'day', '0', '', '', 'Vendredi', '5');
+(28, 'friday', 'day', '0', '', '', 'Vendredi', '5'),
+(29, 'Revenant', 'profession', 'Revenant', 'Revenant', '#8C1922', 'Revenant', '');
 
 -- --------------------------------------------------------
 
@@ -392,7 +393,9 @@ INSERT INTO `gm_profession` (`profession_ID`, `name`, `param_ID`, `user_ID_coach
 (5, 'Engineer', 5, NULL, '', '', 6),
 (6, 'Necromancer', 6, NULL, '', '', 3),
 (7, 'Ranger', 7, NULL, '', '', 7),
-(8, 'Thief', 8, NULL, '', '', 8);
+(8, 'Thief', 8, NULL, '', '', 8),
+(9, 'Revenant', 29, NULL, '', '', 9);
+
 
 -- --------------------------------------------------------
 
