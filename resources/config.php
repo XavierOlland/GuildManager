@@ -18,7 +18,7 @@
 
 //MySQL connection / Connexion MySQL
 $con = mysqli_connect($dbhost,$dbuser,$dbpasswd,$dbname);
-if (!$con) { die('Could not connect: ' . mysqli_error()); } 
+if (!$con) { die('Could not connect: ' . mysqli_error()); }
 mysqli_set_charset($con,'utf8');
 
 //locale variables / Variables locales
@@ -56,6 +56,6 @@ $event_next = '3';
 $party_add = '1';
 
 //Theme
-$theme = 'Light';
+$theme = 'HoT';
 $theme_dynamic_bg = 1;
 ?>
